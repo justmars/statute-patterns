@@ -1,5 +1,4 @@
 from collections import Counter
-from pathlib import Path
 from typing import Iterator
 
 from .components import Rule
@@ -47,9 +46,3 @@ def count_rules(text: str) -> Iterator[dict]:
     """
     for k, v in Counter(extract_rules(text)).items():
         yield k.dict() | {"mentions": v}
-
-
-def load_rule_data(r: Rule, base_path: Path) -> dict | None:
-    if details := Rule.get_details(r, base_path):
-        return details._asdict()
-    return None

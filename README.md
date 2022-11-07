@@ -5,7 +5,6 @@ Extract title of rules from given Philippine statutory text.
 The title, parsed through a `Rule` object, corresponds to a local path to separate library from which the contents of the rule can be extracted from.
 
 ```python
-
 # use sample text for demo
 >>> text = """The Civil Code of the Philippines, the old Spanish Civil Code; Rep Act No. 386"""
 
@@ -35,18 +34,19 @@ Rule(cat='ra', id='386')
 ]
 
 # ensure valid local path exists to extract data from such path, use the first sample rule above
->>> from statute_patterns import load_rule_data
 >>> path_to_folder = rule_obj.get_path(path_to_statutes)
 Path().home().joinpath("path_to_statutes/ra/386")
->>> load_rule_data(rule_obj, path_to_statutes)
-{
-    'created': 1665225124.0644598,
-    'modified': 1665225124.0644598,
-    'id': 'ra-386-june-18-1949',
-    'emails': ['maria@abcxyz.law', 'fernando@abcxyz.law'],
-    'date': datetime.date(1949, 6, 18),
-    'variant': None,
-    'units': [
+>>> rule_obj.get_details(path_to_statutes)
+StatuteDetails(
+    created=1665225124.0644598,
+    modified=1665225124.0644598,
+    title='An Act to Ordain and Institute the Civil Code of the Philippines',
+    description='Republic Act No. 386',
+    id='ra-386-june-18-1949',
+    emails=['maria@abcxyz.law', 'fernando@abcxyz.law'],
+    date=datetime.date(1949, 6, 18),
+    variant=1,
+    units=[
         {
             'item': 'Container 1',
             'caption': 'Preliminary Title',
@@ -63,6 +63,7 @@ Path().home().joinpath("path_to_statutes/ra/386")
                             'item': 'Article 2',
                             'content': 'Laws shall take effect after fifteen days following the completion of their publication either in the Official Gazette or in a newspaper of general circulation in the Philippines, unless it is otherwise provided. (1a)\n'
                         },
+                        ...
                     ]
                 },
                 ...
@@ -70,7 +71,7 @@ Path().home().joinpath("path_to_statutes/ra/386")
         },
         ...
     ],
-    'titles': [
+    titles=[
         StatuteTitle(
             statute_id='ra-386-june-18-1949',
             category='alias',
@@ -92,5 +93,5 @@ Path().home().joinpath("path_to_statutes/ra/386")
             text='Republic Act No. 386'
         )
     ]
-}
+)
 ```

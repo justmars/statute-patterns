@@ -1,20 +1,12 @@
 import abc
-import os
 import re
 from pathlib import Path
 from typing import Iterator, Pattern
 
-from dotenv import find_dotenv, load_dotenv
 from pydantic import BaseModel, Field, constr, validator
 
 from .category import StatuteSerialCategory
-
-load_dotenv(find_dotenv())
-
-
-STATUTE_PATH = (
-    Path().home().joinpath(os.getenv("STATUTE_PATH", "code/corpus/statutes"))
-)
+from .utils import DETAILS_FILE, STATUTE_PATH
 
 
 class Rule(BaseModel):
@@ -53,25 +45,27 @@ class Rule(BaseModel):
     def serial_id_lower(cls, v):
         return v.lower()
 
+    @classmethod
+    def from_path(cls, details_path: Path):
+        """Construct rule from a properly structured statute's `details.yaml` file."""
+        f = details_path.parent
+        if details_path.stem == DETAILS_FILE:
+            return cls(cat=StatuteSerialCategory(f.parent.stem), id=f.stem)
+        return None
+
     @property
     def serial_title(self):
         return StatuteSerialCategory(self.cat).serialize(self.id)
 
-    def get_details(self, base_path: Path = STATUTE_PATH):
-        from .details import StatuteDetails
-
-        try:
-            if not base_path.exists():
-                return None
-            folder = next(self.extract_folders(STATUTE_PATH))
-            details_file = folder / "details.yaml"
-            if details_file.exists:
-                return StatuteDetails.create_details(
-                    details_file, self.units_path(folder), self.serial_title
-                )
-            return None
-        except StopIteration:
-            return None
+    def get_first_path_to_details(
+        self, base_path: Path = STATUTE_PATH
+    ) -> Path | None:
+        """See get_paths(); there can be many `details.yaml` files because of exceptional situations."""
+        for f in self.extract_folders(base_path):
+            details_file = f / DETAILS_FILE
+            if details_file.exists():
+                return details_file
+        return None
 
     def get_path(self, base_path: Path = STATUTE_PATH) -> Path | None:
         """For most cases, there only be one path to path/to/statutes/ra/386 where:
@@ -103,7 +97,7 @@ class Rule(BaseModel):
         """
         targets = []
         target = base_path / self.cat
-        paths = target.glob(f"{self.id}-*/details.yaml")
+        paths = target.glob(f"{self.id}-*/{DETAILS_FILE}")
         for variant_path in paths:
             if variant_path.exists():
                 targets.append(variant_path.parent)

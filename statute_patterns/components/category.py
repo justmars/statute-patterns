@@ -4,32 +4,6 @@ from enum import Enum
 from pydantic import BaseModel
 
 
-class StatuteTitleCategory(str, Enum):
-    """
-    Each statute's title can be categorized as being the official title, a serialized title, an alias, and a short title.
-
-    A `Rule` should contain at least 2 of these categories: (a) the official one which is the full length title; and (b) the serialized version which contemplates a category and an identifier.
-
-    A statute however can also have a short title which is still official since it is made explicit by the rule itself.
-
-    An alias on the other hand may not be an official way of referring to a statute but it is a popular way of doing so.
-    """
-
-    Official = "official"
-    Serial = "serial"
-    Alias = "alias"
-    Short = "short"
-
-
-class StatuteTitle(BaseModel):
-    statute_id: str
-    category: StatuteTitleCategory
-    text: str
-
-    class Config:
-        use_enum_values = True
-
-
 class StatuteSerialCategory(str, Enum):
     """
     This is a non-exhaustive taxonomy of Philippine legal rules for the purpose of enumerating fixed values.
@@ -92,3 +66,49 @@ class StatuteSerialCategory(str, Enum):
                     return f"{uncamel(self)} Blg. {idx}"
             case _:
                 return f"{uncamel(self)} No. {idx}"
+
+
+class StatuteTitleCategory(str, Enum):
+    """
+    Each statute's title can be categorized as being the official title, a serialized title, an alias, and a short title.
+
+    A `Rule` should contain at least 2 of these categories: (a) the official one which is the full length title; and (b) the serialized version which contemplates a category and an identifier.
+
+    A statute however can also have a short title which is still official since it is made explicit by the rule itself.
+
+    An alias on the other hand may not be an official way of referring to a statute but it is a popular way of doing so.
+    """
+
+    Official = "official"
+    Serial = "serial"
+    Alias = "alias"
+    Short = "short"
+
+
+class StatuteTitle(BaseModel):
+    """Will be used to populate the database; assumes a fixed `statute_id`."""
+
+    statute_id: str
+    category: StatuteTitleCategory
+    text: str
+
+    class Config:
+        use_enum_values = True
+
+    @classmethod
+    def generate(
+        cls,
+        pk: str,
+        official: str,
+        serial: str,
+        aliases: list[str] | None = None,
+    ):
+        O = StatuteTitleCategory.Official
+        S = StatuteTitleCategory.Serial
+        A = StatuteTitleCategory.Alias
+        if aliases:
+            for title in aliases:
+                if title and title != "":
+                    yield cls(statute_id=pk, category=A, text=title)
+        yield cls(statute_id=pk, category=S, text=serial)
+        yield cls(statute_id=pk, category=O, text=official)

@@ -1,10 +1,12 @@
 __version__ = "0.0.1"
 
-from .__main__ import count_rules, extract_rule, extract_rules, load_rule_data
+from .__main__ import count_rules, extract_rule, extract_rules
 from .components import (
     Rule,
     StatuteDetails,
     StatuteSerialCategory,
+    StatuteTitle,
+    StatuteTitleCategory,
     add_blg,
     add_num,
     digit_splitter,

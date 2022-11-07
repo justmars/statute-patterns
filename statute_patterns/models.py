@@ -27,17 +27,8 @@ class NamedPattern(BasePattern):
 
     @property
     def group_name(self) -> str:
-        """Provides unique identifier for each name pattern; assumes only one named pattern per rule."""
-        return slugify(
-            " ".join(
-                [
-                    self.rule.cat,
-                    self.rule.id,
-                ]
-            ),
-            separator="_",
-            lowercase=True,
-        )
+        texts = " ".join([self.rule.cat, self.rule.id])
+        return slugify(texts, separator="_", lowercase=True)
 
 
 class NamedPatternCollection(BaseCollection):

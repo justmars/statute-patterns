@@ -1,11 +1,13 @@
+from pathlib import Path
+
 import pytest
 
 from statute_patterns import (
     Rule,
+    StatuteDetails,
     StatuteSerialCategory,
     count_rules,
     extract_rules,
-    load_rule_data,
 )
 from statute_patterns.components import StatuteTitle
 from statute_patterns.names import NamedRules
@@ -23,8 +25,8 @@ def base_folder(shared_datadir):
 
 
 @pytest.fixture
-def rule_data(rule_obj, base_folder):
-    return load_rule_data(rule_obj, base_folder)
+def statute_details(rule_obj: Rule, base_folder: Path):
+    return StatuteDetails.from_rule(rule_obj, base_folder)
 
 
 def test_category_serializer(rule_obj):
@@ -37,12 +39,10 @@ def test_paths_related_to_rule(rule_obj, base_folder):
     assert rule_obj.units_path(base_folder / rule_obj.cat / rule_obj.id)
 
 
-def test_loaded_data(rule_data):
-    assert isinstance(rule_data, dict)
-    titles = rule_data.get("titles")
-
-    assert isinstance(titles, list)
-    assert isinstance(titles[0], StatuteTitle)
+def test_loaded_data(statute_details):
+    assert isinstance(statute_details, StatuteDetails)
+    assert isinstance(statute_details.titles, list)
+    assert isinstance(statute_details.titles[0], StatuteTitle)
 
 
 @pytest.mark.parametrize(
