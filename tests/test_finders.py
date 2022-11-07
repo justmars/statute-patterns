@@ -5,22 +5,44 @@ from statute_patterns import (
     StatuteSerialCategory,
     count_rules,
     extract_rules,
+    load_rule_data,
 )
+from statute_patterns.components import StatuteTitle
 from statute_patterns.names import NamedRules
 from statute_patterns.serials import SerializedRules
 
 
-def path_to_rule(shared_datadir):
-    civcode = Rule(
-        cat=StatuteSerialCategory.RepublicAct,
-        id="386",
-    )
-    base = shared_datadir / "statutes"
-    loc = civcode.get_path(base)
-    assert loc and civcode.units_path(loc)
-    assert isinstance(civcode.get_paths(base), list)
-    assert isinstance(list(civcode.extract_folders(base)), list)
-    assert civcode.units_path(base)
+@pytest.fixture
+def rule_obj():
+    return Rule(cat=StatuteSerialCategory.RepublicAct, id="386")
+
+
+@pytest.fixture
+def base_folder(shared_datadir):
+    return shared_datadir / "statutes"
+
+
+@pytest.fixture
+def rule_data(rule_obj, base_folder):
+    return load_rule_data(rule_obj, base_folder)
+
+
+def test_category_serializer(rule_obj):
+    assert rule_obj.serial_title == "Republic Act No. 386"
+
+
+def test_paths_related_to_rule(rule_obj, base_folder):
+    assert isinstance(rule_obj.get_paths(base_folder), list)
+    assert isinstance(list(rule_obj.extract_folders(base_folder)), list)
+    assert rule_obj.units_path(base_folder / rule_obj.cat / rule_obj.id)
+
+
+def test_loaded_data(rule_data):
+    assert isinstance(rule_data, dict)
+    titles = rule_data.get("titles")
+
+    assert isinstance(titles, list)
+    assert isinstance(titles[0], StatuteTitle)
 
 
 @pytest.mark.parametrize(

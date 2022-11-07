@@ -1,6 +1,6 @@
 from .category import StatuteSerialCategory, StatuteTitle, StatuteTitleCategory
 from .details import StatuteDetails
-from .rule import BaseCollection, BasePattern, Rule
+from .rule import STATUTE_PATH, BaseCollection, BasePattern, Rule
 from .utils import (
     NON_ACT_INDICATORS,
     SEPARATOR,
