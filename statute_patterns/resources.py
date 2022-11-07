@@ -1,21 +1,78 @@
 import abc
+import datetime
 import os
 import re
 from enum import Enum
 from pathlib import Path
-from typing import Iterator, Pattern
+from typing import Iterator, NamedTuple, Pattern
 
+import yaml
+from dateutil.parser import parse
 from dotenv import find_dotenv, load_dotenv
 from pydantic import BaseModel, Field, constr, validator
+from slugify import slugify
 
 load_dotenv(find_dotenv())
 
+
+class StatuteDetails(NamedTuple):
+    """Basic information loaded from files found in the proper path/s."""
+
+    created: float
+    modified: float
+    id: str
+    emails: list[str]
+    date: datetime.date
+    variant: int
+    serial_title: str
+    official_title: str
+    alias_titles: list[str] = []
+    units: list[dict] = []
+
+
 STATUTE_PATH = (
-    Path().home().joinpath(os.getenv("STATUTE_PATH", "corpus/code/statutes"))
+    Path().home().joinpath(os.getenv("STATUTE_PATH", "code/corpus/statutes"))
 )
 
 
-class StatuteCategory(str, Enum):
+class StatuteTitleCategory(str, Enum):
+    """
+    Each statute's title can be categorized as being the official title, a serialized title, an alias, and a short title.
+
+    A `Rule` should contain at least 2 of these categories: (a) the official one which is the full length title; and (b) the serialized version which contemplates a category and an identifier.
+
+    A statute however can also have a short title which is still official since it is made explicit by the rule itself.
+
+    An alias on the other hand may not be an official way of referring to a statute but it is a popular way of doing so.
+    """
+
+    Official = "official"
+    Serial = "serial"
+    Alias = "alias"
+    Short = "short"
+
+
+class StatuteTitle(BaseModel):
+    statute_id: str
+    category: StatuteTitleCategory
+    text: str
+
+    class Config:
+        use_enum_values = True
+
+    @classmethod
+    def partial_extract(cls, d: StatuteDetails) -> Iterator["StatuteTitle"]:
+        alias = StatuteTitleCategory.Alias
+        ofc = StatuteTitleCategory.Official
+        serial = StatuteTitleCategory.Serial
+        for title in d.alias_titles:
+            if title and title != "":
+                yield cls(statute_id=d.id, category=alias, text=title)
+        yield cls(statute_id=d.id, category=ofc, text=d.official_title)
+        yield cls(statute_id=d.id, category=serial, text=d.serial_title)
+
+
+class StatuteSerialCategory(str, Enum):
     """
     This is a non-exhaustive taxonomy of Philippine legal rules for the purpose of enumerating fixed values.
 
@@ -46,47 +103,53 @@ class StatuteCategory(str, Enum):
     CircularOCA = "oca_cir"
     CircularSC = "sc_cir"
 
-    @classmethod
-    def serialize(cls, cat: "StatuteCategory", idx: str):
+    def serialize(self, idx: str):
         """Given a member item and a valid serialized identifier, create a serial title."""
 
-        def uncamel(cat: StatuteCategory):
+        def uncamel(cat: StatuteSerialCategory):
             """See https://stackoverflow.com/a/9283563"""
             x = r"((?<=[a-z])[A-Z]|(?<!\A)[A-Z](?=[a-z]))"
             return re.sub(x, r" \1", cat.name)
 
-        match cat:
-            case StatuteCategory.Spain:
+        match self:
+            case StatuteSerialCategory.Spain:
                 if idx.lower() in ["civil", "penal"]:
                     return f"Spanish {idx.title()} Code"
                 elif idx.lower() == "commerce":
                     return "Code of Commerce"
-                raise SyntaxWarning(f"{idx=} invalid serial of {cat}")
+                raise SyntaxWarning(f"{idx=} invalid serial of {self}")
 
-            case StatuteCategory.Constitution:
+            case StatuteSerialCategory.Constitution:
                 if idx.isdigit() and int(idx) in [1935, 1973, 1987]:
                     return f"{idx} Constitution"
-                raise SyntaxWarning(f"{idx=} invalid serial of {cat}")
+                raise SyntaxWarning(f"{idx=} invalid serial of {self}")
 
-            case StatuteCategory.RulesOfCourt:
+            case StatuteSerialCategory.RulesOfCourt:
                 if idx in ["1940", "1964", "responsibility_1988"]:
                     return f"{idx} Constitution"
-                raise SyntaxWarning(f"{idx=} invalid serial of {cat}")
+                raise SyntaxWarning(f"{idx=} invalid serial of {self}")
 
-            case StatuteCategory.BatasPambansa:
+            case StatuteSerialCategory.BatasPambansa:
                 if idx.isdigit():
-                    return f"{uncamel(cat)} Blg. {idx}"
+                    return f"{uncamel(self)} Blg. {idx}"
             case _:
-                return f"{uncamel(cat)} No. {idx}"
+                return f"{uncamel(self)} No. {idx}"
 
 
 class Rule(BaseModel):
-    """Identifies a statute based on two fields: (1) category and (2) serial_id. It is created through the use of either a NamedPattern or a SerialPattern."""
+    """Created primarily via `NamedPatternCollection` or a `SerialPatternCollection`, a `Rule` has many use cases:
 
-    cat: StatuteCategory = Field(
+    1. Prior validation by `NamedPattern` or a `SerialPattern` regex strings with Pydantic validation.
+    2. Ensure a consistent path to an intended local directory via a uniform `StatuteSerialCategory` folder (`cat`) and a target serialized statute (`id`).
+    3. Extract the details and units files from the path designated.
+    4. Generate a serial title based on the `StatuteSerialCategory.serialize()` function.
+    5. Be an exceptional Pydantic BaseModel which is countable through the collection.Counter built-in.
+    """
+
+    cat: StatuteSerialCategory = Field(
         ...,
         title="Statute Category",
-        description="Classification under the limited StatuteCategory taxonomy.",
+        description="Classification under the limited StatuteSerialCategory taxonomy.",
     )
     id: constr(to_lower=True) = Field(  # type: ignore
         ...,
@@ -103,7 +166,7 @@ class Rule(BaseModel):
 
     @validator("cat", pre=True)
     def category_in_lower_case(cls, v):
-        return StatuteCategory(v.lower())
+        return StatuteSerialCategory(v.lower())
 
     @validator("id", pre=True)
     def serial_id_lower(cls, v):
@@ -111,7 +174,45 @@ class Rule(BaseModel):
 
     @property
     def serial_title(self):
-        return StatuteCategory.serialize(self.cat, self.id)
+        return StatuteSerialCategory(self.cat).serialize(self.id)
+
+    def get_details(self, base_path: Path = STATUTE_PATH):
+        def slugify_id(p: Path, date: str, v: int | None = None):
+            id_temp = " ".join([p.parent.parent.stem, p.parent.stem, date])
+            if v:
+                id_temp += f" {str(v)}"
+            return slugify(id_temp)
+
+        try:
+            if not base_path.exists():
+                return None
+            units = [{"item": "Container 1", "content": "Undetected."}]
+            folder = next(self.extract_folders(STATUTE_PATH))
+            units_file = self.units_path(folder)
+            details_file = folder / "details.yaml"
+            if details_file.exists:
+                d = yaml.safe_load(details_file.read_bytes())
+                ofc_title = d.get("law_title")
+                if ofc_title and "appropriat" in ofc_title.lower():
+                    signal = "Appropriation laws exincluded."
+                    units = [{"item": "Container 1", "content": signal}]
+                elif ofc_title and units_file and units_file.exists():
+                    units = yaml.safe_load(units_file.read_bytes())
+                if ofc_title and self.serial_title and (dt := d.get("date")):
+                    return StatuteDetails(
+                        created=details_file.stat().st_ctime,
+                        modified=details_file.stat().st_mtime,
+                        id=slugify_id(details_file, dt, d.get("variant")),
+                        emails=d.get("emails", ["bot@lawsql.com"]),
+                        date=parse(d["date"]).date(),
+                        variant=d.get("variant"),
+                        serial_title=self.serial_title,
+                        official_title=d.get("law_title"),
+                        alias_titles=d.get("aliases"),
+                        units=units or [],
+                    )
+        except StopIteration:
+            return None
 
     def get_path(self, base_path: Path = STATUTE_PATH) -> Path | None:
         """For most cases, there only be one path to path/to/statutes/ra/386 where:
@@ -126,7 +227,21 @@ class Rule(BaseModel):
         return None
 
     def get_paths(self, base_path: Path = STATUTE_PATH) -> list[Path]:
-        """The serial id isn't enough since the variant of a `StatuteRow.id` includes a `-<digit>` where the digit is the variant."""
+        """The serial id isn't enough in complex statutes.
+
+        To simplify, imagine Statute A, B and C have the same category and identifier. But refer to different documents.
+
+        Because of this dilemma, we introduce a digit in the creation of statute folders referring to more than one variant of the intended document.
+
+        So in the case of `/statutes/rule_am/`, let's consider `00-5-03-sc`. This should be valid statute under `self.get_path()`.
+
+        However, since there exists 2 variants, we need to rename the original folder to contemplate 2 distinct documents:
+
+        1. statutes/rule_am/00-5-03-sc-1
+        2. statutes/rule_am/00-5-03-sc-2
+
+        Both folders will be retrieved using the plural form of the function `self.get_paths()`
+        """
         targets = []
         target = base_path / self.cat
         paths = target.glob(f"{self.id}-*/details.yaml")
@@ -145,16 +260,15 @@ class Rule(BaseModel):
             if folders := self.get_paths(base_path):
                 yield from folders
 
-    def units_path(self, folder: Path) -> Path | None:
+    def units_path(self, statute_folder: Path) -> Path | None:
         """There are two kinds of unit files: the preferred / customized
         variant and the one scraped (the default in the absence of a preferred
         variant)."""
-        text = f"{self.cat}{self.id}.yaml"
-        preferred = folder / text
+        preferred = statute_folder / f"{self.cat}{self.id}.yaml"
         if preferred.exists():
             return preferred
 
-        default = folder / "units.yaml"
+        default = statute_folder / "units.yaml"
         if default.exists():
             return default
 

@@ -1,6 +1,6 @@
 from .models import SerialPattern, SerialPatternCollection
 from .resources import (
-    StatuteCategory,
+    StatuteSerialCategory,
     add_blg,
     add_num,
     limited_acts,
@@ -10,7 +10,7 @@ from .resources import (
 
 """MODERN"""
 ra = SerialPattern(
-    cat=StatuteCategory.RepublicAct,
+    cat=StatuteSerialCategory.RepublicAct,
     regex_bases=[
         add_num(ltr("R", "A")),
         add_num(rf"Rep(ublic|\.)?\s+Act(\s*\({ltr('R','A')}\))?"),
@@ -18,7 +18,7 @@ ra = SerialPattern(
     regex_serials=[set_digits()],
 )
 veto = SerialPattern(
-    cat=StatuteCategory.VetoMessage,
+    cat=StatuteSerialCategory.VetoMessage,
     regex_bases=[rf"Veto\sMessage\s-\s"],
     regex_serials=[
         r"\d{5,}"
@@ -29,7 +29,7 @@ veto = SerialPattern(
 
 """LEGACY"""
 ca = SerialPattern(
-    cat=StatuteCategory.CommonwealthAct,
+    cat=StatuteSerialCategory.CommonwealthAct,
     regex_bases=[
         add_num(ltr("C", "A")),
         add_num(rf"Com(monwealth|\.)?\s+Act(\s*\({ltr('C','A')}\))?"),
@@ -37,7 +37,7 @@ ca = SerialPattern(
     regex_serials=[r"\d{1,3}(?:-[AB])?"],
 )
 bp = SerialPattern(
-    cat=StatuteCategory.BatasPambansa,
+    cat=StatuteSerialCategory.BatasPambansa,
     regex_bases=[
         add_blg(ltr("B", "P")),
         add_blg(rf"Batas\s+Pambansa(\s*\({ltr('B','P')}\))?"),
@@ -45,7 +45,7 @@ bp = SerialPattern(
     regex_serials=[r"\d{1,3}(?:-[AB])?"],
 )
 act = SerialPattern(
-    cat=StatuteCategory.Act,
+    cat=StatuteSerialCategory.Act,
     regex_bases=[limited_acts],
     regex_serials=[r"\d{1,4}"],
 )
@@ -53,7 +53,7 @@ act = SerialPattern(
 
 """SPECIAL EXECUTIVE"""
 pd = SerialPattern(
-    cat=StatuteCategory.PresidentialDecree,
+    cat=StatuteSerialCategory.PresidentialDecree,
     regex_bases=[
         add_num(ltr("P", "D")),
         add_num(rf"Pres(idential|\.)?\s+Dec(ree|\.)?(\s*\({ltr('P','D')}\))?"),
@@ -61,7 +61,7 @@ pd = SerialPattern(
     regex_serials=[r"\d{1,4}(?:-[AB])?"],
 )
 eo = SerialPattern(
-    cat=StatuteCategory.ExecutiveOrder,
+    cat=StatuteSerialCategory.ExecutiveOrder,
     regex_bases=[
         add_num(ltr("E", "O")),
         add_num(rf"Exec(utive|\.)?\s+Order?(\s*\({ltr('E','O')}\))?"),
@@ -74,7 +74,7 @@ eo = SerialPattern(
     excludes=["EO 1"],  # too many EO 1s in different administrations
 )
 loi = SerialPattern(
-    cat=StatuteCategory.LetterOfInstruction,
+    cat=StatuteSerialCategory.LetterOfInstruction,
     regex_bases=[
         add_num(ltr("L", "O", "I")),
         add_num(rf"Letters?\s+of\s+Instruction"),
@@ -92,7 +92,7 @@ loi = SerialPattern(
 
 """SC RULES"""
 rule_am = SerialPattern(
-    cat=StatuteCategory.AdministrativeMatter,
+    cat=StatuteSerialCategory.AdministrativeMatter,
     regex_bases=[
         add_num(ltr("A", "M")),
         add_num(r"Adm(in)?\.?\s+Matter"),
@@ -103,7 +103,7 @@ rule_am = SerialPattern(
     excludes=["A.M. 141241", "Administrative Matter No. 12-12-12"],
 )
 rule_bm = SerialPattern(
-    cat=StatuteCategory.BarMatter,
+    cat=StatuteSerialCategory.BarMatter,
     regex_bases=[
         add_num(ltr("B", "M")),
         add_num(r"Bar\s+Matter"),
@@ -116,7 +116,7 @@ rule_bm = SerialPattern(
     excludes=["A.M. 141241", "Administrative Matter No. 12-12-12"],
 )
 sc_cir = SerialPattern(
-    cat=StatuteCategory.CircularSC,
+    cat=StatuteSerialCategory.CircularSC,
     regex_bases=[
         add_num(r"SC\s+Circular"),  # used in codifications
     ],
@@ -125,7 +125,7 @@ sc_cir = SerialPattern(
     excludes=["SC Circular No. 1"],
 )
 oca_cir = SerialPattern(
-    cat=StatuteCategory.CircularOCA,
+    cat=StatuteSerialCategory.CircularOCA,
     regex_bases=[
         add_num(r"OCA\s+Circular"),  # used in codifications
     ],
@@ -134,7 +134,7 @@ oca_cir = SerialPattern(
     excludes=["SC Circular No. 39"],
 )
 rule_reso = SerialPattern(
-    cat=StatuteCategory.ResolutionEnBanc,
+    cat=StatuteSerialCategory.ResolutionEnBanc,
     regex_bases=[
         r"Resolution\sof\sthe\sCourt\sEn\sBanc\sdated",  # used in codifications
     ],

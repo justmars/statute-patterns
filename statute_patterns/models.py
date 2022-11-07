@@ -4,7 +4,7 @@ from typing import Iterator, Pattern
 from pydantic import Field
 from slugify import slugify
 
-from .resources import BaseCollection, BasePattern, Rule, StatuteCategory
+from .resources import BaseCollection, BasePattern, Rule, StatuteSerialCategory
 
 
 class NamedPattern(BasePattern):
@@ -78,9 +78,9 @@ class SerialPattern(BasePattern):
     Since the serial number may consist of composite values, this needs to be processed separately as well.
     """
 
-    cat: StatuteCategory = Field(
+    cat: StatuteSerialCategory = Field(
         ...,
-        description="A type of rule from the taxonomy enumerated under StatuteCategory.",
+        description="A type of rule from the taxonomy enumerated under StatuteSerialCategory.",
     )
     regex_bases: list[str] = Field(
         ...,

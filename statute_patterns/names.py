@@ -1,6 +1,6 @@
 from .models import NamedPattern, NamedPatternCollection, Rule
 from .recipes import CONST, ROC, SP_CIVIL, SP_COMMERCE, SP_PENAL
-from .resources import StatuteCategory
+from .resources import StatuteSerialCategory
 
 
 def make_spanish(name: str, regex: str):
@@ -8,7 +8,7 @@ def make_spanish(name: str, regex: str):
         name=f"Old {name.title()} Code",
         regex_base=regex,
         rule=Rule(
-            cat=StatuteCategory.Spain,
+            cat=StatuteSerialCategory.Spain,
             id=name,
         ),
     )
@@ -28,7 +28,7 @@ civ1950 = NamedPattern(
         (?: (?!\s+of\s+1889))
     """,
     rule=Rule(
-        cat=StatuteCategory.RepublicAct,
+        cat=StatuteSerialCategory.RepublicAct,
         id=f"386",
     ),
     matches=[
@@ -51,7 +51,7 @@ rpc1930 = NamedPattern(
         (?: (?:\s+of\s+the\s+Philippines)|(?:\s+\(RPC\)))?
     """,
     rule=Rule(
-        cat=StatuteCategory.Act,
+        cat=StatuteSerialCategory.Act,
         id=f"3815",
     ),
     matches=[
@@ -72,7 +72,7 @@ def make_const(year: int):
         name=f"{year} Constitution",
         regex_base=rf"{year}\s+(?:{CONST})",
         rule=Rule(
-            cat=StatuteCategory.Constitution,
+            cat=StatuteSerialCategory.Constitution,
             id=f"{year}",
         ),
     )
@@ -89,7 +89,7 @@ def make_roc(year: int):
         name=f"{year} Rules of Court",
         regex_base=rf"{year}\s+(?:{ROC})",
         rule=Rule(
-            cat=StatuteCategory.RulesOfCourt,
+            cat=StatuteSerialCategory.RulesOfCourt,
             id=f"{year}",
         ),
     )
@@ -109,7 +109,7 @@ corpcode_old = NamedPattern(
         (?: (?:\s+of\s+the\s+Philippines)|(?:\s+of\s+1980))?
     """,
     rule=Rule(
-        cat=StatuteCategory.BatasPambansa,
+        cat=StatuteSerialCategory.BatasPambansa,
         id=f"68",
     ),
     matches=[
@@ -126,7 +126,7 @@ corpcode_revised = NamedPattern(
         (?: (?:\s+of\s+the\s+Philippines)|(?:\s+of\s+2021))?
     """,
     rule=Rule(
-        cat=StatuteCategory.RepublicAct,
+        cat=StatuteSerialCategory.RepublicAct,
         id=f"11232",
     ),
     matches=[

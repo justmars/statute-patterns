@@ -1,13 +1,18 @@
 import pytest
 
-from statute_patterns import Rule, StatuteCategory, count_rules, extract_rules
+from statute_patterns import (
+    Rule,
+    StatuteSerialCategory,
+    count_rules,
+    extract_rules,
+)
 from statute_patterns.names import NamedRules
 from statute_patterns.serials import SerializedRules
 
 
 def path_to_rule(shared_datadir):
     civcode = Rule(
-        cat=StatuteCategory.RepublicAct,
+        cat=StatuteSerialCategory.RepublicAct,
         id="386",
     )
     base = shared_datadir / "statutes"
