@@ -7,7 +7,7 @@ from typing import Iterator, Pattern
 from dotenv import find_dotenv, load_dotenv
 from pydantic import BaseModel, Field, constr, validator
 
-from .components import StatuteDetails, StatuteSerialCategory
+from .category import StatuteSerialCategory
 
 load_dotenv(find_dotenv())
 
@@ -58,6 +58,8 @@ class Rule(BaseModel):
         return StatuteSerialCategory(self.cat).serialize(self.id)
 
     def get_details(self, base_path: Path = STATUTE_PATH):
+        from .details import StatuteDetails
+
         try:
             if not base_path.exists():
                 return None

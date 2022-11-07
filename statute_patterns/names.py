@@ -1,6 +1,6 @@
-from .models import NamedPattern, NamedPatternCollection, Rule
+from .components import Rule, StatuteSerialCategory
+from .models import NamedPattern, NamedPatternCollection
 from .recipes import CONST, ROC, SP_CIVIL, SP_COMMERCE, SP_PENAL
-from .resources import StatuteSerialCategory
 
 
 def make_spanish(name: str, regex: str):

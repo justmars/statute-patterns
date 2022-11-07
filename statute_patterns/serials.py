@@ -1,5 +1,4 @@
-from .models import SerialPattern, SerialPatternCollection
-from .resources import (
+from .components import (
     StatuteSerialCategory,
     add_blg,
     add_num,
@@ -7,6 +6,7 @@ from .resources import (
     ltr,
     set_digits,
 )
+from .models import SerialPattern, SerialPatternCollection
 
 """MODERN"""
 ra = SerialPattern(

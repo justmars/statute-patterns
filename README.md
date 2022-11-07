@@ -1,6 +1,8 @@
 # Statute Patterns
 
-Extract path-based rules from given Philippine legal text.
+Extract title of rules from given Philippine statutory text.
+
+The title, parsed through a `Rule` object, corresponds to a local path to separate library from which the contents of the rule can be extracted from.
 
 ```python
 

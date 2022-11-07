@@ -4,7 +4,14 @@ from typing import Iterator, Pattern
 from pydantic import Field
 from slugify import slugify
 
-from .resources import BaseCollection, BasePattern, Rule, StatuteSerialCategory
+from .components import (
+    BaseCollection,
+    BasePattern,
+    Rule,
+    StatuteSerialCategory,
+    digit_splitter,
+    stx,
+)
 
 
 class NamedPattern(BasePattern):
@@ -16,8 +23,6 @@ class NamedPattern(BasePattern):
 
     @property
     def regex(self) -> str:
-        from .resources import stx
-
         return stx(rf"(?P<{self.group_name}>{self.regex_base})")
 
     @property
@@ -142,8 +147,6 @@ class SerialPatternCollection(BaseCollection):
 
         This function splits the identifier by commas `,` and the word `and` to get the individual component identifiers.
         """
-        from .resources import digit_splitter
-
         for match in self.pattern.finditer(text):
             for sp in self.collection:
                 if match.lastgroup == sp.group_name:

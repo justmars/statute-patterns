@@ -2,8 +2,8 @@ from collections import Counter
 from pathlib import Path
 from typing import Iterator
 
+from .components import Rule
 from .names import NamedRules
-from .resources import Rule, StatuteTitle
 from .serials import SerializedRules
 
 
@@ -50,11 +50,6 @@ def count_rules(text: str) -> Iterator[dict]:
 
 
 def load_rule_data(r: Rule, base_path: Path) -> dict | None:
-    if details := r.get_details(base_path):
-        titles = list(StatuteTitle.partial_extract(details))
-        data = details._asdict()
-        data.pop("official_title")
-        data.pop("serial_title")
-        data.pop("alias_titles")
-        return data | {"titles": titles}
+    if details := Rule.get_details(r, base_path):
+        return details._asdict()
     return None

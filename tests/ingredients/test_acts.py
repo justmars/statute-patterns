@@ -2,7 +2,7 @@ import re
 
 import pytest
 
-from statute_patterns.resources import limited_acts
+from statute_patterns.components import limited_acts
 
 act = re.compile(limited_acts, re.X)
 
