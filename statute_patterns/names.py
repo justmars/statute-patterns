@@ -8,8 +8,8 @@ def make_spanish(name: str, regex: str):
         name=f"Old {name.title()} Code",
         regex_base=regex,
         rule=Rule(
-            statute_category=StatuteCategory.Spain,
-            statute_serial_id=name,
+            cat=StatuteCategory.Spain,
+            id=name,
         ),
     )
 
@@ -28,8 +28,8 @@ civ1950 = NamedPattern(
         (?: (?!\s+of\s+1889))
     """,
     rule=Rule(
-        statute_category=StatuteCategory.RepublicAct,
-        statute_serial_id=f"386",
+        cat=StatuteCategory.RepublicAct,
+        id=f"386",
     ),
     matches=[
         "NEW CIVIL CODE",
@@ -51,8 +51,8 @@ rpc1930 = NamedPattern(
         (?: (?:\s+of\s+the\s+Philippines)|(?:\s+\(RPC\)))?
     """,
     rule=Rule(
-        statute_category=StatuteCategory.Act,
-        statute_serial_id=f"3815",
+        cat=StatuteCategory.Act,
+        id=f"3815",
     ),
     matches=[
         "Revised Penal Code (RPC)",
@@ -72,8 +72,8 @@ def make_const(year: int):
         name=f"{year} Constitution",
         regex_base=rf"{year}\s+(?:{CONST})",
         rule=Rule(
-            statute_category=StatuteCategory.Constitution,
-            statute_serial_id=f"{year}",
+            cat=StatuteCategory.Constitution,
+            id=f"{year}",
         ),
     )
 
@@ -89,8 +89,8 @@ def make_roc(year: int):
         name=f"{year} Rules of Court",
         regex_base=rf"{year}\s+(?:{ROC})",
         rule=Rule(
-            statute_category=StatuteCategory.RulesOfCourt,
-            statute_serial_id=f"{year}",
+            cat=StatuteCategory.RulesOfCourt,
+            id=f"{year}",
         ),
     )
 
@@ -109,8 +109,8 @@ corpcode_old = NamedPattern(
         (?: (?:\s+of\s+the\s+Philippines)|(?:\s+of\s+1980))?
     """,
     rule=Rule(
-        statute_category=StatuteCategory.BatasPambansa,
-        statute_serial_id=f"68",
+        cat=StatuteCategory.BatasPambansa,
+        id=f"68",
     ),
     matches=[
         "THE CORPORATION CODE",
@@ -126,8 +126,8 @@ corpcode_revised = NamedPattern(
         (?: (?:\s+of\s+the\s+Philippines)|(?:\s+of\s+2021))?
     """,
     rule=Rule(
-        statute_category=StatuteCategory.RepublicAct,
-        statute_serial_id=f"11232",
+        cat=StatuteCategory.RepublicAct,
+        id=f"11232",
     ),
     matches=[
         "Revised Corporation Code",

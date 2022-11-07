@@ -12,19 +12,19 @@ Extract path-based rules from given Philippine legal text.
 
 >>> r = extract_rule(text)  # get the first matching rule with helper to extract path (assuming local statute folder exists )
 >>> r
-Rule(statute_category='ra', statute_serial_id='386')
+Rule(cat='ra', id='386')
 >>> r.get_path(path_to_statutes)
 Path().home().joinpath(path_to_statutes/"ra"/"386")
 
 >>> extract_rules(text) # get all rules
 [
-    Rule(statute_category='ra', statute_serial_id='386'),
-    Rule(statute_category='ra', statute_serial_id='386'),
-    Rule(statute_category='spain', statute_serial_id='civil')
+    Rule(cat='ra', id='386'),
+    Rule(cat='ra', id='386'),
+    Rule(cat='spain', id='civil')
 ]
 >>> count_rules(text): # get unique rules with counts
 [
-    {'statute_category': 'ra', 'statute_serial_id': '386', 'mentions': 2},
-    {'statute_category': 'spain', 'statute_serial_id': 'civil', 'mentions': 1}
+    {'cat': 'ra', 'id': '386', 'mentions': 2},
+    {'cat': 'spain', 'id': 'civil', 'mentions': 1}
 ]
 ```

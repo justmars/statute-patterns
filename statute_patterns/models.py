@@ -26,8 +26,8 @@ class NamedPattern(BasePattern):
         return slugify(
             " ".join(
                 [
-                    self.rule.statute_category,
-                    self.rule.statute_serial_id,
+                    self.rule.cat,
+                    self.rule.id,
                 ]
             ),
             separator="_",
@@ -43,17 +43,17 @@ class NamedPatternCollection(BaseCollection):
             NamedPattern(
                 name='Old Civil Code',
                 regex_base='\n    (?:\n    \\[?Spanish\\]?|\n    Old\n)\n    \\s+\n    Civil\n    \\s+\n    Code\n    \n    (:?\n        \\s+of\\s+18\\d{2}\n    )?\n\n',
-                rule=Rule(statute_category='spain', statute_serial_id='civil')
+                rule=Rule(cat='spain', id='civil')
             ),
             NamedPattern(
                 name='Old Commerce Code',
                 regex_base='\n    (?:\n    \\[?Spanish\\]?|\n    Old\n)\n    \\s+\n    Code\n    \\s+\n    of\n    \\s+\n    Commerce\n    \n    (:?\n        \\s+of\\s+18\\d{2}\n    )?\n\n',
-                rule=Rule(statute_category='spain', statute_serial_id='commerce')
+                rule=Rule(cat='spain', id='commerce')
             ),
             NamedPattern(
                 name='Old Penal Code',
                 regex_base='\n    (?:\n    \\[?Spanish\\]?|\n    Old\n)\n    \\s+\n    Penal\n    \\s+\n    Code\n    \n    (:?\n        \\s+of\\s+18\\d{2}\n    )?\n\n',
-                rule=Rule(statute_category='spain', statute_serial_id='penal')
+                rule=Rule(cat='spain', id='penal')
             ),
             ...
         ]
@@ -78,7 +78,7 @@ class SerialPattern(BasePattern):
     Since the serial number may consist of composite values, this needs to be processed separately as well.
     """
 
-    statute_category: StatuteCategory = Field(
+    cat: StatuteCategory = Field(
         ...,
         description="A type of rule from the taxonomy enumerated under StatuteCategory.",
     )
@@ -101,7 +101,7 @@ class SerialPattern(BasePattern):
 
     @property
     def group_name(self) -> str:
-        return rf"serial_{self.statute_category}"
+        return rf"serial_{self.cat}"
 
     @property
     def regex(self) -> str:
@@ -117,7 +117,7 @@ class SerialPatternCollection(BaseCollection):
 
      collection=[
                 SerialPattern(
-                    statute_category='ra',  # Republic Act and its variant styles
+                    cat='ra',  # Republic Act and its variant styles
                     regex_bases=[
                         '(?:\\bR\\.?\\s*A\\.?)(\\s+No\\.?s?\\.?)?',
                         'Rep(ublic|\\.)?\\s+Act(\\s*\\((?:\\bR\\.?\\s*A\\.?)\\))?(\\s+No\\.?s?\\.?)?'
@@ -149,5 +149,5 @@ class SerialPatternCollection(BaseCollection):
                 if match.lastgroup == sp.group_name:
                     if candidates := sp.digits_in_match.search(match.group(0)):
                         for d in digit_splitter(candidates.group(0)):
-                            c = sp.statute_category
-                            yield Rule(statute_category=c, statute_serial_id=d)
+                            c = sp.cat
+                            yield Rule(cat=c, id=d)

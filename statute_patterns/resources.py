@@ -81,20 +81,17 @@ class StatuteCategory(str, Enum):
 
 
 class Rule(BaseModel):
-    """Identifies a statute based on two fields: (1) category and (2) serial_id. It is created through the use of either a NamedPattern or a SerialPattern.
+    """Identifies a statute based on two fields: (1) category and (2) serial_id. It is created through the use of either a NamedPattern or a SerialPattern."""
 
-    Note: The `col` and `index` field attributes are not native to Pydantic; these are populated in anticipation of future use via the `sqlpyd` library.
-    """
-
-    statute_category: StatuteCategory = Field(
-        col=str,
-        index=True,
-    )
-    statute_serial_id: constr(to_lower=True) = Field(  # type: ignore
+    cat: StatuteCategory = Field(
         ...,
-        regex="[a-z0-9-]+",
-        col=str,
-        index=True,
+        title="Statute Category",
+        description="Classification under the limited StatuteCategory taxonomy.",
+    )
+    id: constr(to_lower=True) = Field(  # type: ignore
+        ...,
+        title="Serial Identifier",
+        description="Limited inclusion of identifiers, e.g. only a subset of Executive Orders, Letters of Instruction, Spanish Codes will be permitted.",
     )
 
     class Config:
@@ -104,19 +101,17 @@ class Rule(BaseModel):
         """Pydantic models are not hashable by default. The implementation in this case becomes useful for the built-in collections.Counter (used in statute_patterns.count_rules). See https://github.com/pydantic/pydantic/issues/1303#issuecomment-599712964."""
         return hash((type(self),) + tuple(self.__dict__.values()))
 
-    @validator("statute_category", pre=True)
+    @validator("cat", pre=True)
     def category_in_lower_case(cls, v):
         return StatuteCategory(v.lower())
 
-    @validator("statute_serial_id", pre=True)
+    @validator("id", pre=True)
     def serial_id_lower(cls, v):
         return v.lower()
 
     @property
     def serial_title(self):
-        return StatuteCategory.serialize(
-            self.statute_category, self.statute_serial_id
-        )
+        return StatuteCategory.serialize(self.cat, self.id)
 
     def get_path(self, base_path: Path = STATUTE_PATH) -> Path | None:
         """For most cases, there only be one path to path/to/statutes/ra/386 where:
@@ -125,7 +120,7 @@ class Rule(BaseModel):
         2. 'ra' is the category
         3. '386' is the id.
         """
-        target = base_path / self.statute_category / self.statute_serial_id
+        target = base_path / self.cat / self.id
         if target.exists():
             return target
         return None
@@ -133,8 +128,8 @@ class Rule(BaseModel):
     def get_paths(self, base_path: Path = STATUTE_PATH) -> list[Path]:
         """The serial id isn't enough since the variant of a `StatuteRow.id` includes a `-<digit>` where the digit is the variant."""
         targets = []
-        target = base_path / self.statute_category
-        paths = target.glob(f"{self.statute_serial_id}-*/details.yaml")
+        target = base_path / self.cat
+        paths = target.glob(f"{self.id}-*/details.yaml")
         for variant_path in paths:
             if variant_path.exists():
                 targets.append(variant_path.parent)
@@ -154,7 +149,7 @@ class Rule(BaseModel):
         """There are two kinds of unit files: the preferred / customized
         variant and the one scraped (the default in the absence of a preferred
         variant)."""
-        text = f"{self.statute_category}{self.statute_serial_id}.yaml"
+        text = f"{self.cat}{self.id}.yaml"
         preferred = folder / text
         if preferred.exists():
             return preferred
