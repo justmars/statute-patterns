@@ -48,9 +48,9 @@ class Rule(BaseModel):
     @classmethod
     def from_path(cls, details_path: Path):
         """Construct rule from a properly structured statute's `details.yaml` file."""
-        f = details_path.parent
-        if details_path.stem == DETAILS_FILE:
-            return cls(cat=StatuteSerialCategory(f.parent.stem), id=f.stem)
+        dir = details_path.parent
+        if details_path.name == DETAILS_FILE:
+            return cls(cat=StatuteSerialCategory(dir.parent.stem), id=dir.stem)
         return None
 
     @property
