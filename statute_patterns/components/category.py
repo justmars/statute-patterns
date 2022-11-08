@@ -99,16 +99,36 @@ class StatuteTitle(BaseModel):
     def generate(
         cls,
         pk: str,
-        official: str,
-        serial: str,
+        official: str | None = None,
+        serial: str | None = None,
+        short: str | None = None,
         aliases: list[str] | None = None,
     ):
-        O = StatuteTitleCategory.Official
-        S = StatuteTitleCategory.Serial
-        A = StatuteTitleCategory.Alias
         if aliases:
             for title in aliases:
                 if title and title != "":
-                    yield cls(statute_id=pk, category=A, text=title)
-        yield cls(statute_id=pk, category=S, text=serial)
-        yield cls(statute_id=pk, category=O, text=official)
+                    yield cls(
+                        statute_id=pk,
+                        category=StatuteTitleCategory.Alias,
+                        text=title,
+                    )
+        if short:
+            yield cls(
+                statute_id=pk,
+                category=StatuteTitleCategory.Short,
+                text=short,
+            )
+
+        if serial:
+            yield cls(
+                statute_id=pk,
+                category=StatuteTitleCategory.Serial,
+                text=serial,
+            )
+
+        if official:
+            yield cls(
+                statute_id=pk,
+                category=StatuteTitleCategory.Official,
+                text=official,
+            )

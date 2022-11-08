@@ -8,6 +8,7 @@ from slugify import slugify
 
 from .category import StatuteTitle
 from .rule import Rule
+from .short import get_short
 from .utils import DETAILS_FILE, STATUTE_PATH, UNITS_MONEY, UNITS_NONE
 
 
@@ -62,25 +63,24 @@ class StatuteDetails(BaseModel):
         dt, ofc_title, v = d.get("date"), d.get("law_title"), d.get("variant")
         if not all([ofc_title, dt]):
             raise Exception(f"Fail on: {dt=}, {ofc_title=}, {v=}")
-
+        units = cls.set_units(ofc_title, rule.units_path(_file.parent))
+        idx = cls.slug_id(_file, dt, v)
+        titles = StatuteTitle.generate(
+            pk=idx,
+            official=ofc_title,
+            serial=rule.serial_title,
+            short=get_short(units),
+            aliases=d.get("aliases"),
+        )
         return cls(
             created=_file.stat().st_ctime,
             modified=_file.stat().st_mtime,
-            id=(idx := cls.slug_id(_file, dt, v)),
+            id=idx,
             title=ofc_title,
             description=rule.serial_title,
             emails=d.get("emails", ["bot@lawsql.com"]),  # default to generic
             date=parse(d["date"]).date(),
             variant=v or 1,  # default to 1
-            units=cls.set_units(ofc_title, rule.units_path(_file.parent)),
-            titles=list(
-                StatuteTitle.generate(
-                    **dict(
-                        pk=idx,
-                        official=ofc_title,
-                        serial=rule.serial_title,
-                        aliases=d.get("aliases"),
-                    )
-                )
-            ),
+            units=units,
+            titles=list(titles),
         )
