@@ -8,14 +8,7 @@ from slugify import slugify
 
 from .category import StatuteTitle
 from .rule import Rule
-from .utils import STATUTE_PATH
-
-
-def slugify_id(p: Path, date: str, v: int | None = None):
-    id_temp = " ".join([p.parent.parent.stem, p.parent.stem, date])
-    if v:
-        id_temp += f" {str(v)}"
-    return slugify(id_temp)
+from .utils import STATUTE_PATH, UNITS_MONEY, UNITS_NONE
 
 
 class StatuteDetails(BaseModel):
@@ -28,45 +21,24 @@ class StatuteDetails(BaseModel):
     id: str
     emails: list[str]
     date: datetime.date
-    variant: int
-    units: list[dict] = []
+    variant: int | None = 1
     titles: list[StatuteTitle] = []
+    units: list[dict] = []
 
     @classmethod
-    def create_details(
-        cls,
-        serial_title: str,
-        details_file: Path,
-        units_file: Path | None,
-    ):
-        units = [{"item": "Container 1", "content": "Undetected."}]
-        d = yaml.safe_load(details_file.read_bytes())
-        ofc_title = d.get("law_title")
-        if ofc_title and "appropriat" in ofc_title.lower():
-            signal = "Appropriation laws exincluded."
-            units = [{"item": "Container 1", "content": signal}]
-        elif ofc_title and units_file and units_file.exists():
-            units = yaml.safe_load(units_file.read_bytes())
-        if ofc_title and serial_title and (dt := d.get("date")):
-            pk = slugify_id(details_file, dt, d.get("variant"))
-            title_input = dict(
-                pk=pk,
-                official=ofc_title,
-                serial=serial_title,
-                aliases=d.get("aliases"),
-            )
-            return StatuteDetails(
-                created=details_file.stat().st_ctime,
-                modified=details_file.stat().st_mtime,
-                id=pk,
-                title=ofc_title,
-                description=serial_title,
-                emails=d.get("emails", ["bot@lawsql.com"]),
-                date=parse(d["date"]).date(),
-                variant=d.get("variant", 1),
-                units=units or [],
-                titles=list(StatuteTitle.generate(**title_input)),
-            )
+    def set_units(cls, title: str, p: Path | None) -> list[dict]:
+        if all([title and "appropriat" in title.lower()]):
+            return UNITS_MONEY
+        elif p and p.exists():
+            return yaml.safe_load(p.read_bytes())
+        return UNITS_NONE
+
+    @classmethod
+    def slug_id(cls, p: Path, dt: str, v: int | None):
+        _temp = [p.parent.parent.stem, p.parent.stem, dt]
+        if v:
+            _temp.append(str(v))
+        return slugify(" ".join(_temp))
 
     @classmethod
     def from_rule(cls, rule: Rule, base_path: Path = STATUTE_PATH):
@@ -74,16 +46,36 @@ class StatuteDetails(BaseModel):
         if not base_path.exists():
             return None
 
-        d = rule.get_first_path_to_details(STATUTE_PATH)
-        if not d:
+        if not rule.serial_title:
             return None
 
-        ser = rule.serial_title
-        if not ser:
+        _file = rule.get_first_path_to_details(STATUTE_PATH)
+        if not _file:
             return None
 
-        _file = rule.units_path(d.parent)
-        try:
-            return cls.create_details(ser, d, _file)
-        except StopIteration:
+        d = yaml.safe_load(_file.read_bytes())
+        dt, ofc_title, v = d.get("date"), d.get("law_title"), d.get("variant")
+        if not all([ofc_title, dt]):
             return None
+
+        return cls(
+            created=_file.stat().st_ctime,
+            modified=_file.stat().st_mtime,
+            id=(idx := cls.slug_id(_file, dt, v)),
+            title=ofc_title,
+            description=rule.serial_title,
+            emails=d.get("emails", ["bot@lawsql.com"]),
+            date=parse(d["date"]).date(),
+            variant=v,
+            units=cls.set_units(ofc_title, rule.units_path(_file.parent)),
+            titles=list(
+                StatuteTitle.generate(
+                    **dict(
+                        pk=idx,
+                        official=ofc_title,
+                        serial=rule.serial_title,
+                        aliases=d.get("aliases"),
+                    )
+                )
+            ),
+        )

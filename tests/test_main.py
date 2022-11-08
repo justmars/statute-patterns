@@ -3,30 +3,13 @@ from pathlib import Path
 import pytest
 
 from statute_patterns import (
-    Rule,
+    NamedRules,
+    SerializedRules,
     StatuteDetails,
-    StatuteSerialCategory,
+    StatuteTitle,
     count_rules,
     extract_rules,
 )
-from statute_patterns.components import StatuteTitle
-from statute_patterns.names import NamedRules
-from statute_patterns.serials import SerializedRules
-
-
-@pytest.fixture
-def rule_obj():
-    return Rule(cat=StatuteSerialCategory.RepublicAct, id="386")
-
-
-@pytest.fixture
-def base_folder(shared_datadir):
-    return shared_datadir / "statutes"
-
-
-@pytest.fixture
-def statute_details(rule_obj: Rule, base_folder: Path):
-    return StatuteDetails.from_rule(rule_obj, base_folder)
 
 
 def test_category_serializer(rule_obj):

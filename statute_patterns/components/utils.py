@@ -14,6 +14,19 @@ STATUTE_PATH = (
 
 DETAILS_FILE = "details.yaml"
 
+UNITS_MONEY = [
+    {
+        "item": "Container 1",
+        "content": "Appropriation laws are excluded.",
+    }
+]
+UNITS_NONE = [
+    {
+        "item": "Container 1",
+        "content": "Individual provisions not detected.",
+    }
+]
+
 
 def stx(regex_text: str):
     """Remove indention of raw regex strings. This makes regex more readable when using rich.Syntax(<target_regex_string>, "python")"""
