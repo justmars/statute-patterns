@@ -44,19 +44,19 @@ class StatuteDetails(BaseModel):
     def from_rule(cls, rule: Rule, base_path: Path = STATUTE_PATH):
         """From a constructed rule (see `Rule.from_path()`), get the details of said rule. Limitation: the category and identifier must be unique."""
         if not base_path.exists():
-            return None
+            raise Exception("Could not get proper path.")
 
         if not rule.serial_title:
-            return None
+            raise Exception("No serial title created.")
 
         _file = rule.get_first_path_to_details(STATUTE_PATH)
         if not _file:
-            return None
+            raise Exception("No path to details found.")
 
         d = yaml.safe_load(_file.read_bytes())
         dt, ofc_title, v = d.get("date"), d.get("law_title"), d.get("variant")
         if not all([ofc_title, dt]):
-            return None
+            raise Exception(f"Fail on: {dt=}, {ofc_title=}, {v=}")
 
         return cls(
             created=_file.stat().st_ctime,
