@@ -46,6 +46,16 @@ class Rule(BaseModel):
         return v.lower()
 
     @classmethod
+    def get_details(cls, details_path: Path):
+        """Assumes a properly structured path with three path parents from details.yaml, e.g. path to `/statutes/ra/386/details.yaml` means 3 parents from the same would be /statutes. Will create the rule based on the details path and pull data from other related paths to generate the details of the rule."""
+        from .details import StatuteDetails
+
+        if rule := cls.from_path(details_path):
+            statute_path = details_path.parent.parent.parent
+            return StatuteDetails.from_rule(rule, statute_path)
+        return None
+
+    @classmethod
     def from_path(cls, details_path: Path):
         """Construct rule from a properly structured statute's `details.yaml` file."""
         dir = details_path.parent
@@ -56,11 +66,6 @@ class Rule(BaseModel):
     @property
     def serial_title(self):
         return StatuteSerialCategory(self.cat).serialize(self.id)
-
-    def get_details(self, base_path: Path = STATUTE_PATH):
-        from .details import StatuteDetails
-
-        return StatuteDetails.from_rule(self, base_path)
 
     def get_path(self, base_path: Path = STATUTE_PATH) -> Path | None:
         """For most cases, there only be one path to path/to/statutes/ra/386 where:

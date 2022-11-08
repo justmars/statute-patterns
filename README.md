@@ -83,7 +83,7 @@ We can extract the details of the rule with the `StatuteDetails.from_rule()` als
 
 ```python
 >>>from statute_patterns import StatuteDetails
->>>StatuteDetails.from_rule(rule_obj, <path/to/statutes>) # or rule_obj.get_details(<path/to/statutes>)
+>>>StatuteDetails.from_rule(rule_obj, <path/to/statutes>) # or rule_obj.get_details(<path/to/details>)
 StatuteDetails(
     created=1665225124.0644598,
     modified=1665225124.0644598,
