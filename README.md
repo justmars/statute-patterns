@@ -1,5 +1,7 @@
 # Statute Patterns
 
+## Title matching of rules
+
 Extract title of rules from given Philippine statutory text.
 
 The title, parsed through a `Rule` object, corresponds to a local path to separate library from which the contents of the rule can be extracted from.
@@ -32,11 +34,56 @@ Rule(cat='ra', id='386')
     {'cat': 'ra', 'id': '386', 'mentions': 2},
     {'cat': 'spain', 'id': 'civil', 'mentions': 1}
 ]
+```
 
-# ensure valid local path exists to extract data from such path, use the first sample rule above
->>> path_to_folder = rule_obj.get_path(path_to_statutes)
-Path().home().joinpath("path_to_statutes/ra/386")
->>> rule_obj.get_details(path_to_statutes)
+## Loading files from rules
+
+Each rule corresponds to a possible set of folders in a local directory `/statutes`.
+
+Each rule belongs to a *StatuteSerialCategory*. The present *StatuteSerialCategory* is an Enum with the following members. The value of each member is the path to such category.
+
+```python
+>>>StatuteSerialCategory
+<enum 'StatuteSerialCategory'>
+>>>StatuteSerialCategory._member_map_
+{
+    'RepublicAct': <StatuteSerialCategory.RepublicAct: 'ra'>,
+    'CommonwealthAct': <StatuteSerialCategory.CommonwealthAct: 'ca'>,
+    'Act': <StatuteSerialCategory.Act: 'act'>,
+    'Constitution': <StatuteSerialCategory.Constitution: 'const'>,
+    'Spain': <StatuteSerialCategory.Spain: 'spain'>,
+    'BatasPambansa': <StatuteSerialCategory.BatasPambansa: 'bp'>,
+    'PresidentialDecree': <StatuteSerialCategory.PresidentialDecree: 'pd'>,
+    'ExecutiveOrder': <StatuteSerialCategory.ExecutiveOrder: 'eo'>,
+    'LetterOfInstruction': <StatuteSerialCategory.LetterOfInstruction: 'loi'>,
+    'VetoMessage': <StatuteSerialCategory.VetoMessage: 'veto'>,
+    'RulesOfCourt': <StatuteSerialCategory.RulesOfCourt: 'roc'>,
+    'BarMatter': <StatuteSerialCategory.BarMatter: 'rule_bm'>,
+    'AdministrativeMatter': <StatuteSerialCategory.AdministrativeMatter: 'rule_am'>,
+    'ResolutionEnBanc': <StatuteSerialCategory.ResolutionEnBanc: 'rule_reso'>,
+    'CircularOCA': <StatuteSerialCategory.CircularOCA: 'oca_cir'>,
+    'CircularSC': <StatuteSerialCategory.CircularSC: 'sc_cir'>
+}
+```
+
+So to point to the Civil Code of the Philippines, this would be represented by the following path `statutes/ra/386` where *ra* is the StatuteSerialCategory and *386* is the serial id.
+
+Knowing the path to a rule, we can extract the rules contents.
+
+```python
+>>> rule_obj # example from above
+Rule(cat='ra', id='386')
+>>> list(rule_obj.extract_folders(<path/to/statutes>))
+[PosixPath('.../statutes/ra/386')]
+```
+
+There can be more than one path since in exceptional cases, the combination of *category* + *serial id* does not yield a unique rule.
+
+We can extract the details of the rule with the `StatuteDetails.from_rule()` method:
+
+```python
+>>>from statute_patterns import StatuteDetails
+>>>StatuteDetails.from_rule(rule_obj, <path/to/statutes>)
 StatuteDetails(
     created=1665225124.0644598,
     modified=1665225124.0644598,
