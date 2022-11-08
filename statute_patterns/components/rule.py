@@ -57,16 +57,6 @@ class Rule(BaseModel):
     def serial_title(self):
         return StatuteSerialCategory(self.cat).serialize(self.id)
 
-    def get_first_path_to_details(
-        self, base_path: Path = STATUTE_PATH
-    ) -> Path | None:
-        """See get_paths(); there can be many `details.yaml` files because of exceptional situations."""
-        for f in self.extract_folders(base_path):
-            details_file = f / DETAILS_FILE
-            if details_file.exists():
-                return details_file
-        return None
-
     def get_path(self, base_path: Path = STATUTE_PATH) -> Path | None:
         """For most cases, there only be one path to path/to/statutes/ra/386 where:
 

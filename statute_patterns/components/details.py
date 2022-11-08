@@ -8,7 +8,7 @@ from slugify import slugify
 
 from .category import StatuteTitle
 from .rule import Rule
-from .utils import STATUTE_PATH, UNITS_MONEY, UNITS_NONE
+from .utils import DETAILS_FILE, STATUTE_PATH, UNITS_MONEY, UNITS_NONE
 
 
 class StatuteDetails(BaseModel):
@@ -49,9 +49,12 @@ class StatuteDetails(BaseModel):
         if not rule.serial_title:
             raise Exception("No serial title created.")
 
-        _file = rule.get_first_path_to_details(STATUTE_PATH)
-        if not _file:
-            raise Exception(f"No path to {_file=} found.")
+        _file = None
+        if folder := rule.get_path(base_path):
+            _file = folder / DETAILS_FILE
+
+        if not _file or not _file.exists():
+            raise Exception(f"No _file found from {folder=} {base_path=}.")
 
         d = yaml.safe_load(_file.read_bytes())
         dt, ofc_title, v = d.get("date"), d.get("law_title"), d.get("variant")
