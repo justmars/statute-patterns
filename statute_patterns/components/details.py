@@ -3,7 +3,7 @@ from pathlib import Path
 
 import yaml
 from dateutil.parser import parse
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from slugify import slugify
 
 from .category import StatuteTitle
@@ -12,21 +12,22 @@ from .utils import DETAILS_FILE, STATUTE_PATH, UNITS_MONEY, UNITS_NONE
 
 
 class StatuteDetails(BaseModel):
-    """Basic information loaded from files found in the proper path/s."""
+    """Basic information loaded from files found in a Rule's proper path."""
 
     created: float
     modified: float
     title: str
     description: str
     id: str
-    emails: list[str]
+    emails: list[EmailStr]
     date: datetime.date
-    variant: int | None = 1
-    titles: list[StatuteTitle] = []
-    units: list[dict] = []
+    variant: int
+    titles: list[StatuteTitle]
+    units: list[dict]
 
     @classmethod
     def set_units(cls, title: str, p: Path | None) -> list[dict]:
+        """Extract the raw units of the statute and apply a special rule on appropriation laws when they're found."""
         if all([title and "appropriat" in title.lower()]):
             return UNITS_MONEY
         elif p and p.exists():
@@ -35,6 +36,7 @@ class StatuteDetails(BaseModel):
 
     @classmethod
     def slug_id(cls, p: Path, dt: str, v: int | None):
+        """Use the path's parameters with the date and variant, to create a slug that can serve as the url / primary key of the statute."""
         _temp = [p.parent.parent.stem, p.parent.stem, dt]
         if v:
             _temp.append(str(v))
@@ -67,9 +69,9 @@ class StatuteDetails(BaseModel):
             id=(idx := cls.slug_id(_file, dt, v)),
             title=ofc_title,
             description=rule.serial_title,
-            emails=d.get("emails", ["bot@lawsql.com"]),
+            emails=d.get("emails", ["bot@lawsql.com"]),  # default to generic
             date=parse(d["date"]).date(),
-            variant=v,
+            variant=v or 1,  # default to 1
             units=cls.set_units(ofc_title, rule.units_path(_file.parent)),
             titles=list(
                 StatuteTitle.generate(

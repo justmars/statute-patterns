@@ -79,11 +79,11 @@ Rule(cat='ra', id='386')
 
 There can be more than one path since in exceptional cases, the combination of *category* + *serial id* does not yield a unique rule.
 
-We can extract the details of the rule with the `StatuteDetails.from_rule()` method:
+We can extract the details of the rule with the `StatuteDetails.from_rule()` also accessible via `Rule.get_details()`:
 
 ```python
 >>>from statute_patterns import StatuteDetails
->>>StatuteDetails.from_rule(rule_obj, <path/to/statutes>)
+>>>StatuteDetails.from_rule(rule_obj, <path/to/statutes>) # or rule_obj.get_details(<path/to/statutes>)
 StatuteDetails(
     created=1665225124.0644598,
     modified=1665225124.0644598,

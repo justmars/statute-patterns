@@ -57,6 +57,11 @@ class Rule(BaseModel):
     def serial_title(self):
         return StatuteSerialCategory(self.cat).serialize(self.id)
 
+    def get_details(self, base_path: Path = STATUTE_PATH):
+        from .details import StatuteDetails
+
+        return StatuteDetails.from_rule(self, base_path)
+
     def get_path(self, base_path: Path = STATUTE_PATH) -> Path | None:
         """For most cases, there only be one path to path/to/statutes/ra/386 where:
 
