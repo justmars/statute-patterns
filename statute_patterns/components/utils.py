@@ -3,6 +3,7 @@ import re
 from pathlib import Path
 from typing import Iterator, Pattern
 
+import yaml
 from dotenv import find_dotenv, load_dotenv
 
 load_dotenv(find_dotenv())
@@ -26,6 +27,22 @@ UNITS_NONE = [
         "content": "Individual provisions not detected.",
     }
 ]
+
+
+def set_units(title: str, p: Path | None) -> list[dict]:
+    """Extract the raw units of the statute and apply a special rule on appropriation laws when they're found."""
+    if p:
+        if p.exists():
+            try:
+                units_as_list = yaml.safe_load(p.read_bytes())
+                if not isinstance(units_as_list, list):
+                    return UNITS_NONE
+                return units_as_list
+            except Exception as e:
+                return UNITS_NONE
+    if all([title and "appropriat" in title.lower()]):
+        return UNITS_MONEY
+    return UNITS_NONE
 
 
 def stx(regex_text: str):

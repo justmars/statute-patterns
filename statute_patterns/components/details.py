@@ -9,7 +9,7 @@ from slugify import slugify
 from .category import StatuteTitle
 from .rule import Rule
 from .short import get_short
-from .utils import DETAILS_FILE, STATUTE_PATH, UNITS_MONEY, UNITS_NONE
+from .utils import DETAILS_FILE, STATUTE_PATH, set_units
 
 
 class StatuteDetails(BaseModel):
@@ -26,15 +26,6 @@ class StatuteDetails(BaseModel):
     variant: int
     titles: list[StatuteTitle]
     units: list[dict]
-
-    @classmethod
-    def set_units(cls, title: str, p: Path | None) -> list[dict]:
-        """Extract the raw units of the statute and apply a special rule on appropriation laws when they're found."""
-        if all([title and "appropriat" in title.lower()]):
-            return UNITS_MONEY
-        elif p and p.exists():
-            return yaml.safe_load(p.read_bytes())
-        return UNITS_NONE
 
     @classmethod
     def slug_id(cls, p: Path, dt: str, v: int | None):
@@ -64,7 +55,7 @@ class StatuteDetails(BaseModel):
         dt, ofc_title, v = d.get("date"), d.get("law_title"), d.get("variant")
         if not all([ofc_title, dt]):
             raise Exception(f"Fail on: {dt=}, {ofc_title=}, {v=}")
-        units = cls.set_units(ofc_title, rule.units_path(_file.parent))
+        units = set_units(ofc_title, rule.units_path(_file.parent))
         idx = cls.slug_id(_file, dt, v)
         titles = StatuteTitle.generate(
             pk=idx,
