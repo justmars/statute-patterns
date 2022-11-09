@@ -13,10 +13,11 @@ from .utils import DETAILS_FILE, STATUTE_PATH, UNITS_MONEY, UNITS_NONE
 
 
 class StatuteDetails(BaseModel):
-    """Basic information loaded from files found in a Rule's proper path."""
+    """Based on a `Rule` object, obtain details loaded from files found in a Rule's proper path."""
 
     created: float
     modified: float
+    rule: Rule
     title: str
     description: str
     id: str
@@ -75,6 +76,7 @@ class StatuteDetails(BaseModel):
         return cls(
             created=_file.stat().st_ctime,
             modified=_file.stat().st_mtime,
+            rule=rule,
             id=idx,
             title=ofc_title,
             description=rule.serial_title,

@@ -87,6 +87,7 @@ We can extract the details of the rule with the `StatuteDetails.from_rule()` als
 StatuteDetails(
     created=1665225124.0644598,
     modified=1665225124.0644598,
+    rule=Rule(cat='ra', id='386'),
     title='An Act to Ordain and Institute the Civil Code of the Philippines',
     description='Republic Act No. 386',
     id='ra-386-june-18-1949',

@@ -1,5 +1,3 @@
-from pathlib import Path
-
 import pytest
 
 from statute_patterns import (
@@ -22,7 +20,8 @@ def test_paths_related_to_rule(rule_obj, base_folder):
     assert rule_obj.units_path(base_folder / rule_obj.cat / rule_obj.id)
 
 
-def test_loaded_data(statute_details):
+def test_loaded_data(rule_obj, statute_details):
+    assert statute_details.rule == rule_obj
     assert isinstance(statute_details, StatuteDetails)
     assert isinstance(statute_details.titles, list)
     assert isinstance(statute_details.titles[0], StatuteTitle)
