@@ -6,22 +6,27 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Statute Titles for LawSQL.com">
+        <meta name="description" content="This is a dependency: a regex formula, path matcher, and unit parser for tree-like content, i.e. laws and rules in the Philippines.
+">
       
       
+        <meta name="author" content="Marcelino Veloso III">
       
       
-        <link rel="prev" href="..">
+        <link rel="canonical" href="https://lawsql.com/api-extract/">
       
       
-        <link rel="next" href="../api-title/">
+        <link rel="prev" href="../api-match/">
+      
+      
+        <link rel="next" href="../api-rule/">
       
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
     
     
       
-        <title>Extraction - Statute Patterns Docs</title>
+        <title>Extract - Statute Patterns Docs</title>
       
     
     
@@ -75,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#extraction" class="md-skip">
+        <a href="#extract" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Extraction
+              Extract
             
           </span>
         </div>
@@ -130,7 +135,7 @@
           
         
           
-          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent="pink"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="pink"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
           
             <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
@@ -255,6 +260,21 @@
 
   
   
+  
+    <li class="md-nav__item">
+      <a href="../api-match/" class="md-nav__link">
+        Match
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
     
   
   
@@ -267,12 +287,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Extraction
+          Extract
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Extraction
+        Extract
       </a>
       
         
@@ -373,21 +393,6 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../api-title/" class="md-nav__link">
-        Title
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
     
     <li class="md-nav__item md-nav__item--nested">
       
@@ -399,14 +404,14 @@
       
       
         <label class="md-nav__link" for="__nav_4" tabindex="0" aria-expanded="false">
-          Rule
+          Rule API
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="Rule" data-md-level="1">
+      <nav class="md-nav" aria-label="Rule API" data-md-level="1">
         <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
-          Rule
+          Rule API
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -585,7 +590,7 @@
 
 
 
-<h1 id="extraction">Extraction</h1>
+<h1 id="extract">Extract</h1>
 <p>This presumes existence of a local path to a separate library where the contents of the rule can be extracted from.</p>
 <h2 id="extract-rules">Extract Rules</h2>
 
@@ -862,68 +867,7 @@ matching rule, get the first rule found.</p>
   </div>
 
 </div><h2 id="detail-rule">Detail Rule</h2>
-<p>We can extract the details of the rule with the <code>StatuteDetails.from_rule()</code> also accessible via <code>Rule.get_details()</code>:</p>
-<div class="highlight"><span class="filename">Python</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="o">&gt;&gt;&gt;</span><span class="kn">from</span> <span class="nn">statute_patterns</span> <span class="kn">import</span> <span class="n">StatuteDetails</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="o">&gt;&gt;&gt;</span><span class="n">StatuteDetails</span><span class="o">.</span><span class="n">from_rule</span><span class="p">(</span><span class="n">rule_obj</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">statutes</span><span class="o">&gt;</span><span class="p">)</span> <span class="c1"># or rule_obj.get_details(&lt;path/to/details&gt;)</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">StatuteDetails</span><span class="p">(</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">created</span><span class="o">=</span><span class="mf">1665225124.0644598</span><span class="p">,</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">modified</span><span class="o">=</span><span class="mf">1665225124.0644598</span><span class="p">,</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">rule</span><span class="o">=</span><span class="n">Rule</span><span class="p">(</span><span class="n">cat</span><span class="o">=</span><span class="s1">&#39;ra&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;386&#39;</span><span class="p">),</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Republic Act No. 386&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;An Act to Ordain and Institute the Civil Code of the Philippines&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;ra-386-june-18-1949&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">emails</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;maria@abcxyz.law&#39;</span><span class="p">,</span> <span class="s1">&#39;fernando@abcxyz.law&#39;</span><span class="p">],</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">date</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">1949</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">variant</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="n">units</span><span class="o">=</span><span class="p">[</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>        <span class="p">{</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>            <span class="s1">&#39;item&#39;</span><span class="p">:</span> <span class="s1">&#39;Container 1&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>            <span class="s1">&#39;caption&#39;</span><span class="p">:</span> <span class="s1">&#39;Preliminary Title&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>            <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="p">[</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>                <span class="p">{</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>                    <span class="s1">&#39;item&#39;</span><span class="p">:</span> <span class="s1">&#39;Chapter 1&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>                    <span class="s1">&#39;caption&#39;</span><span class="p">:</span> <span class="s1">&#39;Effect and Application of Laws&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>                    <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="p">[</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>                        <span class="p">{</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>                            <span class="s1">&#39;item&#39;</span><span class="p">:</span> <span class="s1">&#39;Article 1&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>                            <span class="s1">&#39;content&#39;</span><span class="p">:</span> <span class="s1">&#39;This Act shall be known as the &quot;Civil Code of the Philippines.&quot; (n)</span><span class="se">\n</span><span class="s1">&#39;</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>                        <span class="p">},</span>
-<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>                        <span class="p">{</span>
-<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>                            <span class="s1">&#39;item&#39;</span><span class="p">:</span> <span class="s1">&#39;Article 2&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>                            <span class="s1">&#39;content&#39;</span><span class="p">:</span> <span class="s1">&#39;Laws shall take effect after fifteen days following the completion of their publication either in the Official Gazette or in a newspaper of general circulation in the Philippines, unless it is otherwise provided. (1a)</span><span class="se">\n</span><span class="s1">&#39;</span>
-<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>                        <span class="p">},</span>
-<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>                        <span class="o">...</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>                    <span class="p">]</span>
-<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>                <span class="p">},</span>
-<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>                <span class="o">...</span>
-<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>            <span class="p">]</span>
-<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>        <span class="p">},</span>
-<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>        <span class="o">...</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>    <span class="p">],</span>
-<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>    <span class="n">titles</span><span class="o">=</span><span class="p">[</span>
-<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>        <span class="n">StatuteTitle</span><span class="p">(</span>
-<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>            <span class="n">statute_id</span><span class="o">=</span><span class="s1">&#39;ra-386-june-18-1949&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>            <span class="n">category</span><span class="o">=</span><span class="s1">&#39;alias&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>            <span class="n">text</span><span class="o">=</span><span class="s1">&#39;New Civil Code&#39;</span>
-<a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>        <span class="p">),</span>
-<a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>        <span class="n">StatuteTitle</span><span class="p">(</span>
-<a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>            <span class="n">statute_id</span><span class="o">=</span><span class="s1">&#39;ra-386-june-18-1949&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>            <span class="n">category</span><span class="o">=</span><span class="s1">&#39;alias&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>            <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Civil Code of 1950&#39;</span>
-<a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>        <span class="p">),</span>
-<a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a>        <span class="n">StatuteTitle</span><span class="p">(</span>
-<a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a>            <span class="n">statute_id</span><span class="o">=</span><span class="s1">&#39;ra-386-june-18-1949&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a>            <span class="n">category</span><span class="o">=</span><span class="s1">&#39;official&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-52" name="__codelineno-0-52" href="#__codelineno-0-52"></a>            <span class="n">text</span><span class="o">=</span><span class="s1">&#39;An Act to Ordain and Institute the Civil Code of the Philippines&#39;</span>
-<a id="__codelineno-0-53" name="__codelineno-0-53" href="#__codelineno-0-53"></a>        <span class="p">),</span>
-<a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a>        <span class="n">StatuteTitle</span><span class="p">(</span>
-<a id="__codelineno-0-55" name="__codelineno-0-55" href="#__codelineno-0-55"></a>            <span class="n">statute_id</span><span class="o">=</span><span class="s1">&#39;ra-386-june-18-1949&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-56" name="__codelineno-0-56" href="#__codelineno-0-56"></a>            <span class="n">category</span><span class="o">=</span><span class="s1">&#39;serial&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a>            <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Republic Act No. 386&#39;</span>
-<a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a>        <span class="p">)</span>
-<a id="__codelineno-0-59" name="__codelineno-0-59" href="#__codelineno-0-59"></a>    <span class="p">]</span>
-<a id="__codelineno-0-60" name="__codelineno-0-60" href="#__codelineno-0-60"></a><span class="p">)</span>
-</code></pre></div>
+<p>We can extract the details of the rule with the <code>StatuteDetails.from_rule()</code> also accessible via <code>Rule.get_details()</code>.</p>
 <h3 id="statutedetails">StatuteDetails</h3>
 
 
