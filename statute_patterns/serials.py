@@ -16,6 +16,7 @@ from .recipes import (
 )
 
 """MODERN"""
+
 ra = SerialPattern(
     cat=StatuteSerialCategory.RepublicAct,
     regex_bases=[
@@ -32,6 +33,11 @@ ra = SerialPattern(
     ],
     excludes=["Republic Act No. 7160:", "RA 9337-"],
 )
+"""
+## Republic Act Pattern
+"""
+
+
 veto = SerialPattern(
     cat=StatuteSerialCategory.VetoMessage,
     regex_bases=[r"Veto\sMessage\s-\s"],
@@ -41,6 +47,9 @@ veto = SerialPattern(
     matches=["Veto Message - 11534"],  # referring to RA 11534
     excludes=["Veto Message -", "Veto Message - 113"],
 )
+"""
+## Presidential Veto Pattern
+"""
 
 """LEGACY"""
 ca_digits = r""
@@ -62,6 +71,10 @@ ca = SerialPattern(
         "Commonwealth Act No. 800",
     ],
 )
+"""
+## Commonwealth Act Pattern
+"""
+
 bp = SerialPattern(
     cat=StatuteSerialCategory.BatasPambansa,
     regex_bases=[
@@ -72,6 +85,10 @@ bp = SerialPattern(
     matches=["B.P. 1"],
     excludes=["B.P. 900"],
 )
+"""
+## Batas Pambansa Pattern
+"""
+
 act = SerialPattern(
     cat=StatuteSerialCategory.Act,
     regex_bases=[limited_acts],
@@ -79,6 +96,9 @@ act = SerialPattern(
     matches=["Act 1", "Act 10", "Act No. 250", "Act No. 4500"],
     excludes=["Act No. 5000", "Act 05"],
 )
+"""
+## Act of Congress Pattern
+"""
 
 
 """SPECIAL EXECUTIVE"""
@@ -92,6 +112,10 @@ pd = SerialPattern(
         digitize(PD_DIGITS_PLUS)
     ],  # the acronyms must precede the regulars otherwise will match the regulars first
 )
+"""
+## Presidential Decree Pattern
+"""
+
 eo = SerialPattern(
     cat=StatuteSerialCategory.ExecutiveOrder,
     regex_bases=[
@@ -110,6 +134,11 @@ eo = SerialPattern(
     ],  # only specific numbers included
     excludes=["EO 1"],  # too many EO 1s in different administrations
 )
+"""
+## Exceptional Executive Order Pattern
+"""
+
+
 loi = SerialPattern(
     cat=StatuteSerialCategory.LetterOfInstruction,
     regex_bases=[
@@ -125,6 +154,9 @@ loi = SerialPattern(
     ],  # only specific numbers included
     excludes=["Letter of Instruction No. 1"],
 )
+"""
+## Exceptional Letter of Instructions Pattern
+"""
 
 
 """SC RULES"""
@@ -139,9 +171,16 @@ rule_am = SerialPattern(
     matches=["Admin Matter No. 99-10-05-0"],
     excludes=["A.M. 141241", "Administrative Matter No. 12-12-12"],
 )
-# see improper rule in A.M. No. 00-06-09-SC, 00-6-09-sc
-# see rules which can't be found: 04-11-09-sc, 00-9-03-sc
-# to do: 07-9-12-sc (amparo), 01-2-04-SC (interim corporate), 04-9-07-sc (sec), A.M. No. 03-8-02-sc (exec judge), 02-1-18-sc (children in conflict)
+
+"""
+## Exceptional Administrative Matter Rule Pattern
+
+1. TODO: See improper rule in A.M. No. 00-06-09-SC, 00-6-09-sc
+2. TODO: See rules which can't be found: 04-11-09-sc, 00-9-03-sc
+3. TODO: 07-9-12-sc (amparo), 01-2-04-SC (interim corporate), 04-9-07-sc (sec), A.M. No. 03-8-02-sc (exec judge), 02-1-18-sc (children in conflict)
+"""
+
+
 rule_bm = SerialPattern(
     cat=StatuteSerialCategory.BarMatter,
     regex_bases=[
@@ -155,6 +194,10 @@ rule_bm = SerialPattern(
     matches=["Bar Matter No.803"],
     excludes=["A.M. 141241", "Administrative Matter No. 12-12-12"],
 )
+"""
+## Exceptional Bar Matter Rule Pattern
+"""
+
 sc_cir = SerialPattern(
     cat=StatuteSerialCategory.CircularSC,
     regex_bases=[
@@ -164,6 +207,10 @@ sc_cir = SerialPattern(
     matches=["SC Circular No. 19"],
     excludes=["SC Circular No. 1"],
 )
+"""
+## SC Circular Rule Pattern
+"""
+
 oca_cir = SerialPattern(
     cat=StatuteSerialCategory.CircularOCA,
     regex_bases=[
@@ -173,6 +220,10 @@ oca_cir = SerialPattern(
     matches=["OCA Circular No. 39-02"],
     excludes=["SC Circular No. 39"],
 )
+"""
+## Office of the Court Administrator Circular Rule Pattern
+"""
+
 rule_reso = SerialPattern(
     cat=StatuteSerialCategory.ResolutionEnBanc,
     regex_bases=[
@@ -181,6 +232,9 @@ rule_reso = SerialPattern(
     regex_serials=[r"10-15-1991"],
     matches=["Resolution of the Court En Banc dated 10-15-1991"],
 )
+"""
+## Resolution of the Court Rule Pattern
+"""
 
 
 SerializedRules = SerialPatternCollection(

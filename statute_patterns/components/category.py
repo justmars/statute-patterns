@@ -27,7 +27,7 @@ class StatuteSerialCategory(str, Enum):
     thus can be mapped to the following folder: `/statutes/ra/386`. We can definitely
     categorize this as an _ra_ with a serial id of _386_.
 
-    Mapped to its [`Rule`][rule-model], counterpart we get:
+    Mapped to its [`Rule`][rule-model] counterpart we get:
 
     Field | Value | Description
     :--:|:--:|:--

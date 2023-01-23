@@ -1,9 +1,5 @@
 # Serialized Statutes
 
-## Statute Serial Category
-
-::: statute_patterns.components.category.StatuteSerialCategory
-
 ## Serial Pattern
 
 ::: statute_patterns.models.SerialPattern

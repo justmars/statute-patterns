@@ -3,6 +3,7 @@ from re import Pattern
 
 RA_DIGITS = r"(?:(?:[1-2]\d{1,4})|(?:[1-9]\d{1,3})|(?:[1-9]))"
 """Criteria:
+
 1. Numbers should not start with 0
 2. Numbers should not exceed 5 digits
 3. Although at time of writing max RA is 11xxx (5 digits), added allowance for this to start with 2xxxx (still 5 digits)
@@ -10,6 +11,7 @@ RA_DIGITS = r"(?:(?:[1-2]\d{1,4})|(?:[1-9]\d{1,3})|(?:[1-9]))"
 
 CA_DIGITS = r"(?:(?:[1-7]\d{1,2})|(?:[1-9]\d)|(?:[1-9]))"
 """Criteria:
+
 1. Numbers should not start with 0
 2. Numbers should not exceed 3 digits
 3. There are 733 Commonwealth Acts numbered sequentially
@@ -17,6 +19,7 @@ CA_DIGITS = r"(?:(?:[1-7]\d{1,2})|(?:[1-9]\d)|(?:[1-9]))"
 
 ACT_DIGITS = r"(?:(?:[1-4]\d{1,3})|(?:[1-9]\d{1,2})|(?:[1-9]))"
 """Criteria:
+
 1. Numbers should not start with 0
 2. Numbers should not exceed 4 digits
 3. There are 4275 Acts of Congress numbered sequentially
@@ -24,6 +27,7 @@ ACT_DIGITS = r"(?:(?:[1-4]\d{1,3})|(?:[1-9]\d{1,2})|(?:[1-9]))"
 
 BP_DIGITS = r"(?:(?:[1-8]\d{1,2})|(?:[1-9]\d)|(?:[1-9]))"
 """Criteria:
+
 1. Numbers should not start with 0
 2. Numbers should not exceed 3 digits
 3. There are 889 Batas Pambansa
@@ -90,8 +94,9 @@ pds_with_letters = "|".join(
 
 PD_DIGITS = r"(?:(?:[1-2]\d{1,3})|(?:[1-9]\d{1,2})|(?:[1-9]))"
 """Criteria:
+
 1. Numbers should not start with 0
-2. Numbers should not exceed 3 digits
+2. Numbers should not exceed 4 digits but see exceptional suffixes
 3. There are 2036 Presidential Decrees
 """
 

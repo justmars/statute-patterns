@@ -16,7 +16,7 @@ from .recipes import split_digits
 
 
 class NamedPattern(BasePattern):
-    """A`Rule` can be extracted from a `NamedPattern`"""
+    """A [`Rule`][rule-model] can be extracted from a `NamedPattern`"""
 
     name: str
     regex_base: str
@@ -33,7 +33,11 @@ class NamedPattern(BasePattern):
 
 
 class NamedPatternCollection(BaseCollection):
-    """Each named legal title, not falling under the SerialNames Patterns, will also have its own manually crafted regex string. Examples include 'the Spanish Civil Code' or the '1987 Constitution' or the 'Code of Professional Responsibility'."""
+    """Each named legal title, not falling under the SerialNames Patterns,
+    will also have its own manually crafted regex string. Examples include
+    'the Spanish Civil Code' or the '1987 Constitution' or the
+    'Code of Professional Responsibility'.
+    """
 
     collection: list[NamedPattern]
 
@@ -45,30 +49,38 @@ class NamedPatternCollection(BaseCollection):
 
 
 class SerialPattern(BasePattern):
-    """A`Rule` can be extracted from a `SerialPattern`. The word "serial"
+    """A [`Rule`][rule-model] can be extracted from a `SerialPattern`. The word _serial_
     is employed because the documents representing rules are numbered consecutively.
 
-    Each serial pattern refers to a specific category, e.g. `RA`, `CA`, etc.
-    matched with a serial number.
+    Each serial pattern refers to a [`Statute Category`][statute-category-model], e.g. `RA`, `CA`, etc.
+    matched with a [`Serial Identifier`][statute-serial-identifier].
 
-    Unfortunately, the manner that such category can be formatted is varied;
-    thus requiring a combination of regex bases and a possible
-    list of serial numbers.
+    Since a `SerialPattern` inherits from a [BasePattern][base-pattern], it includes other
+    fields declared in the latter model: `matches` and `excludes` bringing the
+    total number of fields to 5, viz.:
 
-    Since the serial number may consist of composite values, this needs
-    to be processed separately as well.
+    Field | Description | Example
+    --:|:--|:--
+    `cat` | [`Statute Category`][statute-category-model] | StatuteSerialCategory.RepublicAct
+    `regex_bases` | How do we pattern the category name? | ["r.a. no.", "Rep. Act. No."]
+    `regex_serials` | What digits are allowed | ["386", "11114"]
+    `matches` | Usable in parametized tests to determine whether the pattern declared matches the samples | ["Republic Act No. 7160", "R.A. 386 and 7160" ]
+    `excludes` | Usable in parametized tests to determine that the full pattern will not match | ["Republic Act No. 7160:", "RA 9337-"]
     """
 
     cat: StatuteSerialCategory = Field(
         ...,
+        title="Statute Serial Category",
         description="A type of rule from the taxonomy enumerated under StatuteSerialCategory.",
     )
     regex_bases: list[str] = Field(
         ...,
+        title="Prefix Label in Regex",
         description="There are too many ways to express a category name. There is a need to generate various regex strings which, when combined with the serial, can qualify for a serial rule.",
     )
     regex_serials: list[str] = Field(
         ...,
+        title="Serial Identifiers in Regex",
         description="The possible values of serial numbers to be matched with the regex_bases.",
     )
 
