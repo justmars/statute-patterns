@@ -726,7 +726,7 @@ a <code>enum.Enum</code> object.</p>
 the Civil Code described above, its <code>serial</code> title is <em>Republic Act No. 386</em> and
 thus can be mapped to the following folder: <code>/statutes/ra/386</code>. We can definitely
 categorize this as an <em>ra</em> with a serial id of <em>386</em>.</p>
-<p>Mapped to its <code>Rule</code>, counterpart we get:</p>
+<p>Mapped to its <a class="autorefs autorefs-internal" href="../api-rule/#rule-model"><code>Rule</code></a>, counterpart we get:</p>
 <table>
 <thead>
 <tr>
@@ -749,7 +749,7 @@ categorize this as an <em>ra</em> with a serial id of <em>386</em>.</p>
 </tbody>
 </table>
 <h4 id="statute_patterns.components.category.StatuteSerialCategory--purpose">Purpose</h4>
-<p>Knowing the path to a rule, we can later extract the rule's contents. (Note however that there can be more than one path since in exceptional cases, the combination of <em>category</em> + <em>serial id</em> does not yield a unique rule.)</p>
+<p>Knowing the path to a rule, we can later extract the rule's contents. (Note however that there can be more than one path since in exceptional cases, the combination of <em>category</em> + <em>serial id</em> <a class="autorefs autorefs-internal" href="../api-rule/#statute_patterns.components.rule.Rule.get_paths">does not yield a unique rule</a>.)</p>
 
 <p><strong>Examples:</strong></p>
     <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">StatuteSerialCategory</span>
@@ -909,7 +909,7 @@ categorize this as an <em>ra</em> with a serial id of <em>386</em>.</p>
 <a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">    thus can be mapped to the following folder: `/statutes/ra/386`. We can definitely</span>
 <a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">    categorize this as an _ra_ with a serial id of _386_.</span>
 <a id="__codelineno-0-29" name="__codelineno-0-29"></a>
-<a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">    Mapped to its `Rule`, counterpart we get:</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">    Mapped to its [`Rule`][rule-model], counterpart we get:</span>
 <a id="__codelineno-0-31" name="__codelineno-0-31"></a>
 <a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">    Field | Value | Description</span>
 <a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">    :--:|:--:|:--</span>
@@ -918,7 +918,7 @@ categorize this as an <em>ra</em> with a serial id of <em>386</em>.</p>
 <a id="__codelineno-0-36" name="__codelineno-0-36"></a>
 <a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">    ## Purpose</span>
 <a id="__codelineno-0-38" name="__codelineno-0-38"></a>
-<a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">    Knowing the path to a rule, we can later extract the rule&#39;s contents. (Note however that there can be more than one path since in exceptional cases, the combination of *category* + *serial id* does not yield a unique rule.)</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">    Knowing the path to a rule, we can later extract the rule&#39;s contents. (Note however that there can be more than one path since in exceptional cases, the combination of *category* + *serial id* [does not yield a unique rule][statute_patterns.components.rule.Rule.get_paths].)</span>
 <a id="__codelineno-0-40" name="__codelineno-0-40"></a>
 <a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">    Examples:</span>
 <a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">        &gt;&gt;&gt; StatuteSerialCategory</span>

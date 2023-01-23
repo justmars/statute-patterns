@@ -347,7 +347,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#statute_patterns.StatuteDetails-functions" class="md-nav__link">
+  <a href="#statute_patterns.components.details.StatuteDetails-functions" class="md-nav__link">
     Functions
   </a>
   
@@ -540,7 +540,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#statute_patterns.StatuteDetails-functions" class="md-nav__link">
+  <a href="#statute_patterns.components.details.StatuteDetails-functions" class="md-nav__link">
     Functions
   </a>
   
@@ -601,8 +601,9 @@
 
   <div class="doc doc-contents first">
   
-      <p>If text contains matching serialized (e.g. Republic Act No. 386)
-and named rules ('the Civil Code of the Philippines'), produce both.</p>
+      <p>If text contains <a class="autorefs autorefs-internal" href="../api-rule-serial/#serial-pattern">serialized</a> (e.g. Republic Act No. 386)
+and <a class="autorefs autorefs-internal" href="../api-rule-named/#named-pattern">named</a> rules ('the Civil Code of the Philippines'), get
+a list of their the canonical <a class="autorefs autorefs-internal" href="../api-rule/#rule-model"><code>Rule</code></a> version.</p>
 
 <p><strong>Examples:</strong></p>
     <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">statute_patterns</span> <span class="kn">import</span> <span class="n">extract_rules</span>
@@ -680,28 +681,30 @@ and named rules ('the Civil Code of the Philippines'), produce both.</p>
 <span class="normal"><a href="#__codelineno-0-27">27</a></span>
 <span class="normal"><a href="#__codelineno-0-28">28</a></span>
 <span class="normal"><a href="#__codelineno-0-29">29</a></span>
-<span class="normal"><a href="#__codelineno-0-30">30</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="k">def</span> <span class="nf">extract_rules</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Rule</span><span class="p">]:</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;If text contains matching serialized (e.g. Republic Act No. 386)</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="sd">    and named rules (&#39;the Civil Code of the Philippines&#39;), produce both.</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="sd">    Examples:</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="sd">        &gt;&gt;&gt; from statute_patterns import extract_rules</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="sd">        &gt;&gt;&gt; text = &quot;The Civil Code of the Philippines, the old Spanish Civil Code; Rep Act No. 386&quot;</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="sd">        &gt;&gt;&gt; list(extract_rules(text)) # get all rules</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="sd">        [</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="sd">            Rule(cat=&#39;ra&#39;, id=&#39;386&#39;),</span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="k">def</span> <span class="nf">extract_rules</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Rule</span><span class="p">]:</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;If text contains [serialized][serial-pattern] (e.g. Republic Act No. 386)</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="sd">    and [named][named-pattern] rules (&#39;the Civil Code of the Philippines&#39;), get</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="sd">    a list of their the canonical [`Rule`][rule-model] version.</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13"></a>
+<a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="sd">    Examples:</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="sd">        &gt;&gt;&gt; from statute_patterns import extract_rules</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="sd">        &gt;&gt;&gt; text = &quot;The Civil Code of the Philippines, the old Spanish Civil Code; Rep Act No. 386&quot;</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="sd">        &gt;&gt;&gt; list(extract_rules(text)) # get all rules</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="sd">        [</span>
 <a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">            Rule(cat=&#39;ra&#39;, id=&#39;386&#39;),</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">            Rule(cat=&#39;spain&#39;, id=&#39;civil&#39;)</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">        ]</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22"></a>
-<a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">    Args:</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">        text (str): Text to search for statute patterns.</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25"></a>
-<a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="sd">    Yields:</span>
-<a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">        Iterator[Rule]: Serialized Rules and Named Rule patterns</span>
-<a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-29" name="__codelineno-0-29"></a>    <span class="k">yield from</span> <span class="n">SerializedRules</span><span class="o">.</span><span class="n">extract_rules</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-<a id="__codelineno-0-30" name="__codelineno-0-30"></a>    <span class="k">yield from</span> <span class="n">NamedRules</span><span class="o">.</span><span class="n">extract_rules</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">            Rule(cat=&#39;ra&#39;, id=&#39;386&#39;),</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">            Rule(cat=&#39;spain&#39;, id=&#39;civil&#39;)</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">        ]</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23"></a>
+<a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">    Args:</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="sd">        text (str): Text to search for statute patterns.</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26"></a>
+<a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">    Yields:</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">        Iterator[Rule]: Serialized Rules and Named Rule patterns</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30"></a>    <span class="k">yield from</span> <span class="n">SerializedRules</span><span class="o">.</span><span class="n">extract_rules</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="k">yield from</span> <span class="n">NamedRules</span><span class="o">.</span><span class="n">extract_rules</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
       </details>
   </div>
@@ -715,8 +718,8 @@ and named rules ('the Civil Code of the Philippines'), produce both.</p>
 
   <div class="doc doc-contents first">
   
-      <p>Thin wrapper over <code>extract_rules()</code>. If text contains a
-matching rule, get the first rule found.</p>
+      <p>Thin wrapper over <a class="autorefs autorefs-internal" href="#extract-rules"><code>extract_rules()</code></a>. If text contains a
+matching <a class="autorefs autorefs-internal" href="../api-rule/#rule-model"><code>Rule</code></a>, get the first found.</p>
 
 <p><strong>Examples:</strong></p>
     <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">statute_patterns</span> <span class="kn">import</span> <span class="n">extract_rule</span>
@@ -762,15 +765,14 @@ matching rule, get the first rule found.</p>
           <td>
                 <code><span title="statute_patterns.components.Rule">Rule</span> | None</code>
           </td>
-          <td><p>Rule | None: The first serialized rule or named rule found, if it exists</p></td>
+          <td><p>Rule | None: The first Rule found, if it exists</p></td>
         </tr>
     </tbody>
   </table>
 
       <details class="quote">
         <summary>Source code in <code>statute_patterns/__main__.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-33">33</a></span>
-<span class="normal"><a href="#__codelineno-0-34">34</a></span>
+        <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-34">34</a></span>
 <span class="normal"><a href="#__codelineno-0-35">35</a></span>
 <span class="normal"><a href="#__codelineno-0-36">36</a></span>
 <span class="normal"><a href="#__codelineno-0-37">37</a></span>
@@ -788,26 +790,27 @@ matching rule, get the first rule found.</p>
 <span class="normal"><a href="#__codelineno-0-49">49</a></span>
 <span class="normal"><a href="#__codelineno-0-50">50</a></span>
 <span class="normal"><a href="#__codelineno-0-51">51</a></span>
-<span class="normal"><a href="#__codelineno-0-52">52</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="k">def</span> <span class="nf">extract_rule</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rule</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Thin wrapper over `extract_rules()`. If text contains a</span>
-<a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">    matching rule, get the first rule found.</span>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a>
-<a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">    Examples:</span>
-<a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">        &gt;&gt;&gt; from statute_patterns import extract_rule</span>
-<a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">        &gt;&gt;&gt; text = &quot;The Civil Code of the Philippines, the old Spanish Civil Code; Rep Act No. 386&quot;</span>
-<a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">        &gt;&gt;&gt; extract_rule(text)  # get the first matching rule</span>
-<a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">        Rule(cat=&#39;ra&#39;, id=&#39;386&#39;)</span>
-<a id="__codelineno-0-42" name="__codelineno-0-42"></a>
-<a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">    Args:</span>
-<a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">        text (str): Text to search for statute patterns.</span>
-<a id="__codelineno-0-45" name="__codelineno-0-45"></a>
-<a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">    Returns:</span>
-<a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">        Rule | None: The first serialized rule or named rule found, if it exists</span>
-<a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-0-50" name="__codelineno-0-50"></a>        <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="n">extract_rules</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-<a id="__codelineno-0-51" name="__codelineno-0-51"></a>    <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
-<a id="__codelineno-0-52" name="__codelineno-0-52"></a>        <span class="k">return</span> <span class="kc">None</span>
+<span class="normal"><a href="#__codelineno-0-52">52</a></span>
+<span class="normal"><a href="#__codelineno-0-53">53</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="k">def</span> <span class="nf">extract_rule</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rule</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Thin wrapper over [`extract_rules()`][extract-rules]. If text contains a</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">    matching [`Rule`][rule-model], get the first found.</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37"></a>
+<a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">    Examples:</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">        &gt;&gt;&gt; from statute_patterns import extract_rule</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">        &gt;&gt;&gt; text = &quot;The Civil Code of the Philippines, the old Spanish Civil Code; Rep Act No. 386&quot;</span>
+<a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">        &gt;&gt;&gt; extract_rule(text)  # get the first matching rule</span>
+<a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">        Rule(cat=&#39;ra&#39;, id=&#39;386&#39;)</span>
+<a id="__codelineno-0-43" name="__codelineno-0-43"></a>
+<a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">    Args:</span>
+<a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">        text (str): Text to search for statute patterns.</span>
+<a id="__codelineno-0-46" name="__codelineno-0-46"></a>
+<a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">    Returns:</span>
+<a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="sd">        Rule | None: The first Rule found, if it exists</span>
+<a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-0-51" name="__codelineno-0-51"></a>        <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="n">extract_rules</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+<a id="__codelineno-0-52" name="__codelineno-0-52"></a>    <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+<a id="__codelineno-0-53" name="__codelineno-0-53"></a>        <span class="k">return</span> <span class="kc">None</span>
 </code></pre></div></td></tr></table></div>
       </details>
   </div>
@@ -821,7 +824,8 @@ matching rule, get the first rule found.</p>
 
   <div class="doc doc-contents first">
   
-      <p>Based on results from <code>extract_rules(text)</code>, get the count of each unique rule found.</p>
+      <p>Based on results from <a class="autorefs autorefs-internal" href="#extract-rules"><code>extract_rules()</code></a>,
+get the count of each unique rule found.</p>
 
 <p><strong>Examples:</strong></p>
     <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">statute_patterns</span> <span class="kn">import</span> <span class="n">count_rules</span>
@@ -835,8 +839,7 @@ matching rule, get the first rule found.</p>
 
       <details class="quote">
         <summary>Source code in <code>statute_patterns/__main__.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-55">55</a></span>
-<span class="normal"><a href="#__codelineno-0-56">56</a></span>
+        <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-56">56</a></span>
 <span class="normal"><a href="#__codelineno-0-57">57</a></span>
 <span class="normal"><a href="#__codelineno-0-58">58</a></span>
 <span class="normal"><a href="#__codelineno-0-59">59</a></span>
@@ -848,20 +851,23 @@ matching rule, get the first rule found.</p>
 <span class="normal"><a href="#__codelineno-0-65">65</a></span>
 <span class="normal"><a href="#__codelineno-0-66">66</a></span>
 <span class="normal"><a href="#__codelineno-0-67">67</a></span>
-<span class="normal"><a href="#__codelineno-0-68">68</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="k">def</span> <span class="nf">count_rules</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
-<a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Based on results from `extract_rules(text)`, get the count of each unique rule found.</span>
-<a id="__codelineno-0-57" name="__codelineno-0-57"></a>
-<a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">    Examples:</span>
-<a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="sd">        &gt;&gt;&gt; from statute_patterns import count_rules</span>
-<a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="sd">        &gt;&gt;&gt; text = &quot;The Civil Code of the Philippines, the old Spanish Civil Code; Rep Act No. 386&quot;</span>
-<a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="sd">        &gt;&gt;&gt; list(count_rules(text)): # get unique rules with counts</span>
-<a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="sd">        [</span>
-<a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="sd">            {&#39;cat&#39;: &#39;ra&#39;, &#39;id&#39;: &#39;386&#39;, &#39;mentions&#39;: 2},</span>
-<a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="sd">            {&#39;cat&#39;: &#39;spain&#39;, &#39;id&#39;: &#39;civil&#39;, &#39;mentions&#39;: 1}</span>
-<a id="__codelineno-0-65" name="__codelineno-0-65"></a><span class="sd">        ]</span>
-<a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-67" name="__codelineno-0-67"></a>    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">Counter</span><span class="p">(</span><span class="n">extract_rules</span><span class="p">(</span><span class="n">text</span><span class="p">))</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<a id="__codelineno-0-68" name="__codelineno-0-68"></a>        <span class="k">yield</span> <span class="n">k</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;mentions&quot;</span><span class="p">:</span> <span class="n">v</span><span class="p">}</span>
+<span class="normal"><a href="#__codelineno-0-68">68</a></span>
+<span class="normal"><a href="#__codelineno-0-69">69</a></span>
+<span class="normal"><a href="#__codelineno-0-70">70</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="k">def</span> <span class="nf">count_rules</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Based on results from [`extract_rules()`][extract-rules],</span>
+<a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">    get the count of each unique rule found.</span>
+<a id="__codelineno-0-59" name="__codelineno-0-59"></a>
+<a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="sd">    Examples:</span>
+<a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="sd">        &gt;&gt;&gt; from statute_patterns import count_rules</span>
+<a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="sd">        &gt;&gt;&gt; text = &quot;The Civil Code of the Philippines, the old Spanish Civil Code; Rep Act No. 386&quot;</span>
+<a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="sd">        &gt;&gt;&gt; list(count_rules(text)): # get unique rules with counts</span>
+<a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="sd">        [</span>
+<a id="__codelineno-0-65" name="__codelineno-0-65"></a><span class="sd">            {&#39;cat&#39;: &#39;ra&#39;, &#39;id&#39;: &#39;386&#39;, &#39;mentions&#39;: 2},</span>
+<a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="sd">            {&#39;cat&#39;: &#39;spain&#39;, &#39;id&#39;: &#39;civil&#39;, &#39;mentions&#39;: 1}</span>
+<a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="sd">        ]</span>
+<a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-69" name="__codelineno-0-69"></a>    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">Counter</span><span class="p">(</span><span class="n">extract_rules</span><span class="p">(</span><span class="n">text</span><span class="p">))</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a id="__codelineno-0-70" name="__codelineno-0-70"></a>        <span class="k">yield</span> <span class="n">k</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;mentions&quot;</span><span class="p">:</span> <span class="n">v</span><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
       </details>
   </div>
@@ -880,9 +886,36 @@ matching rule, get the first rule found.</p>
         Bases: <code><span title="pydantic.BaseModel">BaseModel</span></code></p>
 
   
-      <p>Based on a <code>Rule</code> object, obtain details loaded from files found in a
-Rule's proper path; the <code>description</code> field is relevant as the source
-material for the statute's serial title.</p>
+      <p>A <code>StatuteDetails</code> object presupposes the existence of a <a class="autorefs autorefs-internal" href="../api-rule/#rule-model"><code>Rule</code></a> object.</p>
+<p>After all, it's only when there's a valid path to a <a class="autorefs autorefs-internal" href="../api-rule/#rule-model"><code>Rule</code></a> that the details
+and provisions of that rule can be extracted. Some notable fields
+are described below:</p>
+<table>
+<thead>
+<tr>
+<th align="center">Field</th>
+<th align="center">Type</th>
+<th align="center">Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">rule</td>
+<td align="center"><a class="autorefs autorefs-internal" href="../api-rule/#rule-model"><code>Rule</code></a></td>
+<td align="center">How we source the path</td>
+</tr>
+<tr>
+<td align="center">title</td>
+<td align="center">str</td>
+<td align="center">The statute's serial title, e.g. Republic Act No. 386</td>
+</tr>
+<tr>
+<td align="center">description</td>
+<td align="center">str</td>
+<td align="center">The statute's official title, e.g. An Act to...</td>
+</tr>
+</tbody>
+</table>
 
 
         <details class="quote">
@@ -959,79 +992,95 @@ material for the statute's serial title.</p>
 <span class="normal"><a href="#__codelineno-0-84">84</a></span>
 <span class="normal"><a href="#__codelineno-0-85">85</a></span>
 <span class="normal"><a href="#__codelineno-0-86">86</a></span>
-<span class="normal"><a href="#__codelineno-0-87">87</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="k">class</span> <span class="nc">StatuteDetails</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-87">87</a></span>
+<span class="normal"><a href="#__codelineno-0-88">88</a></span>
+<span class="normal"><a href="#__codelineno-0-89">89</a></span>
+<span class="normal"><a href="#__codelineno-0-90">90</a></span>
+<span class="normal"><a href="#__codelineno-0-91">91</a></span>
+<span class="normal"><a href="#__codelineno-0-92">92</a></span>
+<span class="normal"><a href="#__codelineno-0-93">93</a></span>
+<span class="normal"><a href="#__codelineno-0-94">94</a></span>
+<span class="normal"><a href="#__codelineno-0-95">95</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="k">class</span> <span class="nc">StatuteDetails</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="sd">    Based on a `Rule` object, obtain details loaded from files found in a</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="sd">    Rule&#39;s proper path; the `description` field is relevant as the source</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">    material for the statute&#39;s serial title.</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21"></a>
-<a id="__codelineno-0-22" name="__codelineno-0-22"></a>    <span class="n">created</span><span class="p">:</span> <span class="nb">float</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23"></a>    <span class="n">modified</span><span class="p">:</span> <span class="nb">float</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24"></a>    <span class="n">rule</span><span class="p">:</span> <span class="n">Rule</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25"></a>    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
-<a id="__codelineno-0-26" name="__codelineno-0-26"></a>    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
-<a id="__codelineno-0-27" name="__codelineno-0-27"></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
-<a id="__codelineno-0-28" name="__codelineno-0-28"></a>    <span class="n">emails</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">EmailStr</span><span class="p">]</span>
-<a id="__codelineno-0-29" name="__codelineno-0-29"></a>    <span class="n">date</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span>
-<a id="__codelineno-0-30" name="__codelineno-0-30"></a>    <span class="n">variant</span><span class="p">:</span> <span class="nb">int</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="n">titles</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">StatuteTitle</span><span class="p">]</span>
-<a id="__codelineno-0-32" name="__codelineno-0-32"></a>    <span class="n">units</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span>
-<a id="__codelineno-0-33" name="__codelineno-0-33"></a>
-<a id="__codelineno-0-34" name="__codelineno-0-34"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-35" name="__codelineno-0-35"></a>    <span class="k">def</span> <span class="nf">slug_id</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">):</span>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Use the path&#39;s parameters with the date and variant, to</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">        create a slug that can serve as the url / primary key of the</span>
-<a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">        statute.&quot;&quot;&quot;</span>
-<a id="__codelineno-0-39" name="__codelineno-0-39"></a>        <span class="n">_temp</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span> <span class="n">dt</span><span class="p">]</span>
-<a id="__codelineno-0-40" name="__codelineno-0-40"></a>        <span class="k">if</span> <span class="n">v</span><span class="p">:</span>
-<a id="__codelineno-0-41" name="__codelineno-0-41"></a>            <span class="n">_temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
-<a id="__codelineno-0-42" name="__codelineno-0-42"></a>        <span class="k">return</span> <span class="n">slugify</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_temp</span><span class="p">))</span>
-<a id="__codelineno-0-43" name="__codelineno-0-43"></a>
-<a id="__codelineno-0-44" name="__codelineno-0-44"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-45" name="__codelineno-0-45"></a>    <span class="k">def</span> <span class="nf">from_rule</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">rule</span><span class="p">:</span> <span class="n">Rule</span><span class="p">,</span> <span class="n">base_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">STATUTE_PATH</span><span class="p">):</span>
-<a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;From a constructed rule (see `Rule.from_path()`), get the</span>
-<a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">        details of said rule.  Limitation: the category and identifier must</span>
-<a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="sd">        be unique.&quot;&quot;&quot;</span>
-<a id="__codelineno-0-49" name="__codelineno-0-49"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">base_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-<a id="__codelineno-0-50" name="__codelineno-0-50"></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not get proper </span><span class="si">{</span><span class="n">base_path</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="sd">    A `StatuteDetails` object presupposes the existence of a [`Rule`][rule-model] object.</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18"></a>
+<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">    After all, it&#39;s only when there&#39;s a valid path to a [`Rule`][rule-model] that the details</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">    and provisions of that rule can be extracted. Some notable fields</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">    are described below:</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22"></a>
+<a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">    Field | Type | Function</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">    :--:|:--:|:--:</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="sd">    rule | [`Rule`][rule-model] | How we source the path</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="sd">    title | str | The statute&#39;s serial title, e.g. Republic Act No. 386</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">    description | str | The statute&#39;s official title, e.g. An Act to...</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29"></a>
+<a id="__codelineno-0-30" name="__codelineno-0-30"></a>    <span class="n">created</span><span class="p">:</span> <span class="nb">float</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="n">modified</span><span class="p">:</span> <span class="nb">float</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32"></a>    <span class="n">rule</span><span class="p">:</span> <span class="n">Rule</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33"></a>    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34"></a>    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35"></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="n">emails</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">EmailStr</span><span class="p">]</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37"></a>    <span class="n">date</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38"></a>    <span class="n">variant</span><span class="p">:</span> <span class="nb">int</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39"></a>    <span class="n">titles</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">StatuteTitle</span><span class="p">]</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40"></a>    <span class="n">units</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span>
+<a id="__codelineno-0-41" name="__codelineno-0-41"></a>
+<a id="__codelineno-0-42" name="__codelineno-0-42"></a>    <span class="nd">@classmethod</span>
+<a id="__codelineno-0-43" name="__codelineno-0-43"></a>    <span class="k">def</span> <span class="nf">slug_id</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">):</span>
+<a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Use the path&#39;s parameters with the date and variant, to</span>
+<a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">        create a slug that can serve as the url / primary key of the</span>
+<a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">        statute.&quot;&quot;&quot;</span>
+<a id="__codelineno-0-47" name="__codelineno-0-47"></a>        <span class="n">_temp</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span> <span class="n">dt</span><span class="p">]</span>
+<a id="__codelineno-0-48" name="__codelineno-0-48"></a>        <span class="k">if</span> <span class="n">v</span><span class="p">:</span>
+<a id="__codelineno-0-49" name="__codelineno-0-49"></a>            <span class="n">_temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50"></a>        <span class="k">return</span> <span class="n">slugify</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_temp</span><span class="p">))</span>
 <a id="__codelineno-0-51" name="__codelineno-0-51"></a>
-<a id="__codelineno-0-52" name="__codelineno-0-52"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">rule</span><span class="o">.</span><span class="n">serial_title</span><span class="p">:</span>
-<a id="__codelineno-0-53" name="__codelineno-0-53"></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No serial title created.&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-54" name="__codelineno-0-54"></a>
-<a id="__codelineno-0-55" name="__codelineno-0-55"></a>        <span class="n">_file</span> <span class="o">=</span> <span class="kc">None</span>
-<a id="__codelineno-0-56" name="__codelineno-0-56"></a>        <span class="k">if</span> <span class="n">folder</span> <span class="o">:=</span> <span class="n">rule</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="n">base_path</span><span class="p">):</span>
-<a id="__codelineno-0-57" name="__codelineno-0-57"></a>            <span class="n">_file</span> <span class="o">=</span> <span class="n">folder</span> <span class="o">/</span> <span class="n">DETAILS_FILE</span>
-<a id="__codelineno-0-58" name="__codelineno-0-58"></a>
-<a id="__codelineno-0-59" name="__codelineno-0-59"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">_file</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-<a id="__codelineno-0-60" name="__codelineno-0-60"></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No _file found from </span><span class="si">{</span><span class="n">folder</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">base_path</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-61" name="__codelineno-0-61"></a>
-<a id="__codelineno-0-62" name="__codelineno-0-62"></a>        <span class="n">d</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">_file</span><span class="o">.</span><span class="n">read_bytes</span><span class="p">())</span>
-<a id="__codelineno-0-63" name="__codelineno-0-63"></a>        <span class="n">dt</span><span class="p">,</span> <span class="n">ofc_title</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">),</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;law_title&quot;</span><span class="p">),</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;variant&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-64" name="__codelineno-0-64"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">([</span><span class="n">ofc_title</span><span class="p">,</span> <span class="n">dt</span><span class="p">]):</span>
-<a id="__codelineno-0-65" name="__codelineno-0-65"></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fail on: </span><span class="si">{</span><span class="n">dt</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">ofc_title</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">v</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-66" name="__codelineno-0-66"></a>        <span class="n">units</span> <span class="o">=</span> <span class="n">set_units</span><span class="p">(</span><span class="n">ofc_title</span><span class="p">,</span> <span class="n">rule</span><span class="o">.</span><span class="n">units_path</span><span class="p">(</span><span class="n">_file</span><span class="o">.</span><span class="n">parent</span><span class="p">))</span>
-<a id="__codelineno-0-67" name="__codelineno-0-67"></a>        <span class="n">idx</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">slug_id</span><span class="p">(</span><span class="n">_file</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
-<a id="__codelineno-0-68" name="__codelineno-0-68"></a>        <span class="n">titles</span> <span class="o">=</span> <span class="n">StatuteTitle</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
-<a id="__codelineno-0-69" name="__codelineno-0-69"></a>            <span class="n">pk</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span>
-<a id="__codelineno-0-70" name="__codelineno-0-70"></a>            <span class="n">official</span><span class="o">=</span><span class="n">ofc_title</span><span class="p">,</span>
-<a id="__codelineno-0-71" name="__codelineno-0-71"></a>            <span class="n">serial</span><span class="o">=</span><span class="n">rule</span><span class="o">.</span><span class="n">serial_title</span><span class="p">,</span>
-<a id="__codelineno-0-72" name="__codelineno-0-72"></a>            <span class="n">short</span><span class="o">=</span><span class="n">get_short</span><span class="p">(</span><span class="n">units</span><span class="p">),</span>
-<a id="__codelineno-0-73" name="__codelineno-0-73"></a>            <span class="n">aliases</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;aliases&quot;</span><span class="p">),</span>
-<a id="__codelineno-0-74" name="__codelineno-0-74"></a>        <span class="p">)</span>
-<a id="__codelineno-0-75" name="__codelineno-0-75"></a>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
-<a id="__codelineno-0-76" name="__codelineno-0-76"></a>            <span class="n">created</span><span class="o">=</span><span class="n">_file</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_ctime</span><span class="p">,</span>
-<a id="__codelineno-0-77" name="__codelineno-0-77"></a>            <span class="n">modified</span><span class="o">=</span><span class="n">_file</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_mtime</span><span class="p">,</span>
-<a id="__codelineno-0-78" name="__codelineno-0-78"></a>            <span class="n">rule</span><span class="o">=</span><span class="n">rule</span><span class="p">,</span>
-<a id="__codelineno-0-79" name="__codelineno-0-79"></a>            <span class="nb">id</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span>
-<a id="__codelineno-0-80" name="__codelineno-0-80"></a>            <span class="n">title</span><span class="o">=</span><span class="n">rule</span><span class="o">.</span><span class="n">serial_title</span><span class="p">,</span>
-<a id="__codelineno-0-81" name="__codelineno-0-81"></a>            <span class="n">description</span><span class="o">=</span><span class="n">ofc_title</span><span class="p">,</span>
-<a id="__codelineno-0-82" name="__codelineno-0-82"></a>            <span class="n">emails</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;emails&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;bot@lawsql.com&quot;</span><span class="p">]),</span>  <span class="c1"># default to generic</span>
-<a id="__codelineno-0-83" name="__codelineno-0-83"></a>            <span class="n">date</span><span class="o">=</span><span class="n">parse</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">date</span><span class="p">(),</span>
-<a id="__codelineno-0-84" name="__codelineno-0-84"></a>            <span class="n">variant</span><span class="o">=</span><span class="n">v</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># default to 1</span>
-<a id="__codelineno-0-85" name="__codelineno-0-85"></a>            <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">,</span>
-<a id="__codelineno-0-86" name="__codelineno-0-86"></a>            <span class="n">titles</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">titles</span><span class="p">),</span>
-<a id="__codelineno-0-87" name="__codelineno-0-87"></a>        <span class="p">)</span>
+<a id="__codelineno-0-52" name="__codelineno-0-52"></a>    <span class="nd">@classmethod</span>
+<a id="__codelineno-0-53" name="__codelineno-0-53"></a>    <span class="k">def</span> <span class="nf">from_rule</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">rule</span><span class="p">:</span> <span class="n">Rule</span><span class="p">,</span> <span class="n">base_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">STATUTE_PATH</span><span class="p">):</span>
+<a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;From a constructed rule (see [`Rule.from_path`][statute_patterns.components.rule.Rule.from_path]), get the</span>
+<a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="sd">        details of said rule.  Limitation: the category and identifier must</span>
+<a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="sd">        be unique.&quot;&quot;&quot;</span>
+<a id="__codelineno-0-57" name="__codelineno-0-57"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">base_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+<a id="__codelineno-0-58" name="__codelineno-0-58"></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not get proper </span><span class="si">{</span><span class="n">base_path</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-59" name="__codelineno-0-59"></a>
+<a id="__codelineno-0-60" name="__codelineno-0-60"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">rule</span><span class="o">.</span><span class="n">serial_title</span><span class="p">:</span>
+<a id="__codelineno-0-61" name="__codelineno-0-61"></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No serial title created.&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-62" name="__codelineno-0-62"></a>
+<a id="__codelineno-0-63" name="__codelineno-0-63"></a>        <span class="n">_file</span> <span class="o">=</span> <span class="kc">None</span>
+<a id="__codelineno-0-64" name="__codelineno-0-64"></a>        <span class="k">if</span> <span class="n">folder</span> <span class="o">:=</span> <span class="n">rule</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="n">base_path</span><span class="p">):</span>
+<a id="__codelineno-0-65" name="__codelineno-0-65"></a>            <span class="n">_file</span> <span class="o">=</span> <span class="n">folder</span> <span class="o">/</span> <span class="n">DETAILS_FILE</span>
+<a id="__codelineno-0-66" name="__codelineno-0-66"></a>
+<a id="__codelineno-0-67" name="__codelineno-0-67"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">_file</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+<a id="__codelineno-0-68" name="__codelineno-0-68"></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No _file found from </span><span class="si">{</span><span class="n">folder</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">base_path</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-69" name="__codelineno-0-69"></a>
+<a id="__codelineno-0-70" name="__codelineno-0-70"></a>        <span class="n">d</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">_file</span><span class="o">.</span><span class="n">read_bytes</span><span class="p">())</span>
+<a id="__codelineno-0-71" name="__codelineno-0-71"></a>        <span class="n">dt</span><span class="p">,</span> <span class="n">ofc_title</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">),</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;law_title&quot;</span><span class="p">),</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;variant&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-72" name="__codelineno-0-72"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">([</span><span class="n">ofc_title</span><span class="p">,</span> <span class="n">dt</span><span class="p">]):</span>
+<a id="__codelineno-0-73" name="__codelineno-0-73"></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fail on: </span><span class="si">{</span><span class="n">dt</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">ofc_title</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">v</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-74" name="__codelineno-0-74"></a>        <span class="n">units</span> <span class="o">=</span> <span class="n">set_units</span><span class="p">(</span><span class="n">ofc_title</span><span class="p">,</span> <span class="n">rule</span><span class="o">.</span><span class="n">units_path</span><span class="p">(</span><span class="n">_file</span><span class="o">.</span><span class="n">parent</span><span class="p">))</span>
+<a id="__codelineno-0-75" name="__codelineno-0-75"></a>        <span class="n">idx</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">slug_id</span><span class="p">(</span><span class="n">_file</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+<a id="__codelineno-0-76" name="__codelineno-0-76"></a>        <span class="n">titles</span> <span class="o">=</span> <span class="n">StatuteTitle</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+<a id="__codelineno-0-77" name="__codelineno-0-77"></a>            <span class="n">pk</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span>
+<a id="__codelineno-0-78" name="__codelineno-0-78"></a>            <span class="n">official</span><span class="o">=</span><span class="n">ofc_title</span><span class="p">,</span>
+<a id="__codelineno-0-79" name="__codelineno-0-79"></a>            <span class="n">serial</span><span class="o">=</span><span class="n">rule</span><span class="o">.</span><span class="n">serial_title</span><span class="p">,</span>
+<a id="__codelineno-0-80" name="__codelineno-0-80"></a>            <span class="n">short</span><span class="o">=</span><span class="n">get_short</span><span class="p">(</span><span class="n">units</span><span class="p">),</span>
+<a id="__codelineno-0-81" name="__codelineno-0-81"></a>            <span class="n">aliases</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;aliases&quot;</span><span class="p">),</span>
+<a id="__codelineno-0-82" name="__codelineno-0-82"></a>        <span class="p">)</span>
+<a id="__codelineno-0-83" name="__codelineno-0-83"></a>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+<a id="__codelineno-0-84" name="__codelineno-0-84"></a>            <span class="n">created</span><span class="o">=</span><span class="n">_file</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_ctime</span><span class="p">,</span>
+<a id="__codelineno-0-85" name="__codelineno-0-85"></a>            <span class="n">modified</span><span class="o">=</span><span class="n">_file</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_mtime</span><span class="p">,</span>
+<a id="__codelineno-0-86" name="__codelineno-0-86"></a>            <span class="n">rule</span><span class="o">=</span><span class="n">rule</span><span class="p">,</span>
+<a id="__codelineno-0-87" name="__codelineno-0-87"></a>            <span class="nb">id</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span>
+<a id="__codelineno-0-88" name="__codelineno-0-88"></a>            <span class="n">title</span><span class="o">=</span><span class="n">rule</span><span class="o">.</span><span class="n">serial_title</span><span class="p">,</span>
+<a id="__codelineno-0-89" name="__codelineno-0-89"></a>            <span class="n">description</span><span class="o">=</span><span class="n">ofc_title</span><span class="p">,</span>
+<a id="__codelineno-0-90" name="__codelineno-0-90"></a>            <span class="n">emails</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;emails&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;bot@lawsql.com&quot;</span><span class="p">]),</span>  <span class="c1"># default to generic</span>
+<a id="__codelineno-0-91" name="__codelineno-0-91"></a>            <span class="n">date</span><span class="o">=</span><span class="n">parse</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">date</span><span class="p">(),</span>
+<a id="__codelineno-0-92" name="__codelineno-0-92"></a>            <span class="n">variant</span><span class="o">=</span><span class="n">v</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># default to 1</span>
+<a id="__codelineno-0-93" name="__codelineno-0-93"></a>            <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">,</span>
+<a id="__codelineno-0-94" name="__codelineno-0-94"></a>            <span class="n">titles</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">titles</span><span class="p">),</span>
+<a id="__codelineno-0-95" name="__codelineno-0-95"></a>        <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
         </details>
 
@@ -1045,7 +1094,7 @@ material for the statute's serial title.</p>
 
 
 
-<h3 id="statute_patterns.StatuteDetails-functions">Functions</h3>
+<h3 id="statute_patterns.components.details.StatuteDetails-functions">Functions</h3>
 
 <div class="doc doc-object doc-function">
 
@@ -1063,21 +1112,13 @@ material for the statute's serial title.</p>
 
   <div class="doc doc-contents ">
   
-      <p>From a constructed rule (see <code>Rule.from_path()</code>), get the
+      <p>From a constructed rule (see <a class="autorefs autorefs-internal" href="../api-rule/#statute_patterns.components.rule.Rule.from_path"><code>Rule.from_path</code></a>), get the
 details of said rule.  Limitation: the category and identifier must
 be unique.</p>
 
       <details class="quote">
         <summary>Source code in <code>statute_patterns/components/details.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-44">44</a></span>
-<span class="normal"><a href="#__codelineno-0-45">45</a></span>
-<span class="normal"><a href="#__codelineno-0-46">46</a></span>
-<span class="normal"><a href="#__codelineno-0-47">47</a></span>
-<span class="normal"><a href="#__codelineno-0-48">48</a></span>
-<span class="normal"><a href="#__codelineno-0-49">49</a></span>
-<span class="normal"><a href="#__codelineno-0-50">50</a></span>
-<span class="normal"><a href="#__codelineno-0-51">51</a></span>
-<span class="normal"><a href="#__codelineno-0-52">52</a></span>
+        <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-52">52</a></span>
 <span class="normal"><a href="#__codelineno-0-53">53</a></span>
 <span class="normal"><a href="#__codelineno-0-54">54</a></span>
 <span class="normal"><a href="#__codelineno-0-55">55</a></span>
@@ -1112,50 +1153,58 @@ be unique.</p>
 <span class="normal"><a href="#__codelineno-0-84">84</a></span>
 <span class="normal"><a href="#__codelineno-0-85">85</a></span>
 <span class="normal"><a href="#__codelineno-0-86">86</a></span>
-<span class="normal"><a href="#__codelineno-0-87">87</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="k">def</span> <span class="nf">from_rule</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">rule</span><span class="p">:</span> <span class="n">Rule</span><span class="p">,</span> <span class="n">base_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">STATUTE_PATH</span><span class="p">):</span>
-<a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;From a constructed rule (see `Rule.from_path()`), get the</span>
-<a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">    details of said rule.  Limitation: the category and identifier must</span>
-<a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="sd">    be unique.&quot;&quot;&quot;</span>
-<a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">base_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-<a id="__codelineno-0-50" name="__codelineno-0-50"></a>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not get proper </span><span class="si">{</span><span class="n">base_path</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-51" name="__codelineno-0-51"></a>
-<a id="__codelineno-0-52" name="__codelineno-0-52"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">rule</span><span class="o">.</span><span class="n">serial_title</span><span class="p">:</span>
-<a id="__codelineno-0-53" name="__codelineno-0-53"></a>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No serial title created.&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-54" name="__codelineno-0-54"></a>
-<a id="__codelineno-0-55" name="__codelineno-0-55"></a>    <span class="n">_file</span> <span class="o">=</span> <span class="kc">None</span>
-<a id="__codelineno-0-56" name="__codelineno-0-56"></a>    <span class="k">if</span> <span class="n">folder</span> <span class="o">:=</span> <span class="n">rule</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="n">base_path</span><span class="p">):</span>
-<a id="__codelineno-0-57" name="__codelineno-0-57"></a>        <span class="n">_file</span> <span class="o">=</span> <span class="n">folder</span> <span class="o">/</span> <span class="n">DETAILS_FILE</span>
-<a id="__codelineno-0-58" name="__codelineno-0-58"></a>
-<a id="__codelineno-0-59" name="__codelineno-0-59"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">_file</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-<a id="__codelineno-0-60" name="__codelineno-0-60"></a>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No _file found from </span><span class="si">{</span><span class="n">folder</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">base_path</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-61" name="__codelineno-0-61"></a>
-<a id="__codelineno-0-62" name="__codelineno-0-62"></a>    <span class="n">d</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">_file</span><span class="o">.</span><span class="n">read_bytes</span><span class="p">())</span>
-<a id="__codelineno-0-63" name="__codelineno-0-63"></a>    <span class="n">dt</span><span class="p">,</span> <span class="n">ofc_title</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">),</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;law_title&quot;</span><span class="p">),</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;variant&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-64" name="__codelineno-0-64"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">([</span><span class="n">ofc_title</span><span class="p">,</span> <span class="n">dt</span><span class="p">]):</span>
-<a id="__codelineno-0-65" name="__codelineno-0-65"></a>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fail on: </span><span class="si">{</span><span class="n">dt</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">ofc_title</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">v</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-66" name="__codelineno-0-66"></a>    <span class="n">units</span> <span class="o">=</span> <span class="n">set_units</span><span class="p">(</span><span class="n">ofc_title</span><span class="p">,</span> <span class="n">rule</span><span class="o">.</span><span class="n">units_path</span><span class="p">(</span><span class="n">_file</span><span class="o">.</span><span class="n">parent</span><span class="p">))</span>
-<a id="__codelineno-0-67" name="__codelineno-0-67"></a>    <span class="n">idx</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">slug_id</span><span class="p">(</span><span class="n">_file</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
-<a id="__codelineno-0-68" name="__codelineno-0-68"></a>    <span class="n">titles</span> <span class="o">=</span> <span class="n">StatuteTitle</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
-<a id="__codelineno-0-69" name="__codelineno-0-69"></a>        <span class="n">pk</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span>
-<a id="__codelineno-0-70" name="__codelineno-0-70"></a>        <span class="n">official</span><span class="o">=</span><span class="n">ofc_title</span><span class="p">,</span>
-<a id="__codelineno-0-71" name="__codelineno-0-71"></a>        <span class="n">serial</span><span class="o">=</span><span class="n">rule</span><span class="o">.</span><span class="n">serial_title</span><span class="p">,</span>
-<a id="__codelineno-0-72" name="__codelineno-0-72"></a>        <span class="n">short</span><span class="o">=</span><span class="n">get_short</span><span class="p">(</span><span class="n">units</span><span class="p">),</span>
-<a id="__codelineno-0-73" name="__codelineno-0-73"></a>        <span class="n">aliases</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;aliases&quot;</span><span class="p">),</span>
-<a id="__codelineno-0-74" name="__codelineno-0-74"></a>    <span class="p">)</span>
-<a id="__codelineno-0-75" name="__codelineno-0-75"></a>    <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
-<a id="__codelineno-0-76" name="__codelineno-0-76"></a>        <span class="n">created</span><span class="o">=</span><span class="n">_file</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_ctime</span><span class="p">,</span>
-<a id="__codelineno-0-77" name="__codelineno-0-77"></a>        <span class="n">modified</span><span class="o">=</span><span class="n">_file</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_mtime</span><span class="p">,</span>
-<a id="__codelineno-0-78" name="__codelineno-0-78"></a>        <span class="n">rule</span><span class="o">=</span><span class="n">rule</span><span class="p">,</span>
-<a id="__codelineno-0-79" name="__codelineno-0-79"></a>        <span class="nb">id</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span>
-<a id="__codelineno-0-80" name="__codelineno-0-80"></a>        <span class="n">title</span><span class="o">=</span><span class="n">rule</span><span class="o">.</span><span class="n">serial_title</span><span class="p">,</span>
-<a id="__codelineno-0-81" name="__codelineno-0-81"></a>        <span class="n">description</span><span class="o">=</span><span class="n">ofc_title</span><span class="p">,</span>
-<a id="__codelineno-0-82" name="__codelineno-0-82"></a>        <span class="n">emails</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;emails&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;bot@lawsql.com&quot;</span><span class="p">]),</span>  <span class="c1"># default to generic</span>
-<a id="__codelineno-0-83" name="__codelineno-0-83"></a>        <span class="n">date</span><span class="o">=</span><span class="n">parse</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">date</span><span class="p">(),</span>
-<a id="__codelineno-0-84" name="__codelineno-0-84"></a>        <span class="n">variant</span><span class="o">=</span><span class="n">v</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># default to 1</span>
-<a id="__codelineno-0-85" name="__codelineno-0-85"></a>        <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">,</span>
-<a id="__codelineno-0-86" name="__codelineno-0-86"></a>        <span class="n">titles</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">titles</span><span class="p">),</span>
-<a id="__codelineno-0-87" name="__codelineno-0-87"></a>    <span class="p">)</span>
+<span class="normal"><a href="#__codelineno-0-87">87</a></span>
+<span class="normal"><a href="#__codelineno-0-88">88</a></span>
+<span class="normal"><a href="#__codelineno-0-89">89</a></span>
+<span class="normal"><a href="#__codelineno-0-90">90</a></span>
+<span class="normal"><a href="#__codelineno-0-91">91</a></span>
+<span class="normal"><a href="#__codelineno-0-92">92</a></span>
+<span class="normal"><a href="#__codelineno-0-93">93</a></span>
+<span class="normal"><a href="#__codelineno-0-94">94</a></span>
+<span class="normal"><a href="#__codelineno-0-95">95</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-0-53" name="__codelineno-0-53"></a><span class="k">def</span> <span class="nf">from_rule</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">rule</span><span class="p">:</span> <span class="n">Rule</span><span class="p">,</span> <span class="n">base_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">STATUTE_PATH</span><span class="p">):</span>
+<a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;From a constructed rule (see [`Rule.from_path`][statute_patterns.components.rule.Rule.from_path]), get the</span>
+<a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="sd">    details of said rule.  Limitation: the category and identifier must</span>
+<a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="sd">    be unique.&quot;&quot;&quot;</span>
+<a id="__codelineno-0-57" name="__codelineno-0-57"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">base_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+<a id="__codelineno-0-58" name="__codelineno-0-58"></a>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not get proper </span><span class="si">{</span><span class="n">base_path</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-59" name="__codelineno-0-59"></a>
+<a id="__codelineno-0-60" name="__codelineno-0-60"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">rule</span><span class="o">.</span><span class="n">serial_title</span><span class="p">:</span>
+<a id="__codelineno-0-61" name="__codelineno-0-61"></a>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No serial title created.&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-62" name="__codelineno-0-62"></a>
+<a id="__codelineno-0-63" name="__codelineno-0-63"></a>    <span class="n">_file</span> <span class="o">=</span> <span class="kc">None</span>
+<a id="__codelineno-0-64" name="__codelineno-0-64"></a>    <span class="k">if</span> <span class="n">folder</span> <span class="o">:=</span> <span class="n">rule</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="n">base_path</span><span class="p">):</span>
+<a id="__codelineno-0-65" name="__codelineno-0-65"></a>        <span class="n">_file</span> <span class="o">=</span> <span class="n">folder</span> <span class="o">/</span> <span class="n">DETAILS_FILE</span>
+<a id="__codelineno-0-66" name="__codelineno-0-66"></a>
+<a id="__codelineno-0-67" name="__codelineno-0-67"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">_file</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+<a id="__codelineno-0-68" name="__codelineno-0-68"></a>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No _file found from </span><span class="si">{</span><span class="n">folder</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">base_path</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-69" name="__codelineno-0-69"></a>
+<a id="__codelineno-0-70" name="__codelineno-0-70"></a>    <span class="n">d</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">_file</span><span class="o">.</span><span class="n">read_bytes</span><span class="p">())</span>
+<a id="__codelineno-0-71" name="__codelineno-0-71"></a>    <span class="n">dt</span><span class="p">,</span> <span class="n">ofc_title</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">),</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;law_title&quot;</span><span class="p">),</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;variant&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-72" name="__codelineno-0-72"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">([</span><span class="n">ofc_title</span><span class="p">,</span> <span class="n">dt</span><span class="p">]):</span>
+<a id="__codelineno-0-73" name="__codelineno-0-73"></a>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fail on: </span><span class="si">{</span><span class="n">dt</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">ofc_title</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">v</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-74" name="__codelineno-0-74"></a>    <span class="n">units</span> <span class="o">=</span> <span class="n">set_units</span><span class="p">(</span><span class="n">ofc_title</span><span class="p">,</span> <span class="n">rule</span><span class="o">.</span><span class="n">units_path</span><span class="p">(</span><span class="n">_file</span><span class="o">.</span><span class="n">parent</span><span class="p">))</span>
+<a id="__codelineno-0-75" name="__codelineno-0-75"></a>    <span class="n">idx</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">slug_id</span><span class="p">(</span><span class="n">_file</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+<a id="__codelineno-0-76" name="__codelineno-0-76"></a>    <span class="n">titles</span> <span class="o">=</span> <span class="n">StatuteTitle</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+<a id="__codelineno-0-77" name="__codelineno-0-77"></a>        <span class="n">pk</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span>
+<a id="__codelineno-0-78" name="__codelineno-0-78"></a>        <span class="n">official</span><span class="o">=</span><span class="n">ofc_title</span><span class="p">,</span>
+<a id="__codelineno-0-79" name="__codelineno-0-79"></a>        <span class="n">serial</span><span class="o">=</span><span class="n">rule</span><span class="o">.</span><span class="n">serial_title</span><span class="p">,</span>
+<a id="__codelineno-0-80" name="__codelineno-0-80"></a>        <span class="n">short</span><span class="o">=</span><span class="n">get_short</span><span class="p">(</span><span class="n">units</span><span class="p">),</span>
+<a id="__codelineno-0-81" name="__codelineno-0-81"></a>        <span class="n">aliases</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;aliases&quot;</span><span class="p">),</span>
+<a id="__codelineno-0-82" name="__codelineno-0-82"></a>    <span class="p">)</span>
+<a id="__codelineno-0-83" name="__codelineno-0-83"></a>    <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+<a id="__codelineno-0-84" name="__codelineno-0-84"></a>        <span class="n">created</span><span class="o">=</span><span class="n">_file</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_ctime</span><span class="p">,</span>
+<a id="__codelineno-0-85" name="__codelineno-0-85"></a>        <span class="n">modified</span><span class="o">=</span><span class="n">_file</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_mtime</span><span class="p">,</span>
+<a id="__codelineno-0-86" name="__codelineno-0-86"></a>        <span class="n">rule</span><span class="o">=</span><span class="n">rule</span><span class="p">,</span>
+<a id="__codelineno-0-87" name="__codelineno-0-87"></a>        <span class="nb">id</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span>
+<a id="__codelineno-0-88" name="__codelineno-0-88"></a>        <span class="n">title</span><span class="o">=</span><span class="n">rule</span><span class="o">.</span><span class="n">serial_title</span><span class="p">,</span>
+<a id="__codelineno-0-89" name="__codelineno-0-89"></a>        <span class="n">description</span><span class="o">=</span><span class="n">ofc_title</span><span class="p">,</span>
+<a id="__codelineno-0-90" name="__codelineno-0-90"></a>        <span class="n">emails</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;emails&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;bot@lawsql.com&quot;</span><span class="p">]),</span>  <span class="c1"># default to generic</span>
+<a id="__codelineno-0-91" name="__codelineno-0-91"></a>        <span class="n">date</span><span class="o">=</span><span class="n">parse</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">date</span><span class="p">(),</span>
+<a id="__codelineno-0-92" name="__codelineno-0-92"></a>        <span class="n">variant</span><span class="o">=</span><span class="n">v</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># default to 1</span>
+<a id="__codelineno-0-93" name="__codelineno-0-93"></a>        <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">,</span>
+<a id="__codelineno-0-94" name="__codelineno-0-94"></a>        <span class="n">titles</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">titles</span><span class="p">),</span>
+<a id="__codelineno-0-95" name="__codelineno-0-95"></a>    <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
       </details>
   </div>
@@ -1184,23 +1233,23 @@ statute.</p>
 
       <details class="quote">
         <summary>Source code in <code>statute_patterns/components/details.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-34">34</a></span>
-<span class="normal"><a href="#__codelineno-0-35">35</a></span>
-<span class="normal"><a href="#__codelineno-0-36">36</a></span>
-<span class="normal"><a href="#__codelineno-0-37">37</a></span>
-<span class="normal"><a href="#__codelineno-0-38">38</a></span>
-<span class="normal"><a href="#__codelineno-0-39">39</a></span>
-<span class="normal"><a href="#__codelineno-0-40">40</a></span>
-<span class="normal"><a href="#__codelineno-0-41">41</a></span>
-<span class="normal"><a href="#__codelineno-0-42">42</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="k">def</span> <span class="nf">slug_id</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">):</span>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Use the path&#39;s parameters with the date and variant, to</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">    create a slug that can serve as the url / primary key of the</span>
-<a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">    statute.&quot;&quot;&quot;</span>
-<a id="__codelineno-0-39" name="__codelineno-0-39"></a>    <span class="n">_temp</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span> <span class="n">dt</span><span class="p">]</span>
-<a id="__codelineno-0-40" name="__codelineno-0-40"></a>    <span class="k">if</span> <span class="n">v</span><span class="p">:</span>
-<a id="__codelineno-0-41" name="__codelineno-0-41"></a>        <span class="n">_temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
-<a id="__codelineno-0-42" name="__codelineno-0-42"></a>    <span class="k">return</span> <span class="n">slugify</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_temp</span><span class="p">))</span>
+        <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#__codelineno-0-46">46</a></span>
+<span class="normal"><a href="#__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-50">50</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="k">def</span> <span class="nf">slug_id</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">):</span>
+<a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Use the path&#39;s parameters with the date and variant, to</span>
+<a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">    create a slug that can serve as the url / primary key of the</span>
+<a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">    statute.&quot;&quot;&quot;</span>
+<a id="__codelineno-0-47" name="__codelineno-0-47"></a>    <span class="n">_temp</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span> <span class="n">dt</span><span class="p">]</span>
+<a id="__codelineno-0-48" name="__codelineno-0-48"></a>    <span class="k">if</span> <span class="n">v</span><span class="p">:</span>
+<a id="__codelineno-0-49" name="__codelineno-0-49"></a>        <span class="n">_temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50"></a>    <span class="k">return</span> <span class="n">slugify</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_temp</span><span class="p">))</span>
 </code></pre></div></td></tr></table></div>
       </details>
   </div>
