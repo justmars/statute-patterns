@@ -39,7 +39,7 @@ Generate a path to the title detected and extract its contents. This presumes a 
       units.yaml (or ra386.yaml) # contains provisions
 ```
 
-The `details.yaml` file having the following structure:
+The _main_ `details.yaml` file should contain relevant metadata:
 
 ```yaml
 numeral: '386' # serial id
@@ -54,7 +54,7 @@ emails:
 - fernando@abcxyz.law # can have multiple formatters
 ```
 
-The `units.yaml` or `ra386.yaml` file having the following pre-processed structure:
+The _provisions_ `units.yaml` or `ra386.yaml` file should be properly nested:
 
 ```yaml
 - item: Container 1
@@ -70,7 +70,7 @@ The `units.yaml` or `ra386.yaml` file having the following pre-processed structu
     ...
 ```
 
-With the example above, it's possible to extract the details and units of `/statutes/ra/386`:
+With the example above, it's possible to extract the [StatuteDetails](api-extract.md) of `/statutes/ra/386`:
 
 ```py
 >>>r = Rule(cat='ra', id='386') # assign the Rule to `r`
