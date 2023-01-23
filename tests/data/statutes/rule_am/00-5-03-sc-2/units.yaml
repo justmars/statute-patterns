@@ -1,0 +1,39 @@
+- item: Rule 122
+  units:
+  - item: Section 3
+    caption: How appeal taken.
+    units:
+    - item: a
+      content: |
+        The appeal to the Regional Trial Court, or to the Court of Appeals in cases decided by the Regional Trial Court in the exercise of its original jurisdiction, shall be by notice of appeal filed with the court which rendered the judgment or final order appealed from and by serving a copy thereof upon the adverse party.
+    - item: b
+      content: |
+        The appeal to the Court of Appeals in cases decided by the Regional Trial Court in the exercise of its appellate jurisdiction shall be by petition for review under Rule 42.
+    - item: c
+      content: |
+        The appeal in cases where the penalty imposed by the Regional Trial Court is reclusion perpetua, life imprisonment or where a lesser penalty is imposed for offenses committed on the same occasion or which arose out of the same occurrence that gave rise to the more serious offense for which the penalty of death, reclusion perpetua, or life imprisonment is imposed, shall be by notice of appeal to the Court of Appeals in accordance with paragraph (a) of this Rule.
+    - item: d
+      content: |
+        No notice of appeal is necessary in cases where the Regional Trial Court imposed the death penalty. The Court of Appeals shall automatically review the judgment as provided in Section 10 of this Rule. (3a)
+  - item: Section 10
+    caption: Transmission of records in case of death penalty.
+    content: |
+      In all cases where the death penalty is imposed by the trial court, the records shall be forwarded to the Court of Appeals for automatic review and judgment within twenty days but not earlier than fifteen days from the promulgation of the judgment or notice of denial of a motion for new trial or reconsideration. The transcript shall also be forwarded within ten days after the filing thereof by the stenographic reporter. (10a)
+- item: Rule 124
+  units:
+  - item: Section 12
+    caption: Power to receive evidence.
+    content: |
+      The Court of Appeals shall have the power to try cases and conduct hearings, receive evidence and perform all acts necessary to resolve factual issues raised in cases falling within its original and appellate jurisdiction, including the power to grant and conduct new trials or further proceedings. Trials or hearings in the Court of Appeals must be continuous and must be completed within three months, unless extended by the Chief Justice. 12(a)
+  - item: Section 13
+    caption: Certification or appeal of case to the Supreme Court.
+    units:
+    - item: a
+      content: |
+        Whenever the Court of Appeals finds that the penalty of death should be imposed, the court shall render judgment but refrain from making an entry of judgment and forthwith certify the case and elevate its entire record to the Supreme Court for review.
+    - item: b
+      content: |
+        Where the judgment also imposes a lesser penalty for offenses committed on the same occasion or which arose out of the same occurrence that gave rise to the more severe offense for which the penalty of death is imposed, and the accused appeals, the appeal shall be included in the case certified for review to the Supreme Court.
+    - item: c
+      content: |
+        In cases where the Court of Appeals imposes reclusion perpetua, life imprisonment or a lesser penalty, it shall render and enter judgment imposing such penalty. The judgment may be appealed to the Supreme Court by notice of appeal filed with the Court of Appeals.
