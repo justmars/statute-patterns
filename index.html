@@ -482,7 +482,7 @@
 
 <h1 id="summary">Summary</h1>
 <h2 id="match-titles">Match Titles</h2>
-<p>Detect titles of Philippine statutory text from arbitrary text:</p>
+<p>Detect titles of Philippine statutes when found in text.</p>
 <div class="highlight"><span class="filename">Python</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># imagine messy legalese with citations</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="s2">A.M. No. 02-11-10-SC or the Rules on Declaration of Absolute;</span>
@@ -512,7 +512,7 @@
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">details.yaml</span><span class="w"> </span><span class="c1"># contains main file</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">units.yaml (or ra386.yaml)</span><span class="w"> </span><span class="c1"># contains provisions</span>
 </code></pre></div>
-<p>The <code>details.yaml</code> file having the following structure:</p>
+<p>The <em>main</em> <code>details.yaml</code> file should contain relevant metadata:</p>
 <div class="highlight"><span class="filename">YAML</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">numeral</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;386&#39;</span><span class="w"> </span><span class="c1"># serial id</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ra</span><span class="w">  </span><span class="c1"># category</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nt">law_title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">An Act to Ordain and Institute the Civil Code of the Philippines</span><span class="w"> </span><span class="c1"># official title</span>
@@ -524,7 +524,7 @@
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">maria@abcxyz.law</span><span class="w"> </span><span class="c1"># email address of formatter</span>
 <a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fernando@abcxyz.law</span><span class="w"> </span><span class="c1"># can have multiple formatters</span>
 </code></pre></div>
-<p>The <code>units.yaml</code> or <code>ra386.yaml</code> file having the following pre-processed structure:</p>
+<p>The <em>provisions</em> <code>units.yaml</code> or <code>ra386.yaml</code> file should be properly nested:</p>
 <div class="highlight"><span class="filename">YAML</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">item</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Container 1</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">caption</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Preliminary Title</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">units</span><span class="p">:</span>
@@ -537,7 +537,7 @@
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">item</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Article 2</span>
 <a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 </code></pre></div>
-<p>With the example above, it's possible to extract the details and units of <code>/statutes/ra/386</code>:</p>
+<p>With the example above, it's possible to extract the <a href="api-extract/">StatuteDetails</a> of <code>/statutes/ra/386</code>:</p>
 <div class="highlight"><span class="filename">Python</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="o">&gt;&gt;&gt;</span><span class="n">r</span> <span class="o">=</span> <span class="n">Rule</span><span class="p">(</span><span class="n">cat</span><span class="o">=</span><span class="s1">&#39;ra&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;386&#39;</span><span class="p">)</span> <span class="c1"># assign the Rule to `r`</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="o">&gt;&gt;&gt;</span><span class="n">r</span><span class="p">(</span><span class="o">&lt;</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">statutes</span><span class="o">&gt;</span><span class="p">)</span> <span class="c1"># get the base path to `/statutes`</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">StatuteDetails</span><span class="p">(</span>
