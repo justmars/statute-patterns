@@ -36,6 +36,7 @@ nav:
     - api-rule-base.md
 
 plugins:
+  - autorefs
   - mkdocstrings:
       handlers:
         python:

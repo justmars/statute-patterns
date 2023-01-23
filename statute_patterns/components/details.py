@@ -14,9 +14,17 @@ from .utils import DETAILS_FILE, STATUTE_PATH, set_units
 
 class StatuteDetails(BaseModel):
     """
-    Based on a `Rule` object, obtain details loaded from files found in a
-    Rule's proper path; the `description` field is relevant as the source
-    material for the statute's serial title.
+    A `StatuteDetails` object presupposes the existence of a [`Rule`][rule-model] object.
+
+    After all, it's only when there's a valid path to a [`Rule`][rule-model] that the details
+    and provisions of that rule can be extracted. Some notable fields
+    are described below:
+
+    Field | Type | Function
+    :--:|:--:|:--:
+    rule | [`Rule`][rule-model] | How we source the path
+    title | str | The statute's serial title, e.g. Republic Act No. 386
+    description | str | The statute's official title, e.g. An Act to...
     """
 
     created: float
@@ -43,7 +51,7 @@ class StatuteDetails(BaseModel):
 
     @classmethod
     def from_rule(cls, rule: Rule, base_path: Path = STATUTE_PATH):
-        """From a constructed rule (see `Rule.from_path()`), get the
+        """From a constructed rule (see [`Rule.from_path`][statute_patterns.components.rule.Rule.from_path]), get the
         details of said rule.  Limitation: the category and identifier must
         be unique."""
         if not base_path.exists():

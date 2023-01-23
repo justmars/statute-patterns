@@ -2,7 +2,7 @@
 
 ## Rule Model
 
-:::statute_patterns.components.rule.Rule
+::: statute_patterns.components.rule.Rule
 
 ## Base Pattern
 

@@ -20,4 +20,4 @@ We can extract the details of the rule with the `StatuteDetails.from_rule()` als
 
 ### StatuteDetails
 
-::: statute_patterns.StatuteDetails
+::: statute_patterns.components.details.StatuteDetails

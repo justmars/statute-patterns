@@ -27,7 +27,7 @@ class StatuteSerialCategory(str, Enum):
     thus can be mapped to the following folder: `/statutes/ra/386`. We can definitely
     categorize this as an _ra_ with a serial id of _386_.
 
-    Mapped to its `Rule`, counterpart we get:
+    Mapped to its [`Rule`][rule-model], counterpart we get:
 
     Field | Value | Description
     :--:|:--:|:--
@@ -36,7 +36,7 @@ class StatuteSerialCategory(str, Enum):
 
     ## Purpose
 
-    Knowing the path to a rule, we can later extract the rule's contents. (Note however that there can be more than one path since in exceptional cases, the combination of *category* + *serial id* does not yield a unique rule.)
+    Knowing the path to a rule, we can later extract the rule's contents. (Note however that there can be more than one path since in exceptional cases, the combination of *category* + *serial id* [does not yield a unique rule][statute_patterns.components.rule.Rule.get_paths].)
 
     Examples:
         >>> StatuteSerialCategory
@@ -139,7 +139,7 @@ class StatuteTitleCategory(str, Enum):
     Category | Mandatory | Nature | Description | Example
     --:|:--:|:--:|:--|:--
     `official` | yes | official | full length title | _AN ACT TO PROVIDE PROTECTION TO BUYERS OF REAL ESTATE ON INSTALLMENT PAYMENTS_
-    `serial` | yes | official | a `StatuteSerialCategory` and a serial identifier. | _Republic Act No. 6552_
+    `serial` | yes | official | [`Statute Category`][statute-category-model] + serial identifier. | _Republic Act No. 6552_
     `short`  | no | official | may be declared in body of statute | _Realty Installment Buyer Act_
     `alias`  | no | unofficial | popular, undocumented means of referring to a statute | _Maceda Law_
     """
