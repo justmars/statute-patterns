@@ -2,7 +2,7 @@
 
 ## Match Titles
 
-Detect titles of Philippine statutory text from arbitrary text:
+Detect titles of Philippine statutes when found in text.
 
 ```py
 # imagine messy legalese with citations
