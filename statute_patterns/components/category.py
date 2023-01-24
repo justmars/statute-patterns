@@ -163,7 +163,8 @@ class StatuteSerialCategory(str, Enum):
                 return f"OCA Circular No. {idx}"
 
             case StatuteSerialCategory.AdministrativeMatter:
-                """Handle special rule with variants: e.g.`rule_am 00-5-03-sc-1` and `rule_am 00-5-03-sc-2`"""
+                """Handle special rule with variants: e.g.`rule_am 00-5-03-sc-1` and `rule_am 00-5-03-sc-2`
+                """
                 am = uncamel(self)
                 small_idx = idx.lower()
                 if "sc" in small_idx:
@@ -175,7 +176,9 @@ class StatuteSerialCategory(str, Enum):
 
             case StatuteSerialCategory.BatasPambansa:
                 if idx.isdigit():
-                    return f"{uncamel(self)} Blg. {idx}"  # there are no -A -B suffixes in BPs
+                    return (  # there are no -A -B suffixes in BPs
+                        f"{uncamel(self)} Blg. {idx}"
+                    )
 
             case _:
                 # no need to uppercase pure digits

@@ -28,12 +28,17 @@ class Rule(BaseModel):
     cat: StatuteSerialCategory = Field(
         ...,
         title="Statute Category",
-        description="Classification under the limited StatuteSerialCategory taxonomy.",
+        description=(
+            "Classification under the limited StatuteSerialCategory taxonomy."
+        ),
     )
     id: constr(to_lower=True) = Field(  # type: ignore
         ...,
         title="Serial Identifier",
-        description="Limited inclusion of identifiers, e.g. only a subset of Executive Orders, Letters of Instruction, Spanish Codes will be permitted.",
+        description=(
+            "Limited inclusion of identifiers, e.g. only a subset of Executive"
+            " Orders, Letters of Instruction, Spanish Codes will be permitted."
+        ),
     )
 
     class Config:
@@ -69,7 +74,8 @@ class Rule(BaseModel):
 
     @classmethod
     def from_path(cls, details_path: Path):
-        """Construct rule from a properly structured statute's `details.yaml` file."""
+        """Construct rule from a properly structured statute's `details.yaml` file.
+        """
         dir = details_path.parent
         cat = dir.parent.stem
         idx = dir.stem
@@ -182,11 +188,15 @@ class Rule(BaseModel):
 class BasePattern(BaseModel, abc.ABC):
     matches: list[str] = Field(
         default_factory=list,
-        description="When supplied, text included _should_ match regex property.",
+        description=(
+            "When supplied, text included _should_ match regex property."
+        ),
     )
     excludes: list[str] = Field(
         default_factory=list,
-        description="When supplied, text included _should not_ match regex property.",
+        description=(
+            "When supplied, text included _should not_ match regex property."
+        ),
     )
 
     class Config:
@@ -221,14 +231,16 @@ class BasePattern(BaseModel, abc.ABC):
         for example_text in self.matches:
             if not self.pattern.fullmatch(example_text):
                 raise ValueError(
-                    f"Missing match but intended to be included: {example_text}"
+                    "Missing match but intended to be included:"
+                    f" {example_text}"
                 )
 
     def validate_excludes(self) -> None:
         for example_text in self.excludes:
             if self.pattern.fullmatch(example_text):
                 raise ValueError(
-                    f"Match found even if intended to be excluded: {example_text}."
+                    "Match found even if intended to be excluded:"
+                    f" {example_text}."
                 )
 
 

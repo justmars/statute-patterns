@@ -29,7 +29,8 @@ UNITS_NONE = [
 
 
 def set_units(title: str, p: Path | None) -> list[dict]:
-    """Extract the raw units of the statute and apply a special rule on appropriation laws when they're found."""
+    """Extract the raw units of the statute and apply a special rule on appropriation laws when they're found.
+    """
     if p:
         if p.exists():
             try:
@@ -45,7 +46,8 @@ def set_units(title: str, p: Path | None) -> list[dict]:
 
 
 def stx(regex_text: str):
-    """Remove indention of raw regex strings. This makes regex more readable when using rich.Syntax(<target_regex_string>, "python")"""
+    """Remove indention of raw regex strings. This makes regex more readable when using rich.Syntax(<target_regex_string>, "python")
+    """
     return rf"""
 {regex_text}
 """
@@ -81,7 +83,8 @@ def get_regexes(regexes: list[str], negate: bool = False) -> Iterator[str]:
 
 
 def not_prefixed_by_any(regex: str, lookbehinds: list[str]) -> str:
-    """Add a list of "negative lookbehinds" (of fixed character lengths) to a target `regex` string."""
+    """Add a list of "negative lookbehinds" (of fixed character lengths) to a target `regex` string.
+    """
     return rf"""{''.join(get_regexes(lookbehinds, negate=True))}({regex})
     """
 

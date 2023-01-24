@@ -108,7 +108,8 @@ SEPARATOR: Pattern = re.compile(EXTENDERS)
 
 
 def digitize(allowed_digits: str) -> str:
-    """Adds a comma and spaces after the digit mark; multiple patterns of the same are allowed culiminating in a final digit."""
+    """Adds a comma and spaces after the digit mark; multiple patterns of the same are allowed culiminating in a final digit.
+    """
     return rf"(?:{allowed_digits}({EXTENDERS})+)*(?:{allowed_digits})"
 
 

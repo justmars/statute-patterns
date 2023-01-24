@@ -71,17 +71,27 @@ class SerialPattern(BasePattern):
     cat: StatuteSerialCategory = Field(
         ...,
         title="Statute Serial Category",
-        description="A type of rule from the taxonomy enumerated under StatuteSerialCategory.",
+        description=(
+            "A type of rule from the taxonomy enumerated under"
+            " StatuteSerialCategory."
+        ),
     )
     regex_bases: list[str] = Field(
         ...,
         title="Prefix Label in Regex",
-        description="There are too many ways to express a category name. There is a need to generate various regex strings which, when combined with the serial, can qualify for a serial rule.",
+        description=(
+            "There are too many ways to express a category name. There is a"
+            " need to generate various regex strings which, when combined with"
+            " the serial, can qualify for a serial rule."
+        ),
     )
     regex_serials: list[str] = Field(
         ...,
         title="Serial Identifiers in Regex",
-        description="The possible values of serial numbers to be matched with the regex_bases.",
+        description=(
+            "The possible values of serial numbers to be matched with the"
+            " regex_bases."
+        ),
     )
 
     @property

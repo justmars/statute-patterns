@@ -10,11 +10,11 @@ act = re.compile(limited_acts, re.X)
 @pytest.mark.parametrize(
     "text",
     [
-        ("An Act No. 14"),
-        ("This Republic Act No. 3015"),
-        ("This Rep Act No. 3015"),
-        ("This Commonwealth Act No. 3015"),
-        ("This COMMONWEALTH Act No. 3015"),
+        "An Act No. 14",
+        "This Republic Act No. 3015",
+        "This Rep Act No. 3015",
+        "This Commonwealth Act No. 3015",
+        "This COMMONWEALTH Act No. 3015",
     ],
 )
 def test_limited_acts(text):
