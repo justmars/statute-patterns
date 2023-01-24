@@ -27,7 +27,12 @@ nav:
     - api-rule-serial.md
     - api-rule-named.md
     - api-rule-base.md
-
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/justmars
+      name: justmars on Github
+copyright: Copyright &copy; Marcelino Veloso III
 plugins:
   - autorefs
   - mkdocstrings:
