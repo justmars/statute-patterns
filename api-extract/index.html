@@ -6,8 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="This is a dependency: a regex formula, path matcher, and unit parser for tree-like content, i.e. laws and rules in the Philippines.
-">
+        <meta name="description" content="Philippine statutory law pattern matching and unit retrieval">
       
       
         <meta name="author" content="Marcelino Veloso III">
@@ -88,10 +87,6 @@
     <div data-md-component="announce">
       
     </div>
-    
-      <div data-md-component="outdated" hidden>
-        
-      </div>
     
     
       
@@ -340,8 +335,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#statutedetails" class="md-nav__link">
-    StatuteDetails
+  <a href="#statute-details" class="md-nav__link">
+    Statute Details
   </a>
   
 </li>
@@ -533,8 +528,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#statutedetails" class="md-nav__link">
-    StatuteDetails
+  <a href="#statute-details" class="md-nav__link">
+    Statute Details
   </a>
   
 </li>
@@ -601,9 +596,9 @@
 
   <div class="doc doc-contents first">
   
-      <p>If text contains <a class="autorefs autorefs-internal" href="../api-rule-serial/#serial-pattern">serialized</a> (e.g. Republic Act No. 386)
-and <a class="autorefs autorefs-internal" href="../api-rule-named/#named-pattern">named</a> rules ('the Civil Code of the Philippines'), get
-a list of their the canonical <a class="autorefs autorefs-internal" href="../api-rule/#rule-model"><code>Rule</code></a> version.</p>
+      <p>If text contains <a class="autorefs autorefs-internal" href="../api-rule-serial/#serial-pattern">serialized</a> (e.g. <em>Republic Act No. 386</em>)
+and <a class="autorefs autorefs-internal" href="../api-rule-named/#named-pattern">named</a> rules (<em>the Civil Code of the Philippines</em>),
+extract the <a class="autorefs autorefs-internal" href="../api-rule/#rule-model"><code>Rules</code></a> into their canonical serial variants.</p>
 
 <p><strong>Examples:</strong></p>
     <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">statute_patterns</span> <span class="kn">import</span> <span class="n">extract_rules</span>
@@ -683,9 +678,9 @@ a list of their the canonical <a class="autorefs autorefs-internal" href="../api
 <span class="normal"><a href="#__codelineno-0-29">29</a></span>
 <span class="normal"><a href="#__codelineno-0-30">30</a></span>
 <span class="normal"><a href="#__codelineno-0-31">31</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="k">def</span> <span class="nf">extract_rules</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Rule</span><span class="p">]:</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;If text contains [serialized][serial-pattern] (e.g. Republic Act No. 386)</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="sd">    and [named][named-pattern] rules (&#39;the Civil Code of the Philippines&#39;), get</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="sd">    a list of their the canonical [`Rule`][rule-model] version.</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;If text contains [serialized][serial-pattern] (e.g. _Republic Act No. 386_)</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="sd">    and [named][named-pattern] rules (_the Civil Code of the Philippines_),</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="sd">    extract the [`Rules`][rule-model] into their canonical serial variants.</span>
 <a id="__codelineno-0-13" name="__codelineno-0-13"></a>
 <a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="sd">    Examples:</span>
 <a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="sd">        &gt;&gt;&gt; from statute_patterns import extract_rules</span>
@@ -719,7 +714,7 @@ a list of their the canonical <a class="autorefs autorefs-internal" href="../api
   <div class="doc doc-contents first">
   
       <p>Thin wrapper over <a class="autorefs autorefs-internal" href="#extract-rules"><code>extract_rules()</code></a>. If text contains a
-matching <a class="autorefs autorefs-internal" href="../api-rule/#rule-model"><code>Rule</code></a>, get the first found.</p>
+matching <a class="autorefs autorefs-internal" href="../api-rule/#rule-model"><code>Rule</code></a>, get the first one found.</p>
 
 <p><strong>Examples:</strong></p>
     <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">statute_patterns</span> <span class="kn">import</span> <span class="n">extract_rule</span>
@@ -793,7 +788,7 @@ matching <a class="autorefs autorefs-internal" href="../api-rule/#rule-model"><c
 <span class="normal"><a href="#__codelineno-0-52">52</a></span>
 <span class="normal"><a href="#__codelineno-0-53">53</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="k">def</span> <span class="nf">extract_rule</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rule</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Thin wrapper over [`extract_rules()`][extract-rules]. If text contains a</span>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">    matching [`Rule`][rule-model], get the first found.</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">    matching [`Rule`][rule-model], get the first one found.</span>
 <a id="__codelineno-0-37" name="__codelineno-0-37"></a>
 <a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">    Examples:</span>
 <a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">        &gt;&gt;&gt; from statute_patterns import extract_rule</span>
@@ -837,6 +832,48 @@ get the count of each unique rule found.</p>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">]</span>
 </code></pre></div>
 
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>text</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>Text to search for statute patterns.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="collections.abc.Iterator">Iterator</span>[dict]</code>
+          </td>
+          <td><p>Iterator[dict]: Unique rules converted into dicts with their counts</p></td>
+        </tr>
+    </tbody>
+  </table>
+
       <details class="quote">
         <summary>Source code in <code>statute_patterns/__main__.py</code></summary>
         <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-56">56</a></span>
@@ -853,7 +890,13 @@ get the count of each unique rule found.</p>
 <span class="normal"><a href="#__codelineno-0-67">67</a></span>
 <span class="normal"><a href="#__codelineno-0-68">68</a></span>
 <span class="normal"><a href="#__codelineno-0-69">69</a></span>
-<span class="normal"><a href="#__codelineno-0-70">70</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="k">def</span> <span class="nf">count_rules</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="normal"><a href="#__codelineno-0-70">70</a></span>
+<span class="normal"><a href="#__codelineno-0-71">71</a></span>
+<span class="normal"><a href="#__codelineno-0-72">72</a></span>
+<span class="normal"><a href="#__codelineno-0-73">73</a></span>
+<span class="normal"><a href="#__codelineno-0-74">74</a></span>
+<span class="normal"><a href="#__codelineno-0-75">75</a></span>
+<span class="normal"><a href="#__codelineno-0-76">76</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="k">def</span> <span class="nf">count_rules</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
 <a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Based on results from [`extract_rules()`][extract-rules],</span>
 <a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">    get the count of each unique rule found.</span>
 <a id="__codelineno-0-59" name="__codelineno-0-59"></a>
@@ -865,16 +908,22 @@ get the count of each unique rule found.</p>
 <a id="__codelineno-0-65" name="__codelineno-0-65"></a><span class="sd">            {&#39;cat&#39;: &#39;ra&#39;, &#39;id&#39;: &#39;386&#39;, &#39;mentions&#39;: 2},</span>
 <a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="sd">            {&#39;cat&#39;: &#39;spain&#39;, &#39;id&#39;: &#39;civil&#39;, &#39;mentions&#39;: 1}</span>
 <a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="sd">        ]</span>
-<a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-69" name="__codelineno-0-69"></a>    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">Counter</span><span class="p">(</span><span class="n">extract_rules</span><span class="p">(</span><span class="n">text</span><span class="p">))</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<a id="__codelineno-0-70" name="__codelineno-0-70"></a>        <span class="k">yield</span> <span class="n">k</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;mentions&quot;</span><span class="p">:</span> <span class="n">v</span><span class="p">}</span>
+<a id="__codelineno-0-68" name="__codelineno-0-68"></a>
+<a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="sd">    Args:</span>
+<a id="__codelineno-0-70" name="__codelineno-0-70"></a><span class="sd">        text (str): Text to search for statute patterns.</span>
+<a id="__codelineno-0-71" name="__codelineno-0-71"></a>
+<a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="sd">    Returns:</span>
+<a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="sd">        Iterator[dict]: Unique rules converted into dicts with their counts</span>
+<a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-75" name="__codelineno-0-75"></a>    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">Counter</span><span class="p">(</span><span class="n">extract_rules</span><span class="p">(</span><span class="n">text</span><span class="p">))</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a id="__codelineno-0-76" name="__codelineno-0-76"></a>        <span class="k">yield</span> <span class="n">k</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;mentions&quot;</span><span class="p">:</span> <span class="n">v</span><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
       </details>
   </div>
 
 </div><h2 id="detail-rule">Detail Rule</h2>
 <p>We can extract the details of the rule with the <code>StatuteDetails.from_rule()</code> also accessible via <code>Rule.get_details()</code>.</p>
-<h3 id="statutedetails">StatuteDetails</h3>
+<h3 id="statute-details">Statute Details</h3>
 
 
 <div class="doc doc-object doc-class">
@@ -1283,10 +1332,24 @@ statute.</p>
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
   
+    <div class="md-copyright__highlight">
+      Copyright &copy; Marcelino Veloso III
+    </div>
+  
   
     Made with
     <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
       Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    <a href="https://github.com/justmars" target="_blank" rel="noopener" title="justmars on Github" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
     </a>
   
 </div>
@@ -1300,7 +1363,7 @@ statute.</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.51d95adb.min.js"></script>
