@@ -1,5 +1,10 @@
-from statute_patterns import __version__
+import toml
+
+import statute_patterns
 
 
 def test_version():
-    assert __version__ == "0.1.0"
+    assert (
+        toml.load("pyproject.toml")["tool"]["poetry"]["version"]
+        == statute_patterns.__version__
+    )

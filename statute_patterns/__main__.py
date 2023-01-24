@@ -7,9 +7,9 @@ from .serials import SerializedRules
 
 
 def extract_rules(text: str) -> Iterator[Rule]:
-    """If text contains [serialized][serial-pattern] (e.g. Republic Act No. 386)
-    and [named][named-pattern] rules ('the Civil Code of the Philippines'), get
-    a list of their the canonical [`Rule`][rule-model] version.
+    """If text contains [serialized][serial-pattern] (e.g. _Republic Act No. 386_)
+    and [named][named-pattern] rules (_the Civil Code of the Philippines_),
+    extract the [`Rules`][rule-model] into their canonical serial variants.
 
     Examples:
         >>> from statute_patterns import extract_rules
@@ -33,7 +33,7 @@ def extract_rules(text: str) -> Iterator[Rule]:
 
 def extract_rule(text: str) -> Rule | None:
     """Thin wrapper over [`extract_rules()`][extract-rules]. If text contains a
-    matching [`Rule`][rule-model], get the first found.
+    matching [`Rule`][rule-model], get the first one found.
 
     Examples:
         >>> from statute_patterns import extract_rule
@@ -65,6 +65,12 @@ def count_rules(text: str) -> Iterator[dict]:
             {'cat': 'ra', 'id': '386', 'mentions': 2},
             {'cat': 'spain', 'id': 'civil', 'mentions': 1}
         ]
+
+    Args:
+        text (str): Text to search for statute patterns.
+
+    Returns:
+        Iterator[dict]: Unique rules converted into dicts with their counts
     """
     for k, v in Counter(extract_rules(text)).items():
         yield k.dict() | {"mentions": v}

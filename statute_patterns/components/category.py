@@ -4,16 +4,61 @@ from enum import Enum
 from pydantic import BaseModel
 
 
+class StatuteTitleCategory(str, Enum):
+    """
+    A [`Rule`][rule-model] in the Philippines involves various denominations. It can be referred to by
+    its `official` title, its `serial` title, its `short` title or its `alias` titles.
+
+    Consider something like the _Maceda Law_ which can be dissected as follows:
+
+    Category | Mandatory | Nature | Description | Example | Matching Strategy
+    --:|:--:|:--:|:--|:--|--:
+    `official` | yes | official | full length title | _AN ACT TO PROVIDE PROTECTION TO BUYERS OF REAL ESTATE ON INSTALLMENT PAYMENTS_ | [Statute Details][statute-details]
+    `serial` | yes | official | [`Statute Category`][statute-category-model] + serial identifier. | _Republic Act No. 6552_ | [Serial Pattern][serial-pattern] regex matching
+    `short`  | no | official | may be declared in body of statute | _Realty Installment Buyer Act_ | [A helper function ][extract-short-title]
+    `alias`  | no | unofficial | popular, undocumented means of referring to a statute | _Maceda Law_ | [Named Pattern][named-pattern] regex matching
+    """
+
+    Official = "official"
+    Serial = "serial"
+    Alias = "alias"
+    Short = "short"
+
+
 class StatuteSerialCategory(str, Enum):
     """
+    ## Application
+    This concerns the `serial` title described by the [`Statute Title Category`][statute-title-category-model].
+
     ## Concept
     It would be difficult to identify rules if they were arbitrarily named
-    without a fixed point of reference. For instance the "Civil Code of the
-    Philippines",  an arbitrary collection of letters, would be hard to find
+    without a fixed point of reference. For instance the _Civil Code of the
+    Philippines_,  an arbitrary collection of letters, would be hard to find
     if laws were organized alphabetically.
 
     Fortunately, each Philippine `serial`-title rule belongs to an
-    assignable `StatuteSerialCategory`. This is not an official reference but
+    assignable `StatuteSerialCategory`:
+
+    Serial Category `name` | Shorthand `value`
+    --:|:--
+    Republic Act | ra
+    Commonwealth Act | ca
+    Act | act
+    Constitution | const
+    Spain | spain
+    Batas Pambansa | bp
+    Presidential Decree | pd
+    Executive Order | eo
+    Letter of Instruction | loi
+    Veto Message | veto
+    Rules of Court | roc
+    Bar Matter | rule_bm
+    Administrative Matter | rule_am
+    Resolution en Banc | rule_reso
+    Circular OCA | oca_cir
+    Circular SC | sc_cir
+
+    This is not an official reference but
     rather a non-exhaustive taxonomy of Philippine legal rules mapped to
     a `enum.Enum` object.
 
@@ -23,9 +68,14 @@ class StatuteSerialCategory(str, Enum):
     `value` | (a) folder for discovering path / (b) category usable in the database table
 
     Using this model simplifies the ability to navigate rules. Going back to
-    the Civil Code described above, its `serial` title is _Republic Act No. 386_ and
-    thus can be mapped to the following folder: `/statutes/ra/386`. We can definitely
-    categorize this as an _ra_ with a serial id of _386_.
+    the _Civil Code_ described above, we're able to describe it as follows:
+
+    Aspect | Description
+    --:|:--
+    serial title | _Republic Act No. 386_
+    assumed folder path |`/ra/386`
+    category | ra
+    id | 386
 
     Mapped to its [`Rule`][rule-model] counterpart we get:
 
@@ -36,7 +86,7 @@ class StatuteSerialCategory(str, Enum):
 
     ## Purpose
 
-    Knowing the path to a rule, we can later extract the rule's contents. (Note however that there can be more than one path since in exceptional cases, the combination of *category* + *serial id* [does not yield a unique rule][statute_patterns.components.rule.Rule.get_paths].)
+    Knowing the path to a [`Rule`][rule-model], we can later [extract its contents][statute-details]. (Note however that there can be more than one path since in exceptional cases, the combination of *category* + *serial id* [does not yield a unique rule][statute_patterns.components.rule.Rule.get_paths].)
 
     Examples:
         >>> StatuteSerialCategory
@@ -65,18 +115,19 @@ class StatuteSerialCategory(str, Enum):
     def serialize(self, idx: str):
         """Given a member item and a valid serialized identifier, create a serial title.
 
-        Note that the identifier must be upper-cased to make this consistent with the textual convention, e.g.
+        Note that the identifier must be upper-cased to make this consistent
+        with the textual convention, e.g.
 
         1. `pd` + `570-a` = `Presidential Decree No. 570-A`
         2. `rule_am` + `03-06-13-sc` = `Administrative Matter No. 03-06-13-SC`
         """
 
         def uncamel(cat: StatuteSerialCategory):
-            """See https://stackoverflow.com/a/9283563"""
+            """See [Stack Overflow](https://stackoverflow.com/a/9283563)"""
             x = r"((?<=[a-z])[A-Z]|(?<!\A)[A-Z](?=[a-z]))"
             return re.sub(x, r" \1", cat.name)
 
-        match self:  # noqa: E999 TODO: fix
+        match self:  # noqa: E999 ; ruff complains but this is valid Python
             case StatuteSerialCategory.Spain:
                 small_idx = idx.lower()
                 if small_idx in ["civil", "penal"]:
@@ -130,24 +181,6 @@ class StatuteSerialCategory(str, Enum):
                 # no need to uppercase pure digits
                 target_digit = idx if idx.isdigit() else idx.upper()
                 return f"{uncamel(self)} No. {target_digit}"
-
-
-class StatuteTitleCategory(str, Enum):
-    """
-    Each statute's title can be referred to in various ways.
-
-    Category | Mandatory | Nature | Description | Example
-    --:|:--:|:--:|:--|:--
-    `official` | yes | official | full length title | _AN ACT TO PROVIDE PROTECTION TO BUYERS OF REAL ESTATE ON INSTALLMENT PAYMENTS_
-    `serial` | yes | official | [`Statute Category`][statute-category-model] + serial identifier. | _Republic Act No. 6552_
-    `short`  | no | official | may be declared in body of statute | _Realty Installment Buyer Act_
-    `alias`  | no | unofficial | popular, undocumented means of referring to a statute | _Maceda Law_
-    """
-
-    Official = "official"
-    Serial = "serial"
-    Alias = "alias"
-    Short = "short"
 
 
 class StatuteTitle(BaseModel):

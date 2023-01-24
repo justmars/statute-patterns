@@ -18,6 +18,6 @@ This presumes existence of a local path to a separate library where the contents
 
 We can extract the details of the rule with the `StatuteDetails.from_rule()` also accessible via `Rule.get_details()`.
 
-### StatuteDetails
+### Statute Details
 
 ::: statute_patterns.components.details.StatuteDetails

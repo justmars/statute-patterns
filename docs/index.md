@@ -70,7 +70,7 @@ The _provisions_ `units.yaml` or `ra386.yaml` file should be properly nested:
     ...
 ```
 
-With the example above, it's possible to extract the [`Statute Details`][statutedetails] of `/statutes/ra/386`:
+With the example above, it's possible to extract the [`Statute Details`][statute-details] of `/statutes/ra/386`:
 
 ```py
 >>>r = Rule(cat='ra', id='386') # assign the Rule to `r`

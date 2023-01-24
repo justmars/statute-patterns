@@ -2,7 +2,7 @@
 
 ![Github CI](https://github.com/justmars/statute-patterns/actions/workflows/main.yml/badge.svg)
 
-Statute title patterns utilized in the [LawSQL dataset](https://lawsql.com).
+Philippine statutory law pattern matching and unit retrieval; utilized in [LawSQL dataset](https://lawsql.com).
 
 ## Documentation
 

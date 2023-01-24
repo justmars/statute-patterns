@@ -1,20 +1,16 @@
 site_name: Statute Patterns Docs
-site_description: |
-  This is a dependency: a regex formula, path matcher, and unit parser for tree-like content, i.e. laws and rules in the Philippines.
+site_description: Philippine statutory law pattern matching and unit retrieval
 site_url: https://lawsql.com
 site_author: Marcelino Veloso III
 repo_url: https://github.com/justmars/statute-patterns
 theme:
   name: "material"
   palette:
-    # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
-
-    # Palette toggle for dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: indigo
@@ -22,9 +18,6 @@ theme:
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
-extra:
-  version:
-    provider: mike
 nav:
   - index.md
   - api-match.md
