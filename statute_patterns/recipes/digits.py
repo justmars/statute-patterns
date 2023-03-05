@@ -6,7 +6,8 @@ RA_DIGITS = r"(?:(?:[1-2]\d{1,4})|(?:[1-9]\d{1,3})|(?:[1-9]))"
 
 1. Numbers should not start with 0
 2. Numbers should not exceed 5 digits
-3. Although at time of writing max RA is 11xxx (5 digits), added allowance for this to start with 2xxxx (still 5 digits)
+3. Although at time of writing max RA is 11xxx (5 digits), added allowance for
+    this to start with 2xxxx (still 5 digits)
 """
 
 CA_DIGITS = r"(?:(?:[1-7]\d{1,2})|(?:[1-9]\d)|(?:[1-9]))"
@@ -108,8 +109,8 @@ SEPARATOR: Pattern = re.compile(EXTENDERS)
 
 
 def digitize(allowed_digits: str) -> str:
-    """Adds a comma and spaces after the digit mark; multiple patterns of the same are allowed culiminating in a final digit.
-    """
+    """Adds a comma and spaces after the digit mark; multiple patterns of the same are
+    allowed culiminating in a final digit."""
     return rf"(?:{allowed_digits}({EXTENDERS})+)*(?:{allowed_digits})"
 
 

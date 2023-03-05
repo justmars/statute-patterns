@@ -52,11 +52,12 @@ class SerialPattern(BasePattern):
     """A [`Rule`][rule-model] can be extracted from a `SerialPattern`. The word _serial_
     is employed because the documents representing rules are numbered consecutively.
 
-    Each serial pattern refers to a [`Statute Category`][statute-category-model], e.g. `RA`, `CA`, etc.
-    matched with a [`Serial Identifier`][statute-serial-identifier].
+    Each serial pattern refers to a [`Statute Category`][statute-category-model],
+    e.g. `RA`, `CA`, etc. matched with a
+    [`Serial Identifier`][statute-serial-identifier].
 
-    Since a `SerialPattern` inherits from a [BasePattern][base-pattern], it includes other
-    fields declared in the latter model: `matches` and `excludes` bringing the
+    Since a `SerialPattern` inherits from a [BasePattern][base-pattern], it includes
+    other fields declared in the latter model: `matches` and `excludes` bringing the
     total number of fields to 5, viz.:
 
     Field | Description | Example
@@ -66,7 +67,7 @@ class SerialPattern(BasePattern):
     `regex_serials` | What digits are allowed | ["386", "11114"]
     `matches` | Usable in parametized tests to determine whether the pattern declared matches the samples | ["Republic Act No. 7160", "R.A. 386 and 7160" ]
     `excludes` | Usable in parametized tests to determine that the full pattern will not match | ["Republic Act No. 7160:", "RA 9337-"]
-    """
+    """  # noqa: E501
 
     cat: StatuteSerialCategory = Field(
         ...,

@@ -123,9 +123,9 @@ eo = SerialPattern(
         add_num(rf"Exec(utive|\.)?\s+Order?(\s*\({ltr('E','O')}\))?"),
     ],
     regex_serials=[
-        r"(?:129-A)",  # the acronyms must precede the regulars otherwise will match the regulars first
+        r"(?:129-A)",  # the acronyms must precede the regulars otherwise will match the regulars first # noqa: E501
         r"(?:292|209|229|228|14|1008|648|226|227|91|179)",  # popular based on opinions
-        r"(?:200|214|59|191|272|187|62|33|111|47|233|179|203|252)",  # used in codifications
+        r"(?:200|214|59|191|272|187|62|33|111|47|233|179|203|252)",  # used in codifications # noqa: E501
     ],
     matches=[
         "E.O. 292",
@@ -146,7 +146,7 @@ loi = SerialPattern(
         add_num(r"Letters?\s+of\s+Instruction"),
     ],
     regex_serials=[
-        "(?:474|729|97|270|926|1295|19|174|273|767|1416|713|968)"  # popular based on opinions
+        "(?:474|729|97|270|926|1295|19|174|273|767|1416|713|968)"  # popular based on opinions # noqa: E501
     ],
     matches=[
         "LOI 474",
@@ -178,7 +178,7 @@ rule_am = SerialPattern(
 1. TODO: See improper rule in A.M. No. 00-06-09-SC, 00-6-09-sc
 2. TODO: See rules which can't be found: 04-11-09-sc, 00-9-03-sc
 3. TODO: 07-9-12-sc (amparo), 01-2-04-SC (interim corporate), 04-9-07-sc (sec), A.M. No. 03-8-02-sc (exec judge), 02-1-18-sc (children in conflict)
-"""
+"""  # noqa: E501
 
 
 rule_bm = SerialPattern(
@@ -188,7 +188,7 @@ rule_bm = SerialPattern(
         add_num(r"Bar\s+Matter"),
     ],
     regex_serials=[
-        "(?:803|1922|1645|850|287|1132|1755|1960|209|1153)",  # popular based on opinions
+        "(?:803|1922|1645|850|287|1132|1755|1960|209|1153)",  # popular based on opinions # noqa: E501
         "(?:411|356)",  # used in codifications
     ],
     matches=["Bar Matter No.803"],

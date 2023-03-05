@@ -26,7 +26,7 @@ def extract_rules(text: str) -> Iterator[Rule]:
 
     Yields:
         Iterator[Rule]: Serialized Rules and Named Rule patterns
-    """
+    """  # noqa: E501
     yield from SerializedRules.extract_rules(text)
     yield from NamedRules.extract_rules(text)
 
@@ -46,7 +46,7 @@ def extract_rule(text: str) -> Rule | None:
 
     Returns:
         Rule | None: The first Rule found, if it exists
-    """
+    """  # noqa: E501
     try:
         return next(extract_rules(text))
     except StopIteration:
@@ -71,6 +71,6 @@ def count_rules(text: str) -> Iterator[dict]:
 
     Returns:
         Iterator[dict]: Unique rules converted into dicts with their counts
-    """
+    """  # noqa: E501
     for k, v in Counter(extract_rules(text)).items():
         yield k.dict() | {"mentions": v}

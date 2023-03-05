@@ -29,8 +29,8 @@ UNITS_NONE = [
 
 
 def set_units(title: str, p: Path | None) -> list[dict]:
-    """Extract the raw units of the statute and apply a special rule on appropriation laws when they're found.
-    """
+    """Extract the raw units of the statute and apply a special rule on appropriation
+    laws when they're found."""
     if p:
         if p.exists():
             try:
@@ -46,8 +46,8 @@ def set_units(title: str, p: Path | None) -> list[dict]:
 
 
 def stx(regex_text: str):
-    """Remove indention of raw regex strings. This makes regex more readable when using rich.Syntax(<target_regex_string>, "python")
-    """
+    """Remove indention of raw regex strings. This makes regex more readable when using
+    rich.Syntax(<target_regex_string>, "python")"""
     return rf"""
 {regex_text}
 """
@@ -57,7 +57,8 @@ def ltr(*args) -> str:
     """
     Most statutes are referred to in the following way:
     RA 8424, P.D. 1606, EO. 1008, etc. with spatial errors like
-    B.  P.   22; some statutes are acronyms: "C.P.R." (code of professional responsibility)
+    B.  P.   22; some statutes are acronyms: "C.P.R."
+    (code of professional responsibility)
     """
     joined = r"\.?\s*".join(args)
     return rf"(?:\b{joined}\.?)"
@@ -83,8 +84,8 @@ def get_regexes(regexes: list[str], negate: bool = False) -> Iterator[str]:
 
 
 def not_prefixed_by_any(regex: str, lookbehinds: list[str]) -> str:
-    """Add a list of "negative lookbehinds" (of fixed character lengths) to a target `regex` string.
-    """
+    """Add a list of "negative lookbehinds" (of fixed character lengths) to a
+    target `regex` string."""
     return rf"""{''.join(get_regexes(lookbehinds, negate=True))}({regex})
     """
 
@@ -99,5 +100,6 @@ NON_ACT_INDICATORS = [
     r"Commonwealth",
     r"COMMONWEALTH",
 ]
-"""If the word act is preceded by these phrases, do not consider the same to be a legacy act of congress."""
+"""If the word act is preceded by these phrases, do not consider the same to be a
+legacy act of congress."""
 limited_acts = not_prefixed_by_any(rf"{add_num(r'Acts?')}", NON_ACT_INDICATORS)

@@ -6,8 +6,13 @@ from pydantic import BaseModel
 
 class StatuteTitleCategory(str, Enum):
     """
-    A [`Rule`][rule-model] in the Philippines involves various denominations. It can be referred to by
-    its `official` title, its `serial` title, its `short` title or its `alias` titles.
+    A [`Rule`][rule-model] in the Philippines involves various denominations.
+    It can be referred to by its
+
+    1. `official` title
+    2. `serial` title
+    3. `short` title
+    4. `alias` titles
 
     Consider something like the _Maceda Law_ which can be dissected as follows:
 
@@ -17,7 +22,7 @@ class StatuteTitleCategory(str, Enum):
     `serial` | yes | official | [`Statute Category`][statute-category-model] + serial identifier. | _Republic Act No. 6552_ | [Serial Pattern][serial-pattern] regex matching
     `short`  | no | official | may be declared in body of statute | _Realty Installment Buyer Act_ | [A helper function ][extract-short-title]
     `alias`  | no | unofficial | popular, undocumented means of referring to a statute | _Maceda Law_ | [Named Pattern][named-pattern] regex matching
-    """
+    """  # noqa: E501
 
     Official = "official"
     Serial = "serial"
@@ -163,7 +168,8 @@ class StatuteSerialCategory(str, Enum):
                 return f"OCA Circular No. {idx}"
 
             case StatuteSerialCategory.AdministrativeMatter:
-                """Handle special rule with variants: e.g.`rule_am 00-5-03-sc-1` and `rule_am 00-5-03-sc-2`
+                """Handle special rule with variants: e.g.`rule_am 00-5-03-sc-1`
+                and `rule_am 00-5-03-sc-2`
                 """
                 am = uncamel(self)
                 small_idx = idx.lower()

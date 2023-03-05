@@ -14,10 +14,11 @@ from .utils import DETAILS_FILE, STATUTE_PATH, set_units
 
 class StatuteDetails(BaseModel):
     """
-    A `StatuteDetails` object presupposes the existence of a [`Rule`][rule-model] object.
+    A `StatuteDetails` object presupposes the existence of a [`Rule`][rule-model]
+    object.
 
-    After all, it's only when there's a valid path to a [`Rule`][rule-model] that the details
-    and provisions of that rule can be extracted. Some notable fields
+    After all, it's only when there's a valid path to a [`Rule`][rule-model] that the
+    details and provisions of that rule can be extracted. Some notable fields
     are described below:
 
     Field | Type | Function
@@ -53,7 +54,7 @@ class StatuteDetails(BaseModel):
     def from_rule(cls, rule: Rule, base_path: Path = STATUTE_PATH):
         """From a constructed rule (see [`Rule.from_path`][statute_patterns.components.rule.Rule.from_path]), get the
         details of said rule.  Limitation: the category and identifier must
-        be unique."""
+        be unique."""  # noqa: E501
         if not base_path.exists():
             raise Exception(f"Could not get proper {base_path=}.")
 
