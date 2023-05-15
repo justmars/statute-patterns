@@ -1,4 +1,4 @@
-__version__ = "0.2.2"
+__version__ = "0.2.3"
 
 from .__main__ import count_rules, extract_rule, extract_rules
 from .components import (
