@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "statute-patterns"
-version = "0.2.4"
+version = "0.2.5"
 description = "Philippine statutory law pattern matching and unit retrieval."
 authors = ["Marcelino G. Veloso III <mars@veloso.one>"]
 readme = "README.md"

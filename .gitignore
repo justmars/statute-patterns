@@ -1,7 +1,7 @@
 .DS_Store
 .vscode
 .ruff_cache
-.poetry.lock
+poetry.lock
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
