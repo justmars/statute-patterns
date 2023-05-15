@@ -4,7 +4,6 @@ version = "0.2.5"
 description = "Philippine statutory law pattern matching and unit retrieval."
 authors = ["Marcelino G. Veloso III <mars@veloso.one>"]
 readme = "README.md"
-license = "MIT"
 homepage = "https://lawsql.com"
 repository = "https://github.com/justmars/statute-patterns"
 documentation = "https://justmars.github.io/statute-patterns"
