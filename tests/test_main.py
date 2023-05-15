@@ -102,10 +102,7 @@ def test_extract_rules(text, extracted, counted):
     "text, result",
     [
         (
-            (
-                "This is the 1987 PHIL CONST; hello world, the Spanish Penal"
-                " Code."
-            ),
+            "This is the 1987 PHIL CONST; hello world, the Spanish Penal Code.",
             [
                 {"cat": "const", "id": "1987"},
                 {"cat": "spain", "id": "penal"},
@@ -179,6 +176,4 @@ def test_extract_rules_named(text, result):
     ],
 )
 def test_rule_find_all(text, result):
-    assert (
-        list(i.dict() for i in SerializedRules.extract_rules(text)) == result
-    )
+    assert list(i.dict() for i in SerializedRules.extract_rules(text)) == result

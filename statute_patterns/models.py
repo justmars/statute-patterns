@@ -73,8 +73,7 @@ class SerialPattern(BasePattern):
         ...,
         title="Statute Serial Category",
         description=(
-            "A type of rule from the taxonomy enumerated under"
-            " StatuteSerialCategory."
+            "A type of rule from the taxonomy enumerated under StatuteSerialCategory."
         ),
     )
     regex_bases: list[str] = Field(
@@ -90,8 +89,7 @@ class SerialPattern(BasePattern):
         ...,
         title="Serial Identifiers in Regex",
         description=(
-            "The possible values of serial numbers to be matched with the"
-            " regex_bases."
+            "The possible values of serial numbers to be matched with the regex_bases."
         ),
     )
 

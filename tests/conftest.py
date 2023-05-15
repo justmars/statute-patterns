@@ -12,9 +12,7 @@ def base_folder(shared_datadir):
 
 @pytest.fixture
 def rule_obj(shared_datadir):
-    return Rule.from_path(
-        shared_datadir / "statutes" / "ra" / "386" / "details.yaml"
-    )
+    return Rule.from_path(shared_datadir / "statutes" / "ra" / "386" / "details.yaml")
 
 
 @pytest.fixture

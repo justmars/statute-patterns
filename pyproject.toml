@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "statute-patterns"
-version = "0.2.3"
+version = "0.2.4"
 description = "Philippine statutory law pattern matching and unit retrieval."
 authors = ["Marcelino G. Veloso III <mars@veloso.one>"]
 readme = "README.md"
@@ -41,30 +41,16 @@ mkdocs-material = "^9.1.0"
 
 [tool.pytest.ini_options]
 minversion = "7.2"
-addopts = "--doctest-modules"
-testpaths = ["tests"]
+addopts = "-ra -q --doctest-modules --cov"
+filterwarnings = [
+  "ignore::DeprecationWarning", # DeprecationWarning: pkg_resources is deprecated as an API
+]
+testpaths = ["tests", "statute_patterns"]
 
 [tool.ruff]
 ignore = ["F401"]
 fixable = ["F", "E", "W", "I001"]
 select = ["F", "E", "W", "I001"]
-
-[tool.black]
-line-length = 79
-include = '.pyi?$'
-exclude = '''
-/(
-    .git
-    | .hg
-    | .mypy_cache
-    | .tox
-    | .venv
-    | _build
-    | buck-out
-    | build
-    | dist
-)/
-'''
 
 [build-system]
 requires = ["poetry-core>=1.3.2"]

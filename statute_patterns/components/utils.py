@@ -8,9 +8,7 @@ from dotenv import find_dotenv, load_dotenv
 load_dotenv(find_dotenv())
 
 
-STATUTE_PATH = (
-    Path().home().joinpath(os.getenv("STATUTE_PATH", "code/corpus/statutes"))
-)
+STATUTE_PATH = Path().home().joinpath(os.getenv("STATUTE_PATH", "code/corpus/statutes"))
 
 DETAILS_FILE = "details.yaml"
 

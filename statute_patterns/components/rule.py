@@ -28,9 +28,7 @@ class Rule(BaseModel):
     cat: StatuteSerialCategory = Field(
         ...,
         title="Statute Category",
-        description=(
-            "Classification under the limited StatuteSerialCategory taxonomy."
-        ),
+        description="Classification under the limited StatuteSerialCategory taxonomy.",
     )
     id: constr(to_lower=True) = Field(  # type: ignore
         ...,
@@ -154,9 +152,7 @@ class Rule(BaseModel):
                 targets.append(variant_path.parent)
         return targets
 
-    def extract_folders(
-        self, base_path: Path = STATUTE_PATH
-    ) -> Iterator[Path]:
+    def extract_folders(self, base_path: Path = STATUTE_PATH) -> Iterator[Path]:
         """Using the `category` and `id` of the object,
         get the possible folder paths."""
         if folder := self.get_path(base_path):
@@ -187,15 +183,11 @@ class Rule(BaseModel):
 class BasePattern(BaseModel, abc.ABC):
     matches: list[str] = Field(
         default_factory=list,
-        description=(
-            "When supplied, text included _should_ match regex property."
-        ),
+        description="When supplied, text included _should_ match regex property.",
     )
     excludes: list[str] = Field(
         default_factory=list,
-        description=(
-            "When supplied, text included _should not_ match regex property."
-        ),
+        description="When supplied, text included _should not_ match regex property.",
     )
 
     class Config:
@@ -230,16 +222,14 @@ class BasePattern(BaseModel, abc.ABC):
         for example_text in self.matches:
             if not self.pattern.fullmatch(example_text):
                 raise ValueError(
-                    "Missing match but intended to be included:"
-                    f" {example_text}"
+                    f"Missing match but intended to be included: {example_text}"
                 )
 
     def validate_excludes(self) -> None:
         for example_text in self.excludes:
             if self.pattern.fullmatch(example_text):
                 raise ValueError(
-                    "Match found even if intended to be excluded:"
-                    f" {example_text}."
+                    f"Match found even if intended to be excluded: {example_text}."
                 )
 
 
