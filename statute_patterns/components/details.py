@@ -1,4 +1,5 @@
 import datetime
+from collections import OrderedDict
 from pathlib import Path
 
 import yaml
@@ -10,6 +11,58 @@ from .category import StatuteTitle
 from .rule import Rule
 from .short import get_short
 from .utils import DETAILS_FILE, STATUTE_PATH, set_units
+
+
+class literal(str):
+    pass
+
+
+def literal_presenter(dumper, data):
+    return dumper.represent_scalar("tag:yaml.org,2002:str", data, style=">")
+
+
+yaml.add_representer(literal, literal_presenter)
+
+
+def represent_ordereddict(dumper, data):
+    value = []
+
+    for item_key, item_value in data.items():
+        node_key = dumper.represent_data(item_key)
+        node_value = dumper.represent_data(item_value)
+
+        value.append((node_key, node_value))
+
+    return yaml.nodes.MappingNode("tag:yaml.org,2002:map", value)
+
+
+yaml.add_representer(dict, represent_ordereddict)
+
+
+def walk(nodes: list[dict]):
+    if isinstance(nodes, list):
+        revised_nodes = []
+        for node in nodes:
+            data = []
+            if node.get("item"):
+                candidate = node["item"]
+                if candidate := str(node["item"]).strip():
+                    if candidate.isdigit():
+                        candidate = int(candidate)
+                data.append(("item", candidate))
+            if node.get("caption"):
+                data.append(("caption", node["caption"].strip()))
+            if node.get("content"):
+                formatted_content = literal(node["content"].strip())
+                data.append(("content", formatted_content))
+            if node.get("units", None):
+                walked_units = walk(node["units"])
+                data.append(("units", walked_units))
+            revised_nodes.append(dict(data))
+    return revised_nodes
+
+
+EXPORT_DIR = Path().home().joinpath("code/corpus-statutes")
 
 
 class StatuteDetails(BaseModel):
@@ -39,6 +92,53 @@ class StatuteDetails(BaseModel):
     variant: int
     titles: list[StatuteTitle]
     units: list[dict]
+
+    def make_exportable_path(self):
+        from statute_patterns import extract_rule
+
+        if not (clean_rule := extract_rule(self.title)):
+            print(f"Could not extract rule from {self.title=}")
+            return None
+
+        target = "/".join(
+            [
+                clean_rule.cat.value,
+                clean_rule.id,
+                self.date.isoformat(),
+                f"{str(self.variant)}.yml",
+            ]
+        )
+
+        return EXPORT_DIR.joinpath(target)
+
+    def make_exportable_data(self):
+        data = {"title": self.description.strip()}
+        for t in self.titles:
+            if t.category.value == "alias":
+                if "aliases" not in data:
+                    data["aliases"] = []
+                data["aliases"].append(t.text.strip())
+            elif t.category.value == "short":
+                data["short"] = t.text.strip()
+        return data | {"units": self.units}
+
+    def export(self):
+        f = self.make_exportable_path()
+        if not f:
+            print(f"Lacking exportable path {self.id=}")
+            return
+        if f.exists():
+            return
+
+        f.parent.mkdir(parents=True, exist_ok=True)
+
+        data = self.make_exportable_data()
+        if not data:
+            return
+
+        data["units"] = walk(data["units"])
+        text = yaml.dump(data, width=60)
+        return f.write_text(text)
 
     @classmethod
     def slug_id(cls, p: Path, dt: str, v: int | None):

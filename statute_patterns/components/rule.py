@@ -173,7 +173,7 @@ class Rule(BaseModel):
         2. the one scraped which is the default in the absence of a preferred
             variant, e.g. `units.yaml`
         """
-        preferred = statute_folder / f"{self.cat.name}{self.id}.yaml"
+        preferred = statute_folder / f"{self.cat.value}{self.id}.yaml"
         if preferred.exists():
             return preferred
 

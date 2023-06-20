@@ -147,7 +147,7 @@ class StatuteSerialCategory(str, Enum):
                 raise SyntaxWarning(f"{idx=} invalid serial of {self}")
 
             case StatuteSerialCategory.RulesOfCourt:
-                if idx in ["1940", "1964"]:
+                if idx in ["1918", "1940", "1964"]:
                     return f"{idx} Rules of Court"
                 elif idx in ["cpr"]:
                     return "Code of Professional Responsibility"

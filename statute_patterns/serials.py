@@ -143,7 +143,7 @@ loi = SerialPattern(
     cat=StatuteSerialCategory.LetterOfInstruction,
     regex_bases=[
         add_num(ltr("L", "O", "I")),
-        add_num(r"Letters?\s+of\s+Instruction"),
+        add_num(r"Letters?\s+(o|O)f\s+Instruction"),
     ],
     regex_serials=[
         "(?:474|729|97|270|926|1295|19|174|273|767|1416|713|968)"  # popular based on opinions # noqa: E501
@@ -151,6 +151,7 @@ loi = SerialPattern(
     matches=[
         "LOI 474",
         "Letter of Instruction No. 1295",
+        "Letter Of Instruction No. 97",  # Of is capitalized
     ],  # only specific numbers included
     excludes=["Letter of Instruction No. 1"],
 )

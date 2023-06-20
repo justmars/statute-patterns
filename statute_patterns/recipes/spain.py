@@ -23,14 +23,22 @@ SP_CIVIL = rf"""
 """
 
 SP_COMMERCE = rf"""
-    (?:{spanish_prefix})
-    \s+
-    Code
-    \s+
-    of
-    \s+
-    Commerce
-    {spanish_optional_year}
+    (
+        (?:{spanish_prefix})
+        \s+
+        Code
+        \s+
+        of
+        \s+
+        Commerce
+        {spanish_optional_year}
+    )|(
+        Code
+        \s+
+        of
+        \s+
+        Commerce
+    )
 """
 
 

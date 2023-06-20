@@ -18,6 +18,8 @@ spain_civil = make_spanish("civil", SP_CIVIL)
 spain_commerce = make_spanish("commerce", SP_COMMERCE)
 spain_penal = make_spanish("penal", SP_PENAL)
 spain_codes = [spain_civil, spain_commerce, spain_penal]
+
+
 civ1950 = NamedPattern(
     name="Civil Code of 1950",
     regex_base=r"""
