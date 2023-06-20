@@ -91,7 +91,7 @@ class StatuteSerialCategory(str, Enum):
 
     ## Purpose
 
-    Knowing the path to a [`Rule`][rule-model], we can later [extract its contents][statute-details]. (Note however that there can be more than one path since in exceptional cases, the combination of *category* + *serial id* [does not yield a unique rule][statute_patterns.components.rule.Rule.get_paths].)
+    Knowing the path to a [`Rule`][rule-model], we can later [extract its contents][statute-details].
 
     Examples:
         >>> StatuteSerialCategory

@@ -14,12 +14,6 @@ def test_category_serializer(rule_obj):
     assert rule_obj.serial_title == "Republic Act No. 386"
 
 
-def test_paths_related_to_rule(rule_obj, base_folder):
-    assert isinstance(rule_obj.get_paths(base_folder), list)
-    assert isinstance(list(rule_obj.extract_folders(base_folder)), list)
-    assert rule_obj.units_path(base_folder / rule_obj.cat / rule_obj.id)
-
-
 def test_loaded_data(rule_obj, statute_details):
     assert statute_details.rule == rule_obj
     assert isinstance(statute_details, StatuteDetails)

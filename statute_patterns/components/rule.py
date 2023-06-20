@@ -4,7 +4,7 @@ from collections.abc import Iterator
 from pathlib import Path
 from re import Pattern
 
-from pydantic import BaseModel, Field, constr, validator
+from pydantic import BaseModel, Field, constr, field_validator
 
 from .category import StatuteSerialCategory
 from .utils import DETAILS_FILE, STATUTE_PATH
@@ -48,18 +48,18 @@ class Rule(BaseModel):
         basis of [`count_rules()`][count-rules]."""  # noqa: E501
         return hash((type(self),) + tuple(self.__dict__.values()))
 
-    @validator("cat", pre=True)
+    @field_validator("cat", mode="before")
     def category_in_lower_case(cls, v):
         return StatuteSerialCategory(v.lower())
 
-    @validator("id", pre=True)
+    @field_validator("id", mode="before")
     def serial_id_lower(cls, v):
         return v.lower()
 
     @classmethod
     def get_details(cls, details_path: Path):
         """Assumes a properly structured path with three path
-        parents from details.yaml, e.g. path to `/statutes/ra/386/details.yaml`
+        parents from `details.yaml`, e.g. path to `/statutes/ra/386/details.yaml`
         means 3 parents from the same would be /statutes. Will
         create the rule based on the details path and pull data from other
         related paths to generate the details of the rule."""
@@ -72,17 +72,17 @@ class Rule(BaseModel):
 
     @classmethod
     def from_path(cls, details_path: Path):
-        """Construct rule from a properly structured statute's `details.yaml` file."""
-        dir = details_path.parent
-        cat = dir.parent.stem
-        idx = dir.stem
+        """Construct rule from a proper path to `details.yaml`."""
         if details_path.name == DETAILS_FILE:
-            return cls(cat=StatuteSerialCategory(cat), id=idx)
+            return cls(
+                cat=StatuteSerialCategory(details_path.parent.parent.stem),
+                id=details_path.parent.stem,
+            )
         return None
 
     @property
     def serial_title(self):
-        return StatuteSerialCategory(self.cat).serialize(self.id)
+        return StatuteSerialCategory(self.cat.value).serialize(self.id)
 
     def get_path(self, base_path: Path = STATUTE_PATH) -> Path | None:
         """For most cases, there only be one path to path/to/statutes/ra/386 where:
@@ -91,7 +91,7 @@ class Rule(BaseModel):
         2. 'ra' is the category
         3. '386' is the id.
         """
-        target = base_path / self.cat / self.id
+        target = base_path / self.cat.value / self.id
         if target.exists():
             return target
         return None
@@ -144,9 +144,13 @@ class Rule(BaseModel):
         Unlike `get_path()` which only retrieves one Path, all Paths will be retrieved
         using the plural form of the function `self.get_paths()`
         """
+        target = base_path / self.cat.value
+        if not target.exists():
+            raise Exception(f"Improper {target=}")
+
+        glob_target = f"{self.id}-*/{DETAILS_FILE}"
+        paths = target.glob(glob_target)
         targets = []
-        target = base_path / self.cat
-        paths = target.glob(f"{self.id}-*/{DETAILS_FILE}")
         for variant_path in paths:
             if variant_path.exists():
                 targets.append(variant_path.parent)
@@ -169,7 +173,7 @@ class Rule(BaseModel):
         2. the one scraped which is the default in the absence of a preferred
             variant, e.g. `units.yaml`
         """
-        preferred = statute_folder / f"{self.cat}{self.id}.yaml"
+        preferred = statute_folder / f"{self.cat.name}{self.id}.yaml"
         if preferred.exists():
             return preferred
 
@@ -201,7 +205,7 @@ class BasePattern(BaseModel, abc.ABC):
     @property
     @abc.abstractmethod
     def regex(self) -> str:
-        """Combines the group_name with the desired regex string."""
+        """Includes `@group_name` in constructed regex `r'`string."""
         raise NotImplementedError(
             "Base regex to be later combined with other rules regex strings."
         )
@@ -209,12 +213,12 @@ class BasePattern(BaseModel, abc.ABC):
     @property
     @abc.abstractmethod
     def group_name(self) -> str:
-        """Added to regex string to identify the `match.lastgroup`"""
+        """Used in @regex to identify the `match.lastgroup`"""
         raise NotImplementedError("Used to identify `regex` capture group.")
 
     @property
     def pattern(self) -> Pattern:
-        """Enables use of a unique Pattern object per rule pattern created,
+        """Unique Pattern object per rule pattern created,
         regardless of it being a SerialPattern or a NamedPattern."""
         return re.compile(self.regex, re.X)
 

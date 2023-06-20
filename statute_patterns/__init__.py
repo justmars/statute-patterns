@@ -1,5 +1,3 @@
-__version__ = "0.2.5"
-
 from .__main__ import count_rules, extract_rule, extract_rules
 from .components import (
     DETAILS_FILE,

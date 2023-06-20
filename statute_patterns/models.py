@@ -105,7 +105,7 @@ class SerialPattern(BasePattern):
 
     @property
     def group_name(self) -> str:
-        return rf"serial_{self.cat}"
+        return rf"serial_{self.cat.name}"
 
     @property
     def regex(self) -> str:
