@@ -8,9 +8,54 @@ from dotenv import find_dotenv, load_dotenv
 load_dotenv(find_dotenv())
 
 
-STATUTE_PATH = Path().home().joinpath(os.getenv("STATUTE_PATH", "code/corpus/statutes"))
+class literal(str):
+    pass
 
-DETAILS_FILE = "details.yaml"
+
+def literal_presenter(dumper, data):
+    return dumper.represent_scalar("tag:yaml.org,2002:str", data, style=">")
+
+
+yaml.add_representer(literal, literal_presenter)
+
+
+def represent_ordereddict(dumper, data):
+    value = []
+
+    for item_key, item_value in data.items():
+        node_key = dumper.represent_data(item_key)
+        node_value = dumper.represent_data(item_value)
+
+        value.append((node_key, node_value))
+
+    return yaml.nodes.MappingNode("tag:yaml.org,2002:map", value)
+
+
+yaml.add_representer(dict, represent_ordereddict)
+
+
+def walk(nodes: list[dict]):
+    if isinstance(nodes, list):
+        revised_nodes = []
+        for node in nodes:
+            data = []
+            if node.get("item"):
+                candidate = node["item"]
+                if candidate := str(node["item"]).strip():
+                    if candidate.isdigit():
+                        candidate = int(candidate)
+                data.append(("item", candidate))
+            if node.get("caption"):
+                data.append(("caption", node["caption"].strip()))
+            if node.get("content"):
+                formatted_content = literal(node["content"].strip())
+                data.append(("content", formatted_content))
+            if node.get("units", None):
+                walked_units = walk(node["units"])
+                data.append(("units", walked_units))
+            revised_nodes.append(dict(data))
+    return revised_nodes
+
 
 UNITS_MONEY = [
     {

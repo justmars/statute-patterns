@@ -1,6 +1,5 @@
 from .__main__ import count_rules, extract_rule, extract_rules
 from .components import (
-    DETAILS_FILE,
     Rule,
     StatuteDetails,
     StatuteSerialCategory,

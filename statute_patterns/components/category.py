@@ -117,6 +117,13 @@ class StatuteSerialCategory(str, Enum):
     CircularOCA = "oca_cir"
     CircularSC = "sc_cir"
 
+    @classmethod
+    def from_value(cls, v: str):
+        for member in cls:
+            if member.value == v:
+                return member
+        return None
+
     def serialize(self, idx: str):
         """Given a member item and a valid serialized identifier, create a serial title.
 
@@ -195,7 +202,6 @@ class StatuteSerialCategory(str, Enum):
 class StatuteTitle(BaseModel):
     """Will be used to populate the database; assumes a fixed `statute_id`."""
 
-    statute_id: str
     category: StatuteTitleCategory
     text: str
 
@@ -205,7 +211,6 @@ class StatuteTitle(BaseModel):
     @classmethod
     def generate(
         cls,
-        pk: str,
         official: str | None = None,
         serial: str | None = None,
         short: str | None = None,
@@ -215,27 +220,23 @@ class StatuteTitle(BaseModel):
             for title in aliases:
                 if title and title != "":
                     yield cls(
-                        statute_id=pk,
                         category=StatuteTitleCategory.Alias,
                         text=title,
                     )
         if short:
             yield cls(
-                statute_id=pk,
                 category=StatuteTitleCategory.Short,
                 text=short,
             )
 
         if serial:
             yield cls(
-                statute_id=pk,
                 category=StatuteTitleCategory.Serial,
                 text=serial,
             )
 
         if official:
             yield cls(
-                statute_id=pk,
                 category=StatuteTitleCategory.Official,
                 text=official,
             )

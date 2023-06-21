@@ -73,4 +73,4 @@ def count_rules(text: str) -> Iterator[dict]:
         Iterator[dict]: Unique rules converted into dicts with their counts
     """  # noqa: E501
     for k, v in Counter(extract_rules(text)).items():
-        yield k.dict() | {"mentions": v}
+        yield k.model_dump() | {"mentions": v}
