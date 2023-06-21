@@ -3,8 +3,12 @@ site_description: Philippine statutory law pattern matching and unit retrieval
 site_url: https://lawsql.com
 site_author: Marcelino Veloso III
 repo_url: https://github.com/justmars/statute-patterns
+dev_addr: '127.0.0.1:8001'
 theme:
   name: "material"
+  features:
+    - content.tabs.link
+    - content.code.annotate
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
@@ -50,11 +54,30 @@ plugins:
   - search:
       lang: en
 markdown_extensions:
+  - footnotes
+  - attr_list
+  - md_in_html
+  - admonition
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.details
   - pymdownx.highlight:
       anchor_linenums: true
       auto_title: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.tabbed:
+      alternate_style: true

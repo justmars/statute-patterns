@@ -2,7 +2,7 @@
 name = "statute-patterns"
 version = "0.3.0"
 description = "Philippine statutory law pattern matching and unit retrieval."
-authors = ["Marcelino G. Veloso III <mars@veloso.one>"]
+authors = ["Marcelino G. Veloso III <contact@mv3.dev>"]
 readme = "README.md"
 homepage = "https://lawsql.com"
 repository = "https://github.com/justmars/statute-patterns"

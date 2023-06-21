@@ -27,110 +27,29 @@ Republic Act No. 386
 
 ## Extract Content
 
-Generate a path to the title detected and extract its contents. This presumes a structured local path like so:
-
-```yaml
-/statutes
-  /act # act of congress
-  /ca # commonwealth act
-  /ra # republic act
-    /386 # ra 386 = civil code
-      details.yaml # contains main file
-      units.yaml (or ra386.yaml) # contains provisions
-```
-
-The _main_ `details.yaml` file should contain relevant metadata:
-
-```yaml
-numeral: '386' # serial id
-category: ra  # category
-law_title: An Act to Ordain and Institute the Civil Code of the Philippines # official title
-date: June 18, 1949
-aliases:
-- New Civil Code # maps to alias
-- Civil Code of 1950
-emails:
-- maria@abcxyz.law # email address of formatter
-- fernando@abcxyz.law # can have multiple formatters
-```
-
-The _provisions_ `units.yaml` or `ra386.yaml` file should be properly nested:
-
-```yaml
-- item: Container 1
-  caption: Preliminary Title
-  units:
-  - item: Chapter 1
-    caption: Effect and Application of Laws
-    units:
-    - item: Article 1
-      content: |
-        This Act shall be known as the "Civil Code of the Philippines." (n)
-    - item: Article 2
-    ...
-```
-
-With the example above, it's possible to extract the [`Statute Details`][statute-details] of `/statutes/ra/386`:
+Extract [`Statute Details`][statute-details] of a properly formatted file found in `/statutes/ra/386/1.yml`:
 
 ```py
->>>r = Rule(cat='ra', id='386') # assign the Rule to `r`
->>>r(<path/to/statutes>) # get the base path to `/statutes`
-StatuteDetails(
-    created=1665225124.0644598,
-    modified=1665225124.0644598,
-    rule=Rule(cat='ra', id='386'),
-    title='Republic Act No. 386',
-    description='An Act to Ordain and Institute the Civil Code of the Philippines',
-    id='ra-386-june-18-1949',
-    emails=['maria@abcxyz.law', 'fernando@abcxyz.law'],
-    date=datetime.date(1949, 6, 18),
-    variant=1,
-    units=[
-        {
-            'item': 'Container 1',
-            'caption': 'Preliminary Title',
-            'units': [
-                {
-                    'item': 'Chapter 1',
-                    'caption': 'Effect and Application of Laws',
-                    'units': [
-                        {
-                            'item': 'Article 1',
-                            'content': 'This Act shall be known as the "Civil Code of the Philippines." (n)\n'
-                        },
-                        {
-                            'item': 'Article 2',
-                            'content': 'Laws shall take effect after fifteen days following the completion of their publication either in the Official Gazette or in a newspaper of general circulation in the Philippines, unless it is otherwise provided. (1a)\n'
-                        },
-                        ...
-                    ]
-                },
-                ...
-            ]
-        },
-        ...
-    ],
-    titles=[
-        StatuteTitle(
-            statute_id='ra-386-june-18-1949',
-            category='alias',
-            text='New Civil Code'
-        ),
-        StatuteTitle(
-            statute_id='ra-386-june-18-1949',
-            category='alias',
-            text='Civil Code of 1950'
-        ),
-        StatuteTitle(
-            statute_id='ra-386-june-18-1949',
-            category='official',
-            text='An Act to Ordain and Institute the Civil Code of the Philippines'
-        ),
-        StatuteTitle(
-            statute_id='ra-386-june-18-1949',
-            category='serial',
-            text='Republic Act No. 386'
-        )
-    ]
-)
+>>> from statute_patterns import StatuteDetails
+>>> f = STATUTE_DIR.glob("ra/386/**/1.yml")
+>>> StatuteDetails.from_file(file)
+'ra/386/1949-06-18/1.yml'
+>>> obj.units
+[{'item': 'Container 1',
+  'caption': 'Preliminary Title',
+  'units': [{'item': 'Chapter 1',
+    'caption': 'Effect and Application of Laws',
+    'units': [{'item': 'Article 1',
+      'content': 'This Act shall be known as the "Civil Code of the Philippines." (n)'},
+     {'item': 'Article 2',
+      'content': 'Laws shall take effect after fifteen days following the completion of their publication either in the Official Gazette or in a newspaper of general circulation in the Philippines, unless it is otherwise provided. (1a)'},
+      ... # more nested units
+    ]}]
+}]
+>>> obj.titles
+[StatuteTitle(category=<StatuteTitleCategory.Alias: 'alias'>, text='New Civil Code'),
+ StatuteTitle(category=<StatuteTitleCategory.Alias: 'alias'>, text='Civil Code of 1950'),
+ StatuteTitle(category=<StatuteTitleCategory.Short: 'short'>, text='Civil Code of the Philippines'),
+ StatuteTitle(category=<StatuteTitleCategory.Serial: 'serial'>, text='Republic Act No. 386'),
+ StatuteTitle(category=<StatuteTitleCategory.Official: 'official'>, text='An Act to Ordain and Institute the Civil Code of the Philippines')]
 ```

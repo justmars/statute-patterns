@@ -14,10 +14,6 @@ This presumes existence of a local path to a separate library where the contents
 
 ::: statute_patterns.__main__.count_rules
 
-## Detail Rule
-
-We can extract the details of the rule with the `StatuteDetails.from_rule()` also accessible via `Rule.get_details()`.
-
-### Statute Details
+## Statute Details
 
 ::: statute_patterns.components.details.StatuteDetails
