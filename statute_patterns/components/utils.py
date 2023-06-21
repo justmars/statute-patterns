@@ -1,11 +1,7 @@
-import os
 from collections.abc import Iterator
 from pathlib import Path
 
 import yaml
-from dotenv import find_dotenv, load_dotenv
-
-load_dotenv(find_dotenv())
 
 
 class literal(str):

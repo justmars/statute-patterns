@@ -1,8 +1,6 @@
-from pathlib import Path
-
 import pytest
 
-from statute_patterns import Rule, StatuteDetails, StatuteSerialCategory
+from statute_patterns import Rule, StatuteSerialCategory
 
 
 @pytest.fixture
