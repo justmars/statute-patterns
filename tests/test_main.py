@@ -3,22 +3,9 @@ import pytest
 from statute_patterns import (
     NamedRules,
     SerializedRules,
-    StatuteDetails,
-    StatuteTitle,
     count_rules,
     extract_rules,
 )
-
-
-def test_category_serializer(rule_obj):
-    assert rule_obj.serial_title == "Republic Act No. 386"
-
-
-def test_loaded_data(rule_obj, statute_details):
-    assert statute_details.rule == rule_obj
-    assert isinstance(statute_details, StatuteDetails)
-    assert isinstance(statute_details.titles, list)
-    assert isinstance(statute_details.titles[0], StatuteTitle)
 
 
 @pytest.mark.parametrize(

@@ -1,7 +1,8 @@
 import re
 from enum import Enum
+from typing import Self
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class StatuteTitleCategory(str, Enum):
@@ -118,20 +119,41 @@ class StatuteSerialCategory(str, Enum):
     CircularSC = "sc_cir"
 
     @classmethod
-    def from_value(cls, v: str):
+    def from_value(cls, v: str) -> Self | None:
+        """Using value, get the member, else return None.
+
+        Examples:
+            >>> StatuteSerialCategory.from_value('ra')
+            <StatuteSerialCategory.RepublicAct: 'ra'>
+
+        Args:
+            v (str): The value to match
+
+        Returns:
+            Self | None: The member, if available.
+        """
         for member in cls:
-            if member.value == v:
+            if member.value == v.lower():
                 return member
         return None
 
-    def serialize(self, idx: str):
+    def serialize(self, idx: str) -> str | None:
         """Given a member item and a valid serialized identifier, create a serial title.
 
         Note that the identifier must be upper-cased to make this consistent
         with the textual convention, e.g.
 
-        1. `pd` + `570-a` = `Presidential Decree No. 570-A`
-        2. `rule_am` + `03-06-13-sc` = `Administrative Matter No. 03-06-13-SC`
+        Examples:
+            >>> StatuteSerialCategory.PresidentialDecree.serialize('570-a')
+            'Presidential Decree No. 570-A'
+            >>> StatuteSerialCategory.AdministrativeMatter.serialize('03-06-13-sc')
+            'Administrative Matter No. 03-06-13-SC'
+
+        Args:
+            idx (str): The number to match with the category
+
+        Returns:
+            str | None: The serialized text, e.g. `category` + `idx`
         """
 
         def uncamel(cat: StatuteSerialCategory):
@@ -202,11 +224,9 @@ class StatuteSerialCategory(str, Enum):
 class StatuteTitle(BaseModel):
     """Will be used to populate the database; assumes a fixed `statute_id`."""
 
+    model_config = ConfigDict(use_enum_values=True)
     category: StatuteTitleCategory
     text: str
-
-    class Config:
-        use_enum_values = True
 
     @classmethod
     def generate(

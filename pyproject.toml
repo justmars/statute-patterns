@@ -40,11 +40,11 @@ ipykernel = "^6.23.2"
 
 [tool.pytest.ini_options]
 minversion = "7.3"
-addopts = "-ra -q --cov"
+addopts = "-ra -q --cov --doctest-modules"
 filterwarnings = [
   "ignore::DeprecationWarning", # DeprecationWarning: pkg_resources is deprecated as an API
 ]
-testpaths = ["tests"]
+testpaths = ["tests", "statute_patterns"]
 
 [tool.ruff]
 ignore = ["F401", "F403"]
