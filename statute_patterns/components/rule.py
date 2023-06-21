@@ -4,6 +4,7 @@ from collections.abc import Iterator
 from re import Pattern
 
 from pydantic import BaseModel, ConfigDict, Field, constr, field_validator
+from slugify import slugify
 
 from .category import StatuteSerialCategory
 
@@ -43,6 +44,12 @@ class Rule(BaseModel):
         It is implemented here to take advantage of `collections.Counter` which works only on objects with a __hash__. This is the
         basis of [`count_rules()`][count-rules]."""  # noqa: E501
         return hash((type(self),) + tuple(self.__dict__.values()))
+
+    @property
+    def slug(self) -> str:
+        return slugify(
+            " ".join([self.cat.value, self.id.lower()]), separator="_", lowercase=True
+        )
 
     @field_validator("cat", mode="before")
     def category_in_lower_case(cls, v):
@@ -118,8 +125,7 @@ class BaseCollection(BaseModel, abc.ABC):
 
     @property
     def combined_regex(self) -> str:
-        """Combine the different items in the collection
-        (having .regex attribute) to form a single regex string."""
+        """Combine collection items (having `@regex`) to form single regex string."""
         return "|".join([r.regex for r in self.collection])
 
     @property

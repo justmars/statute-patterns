@@ -18,8 +18,25 @@ poetry update # install dependencies
 poetry shell
 ```
 
-Run tests:
+## Some unit patterns
 
-```sh
-pytest
+```json title="Convention used when desiring to exclude appropriation laws."
+{
+  "units": [
+    {
+        "item": "Container 1",
+        "content": "Appropriation laws are excluded.",
+    }
+  ]
+}
+```
+
+
+```json title="Convention used when no content found."
+UNITS_NONE = [
+    {
+        "item": "Container 1",
+        "content": "Individual provisions not detected.",
+    }
+]
 ```

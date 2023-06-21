@@ -3,7 +3,6 @@ from collections.abc import Iterator
 from re import Pattern
 
 from pydantic import Field
-from slugify import slugify
 
 from .components import (
     BaseCollection,
@@ -28,8 +27,7 @@ class NamedPattern(BasePattern):
 
     @property
     def group_name(self) -> str:
-        texts = " ".join([self.rule.cat, self.rule.id])
-        return slugify(texts, separator="_", lowercase=True)
+        return self.rule.slug
 
 
 class NamedPatternCollection(BaseCollection):

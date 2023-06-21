@@ -7,7 +7,6 @@ from pydantic import BaseModel
 
 from .category import StatuteSerialCategory, StatuteTitle
 from .rule import Rule
-from .short import get_short
 from .utils import walk
 
 STATUTE_DIR = Path().home().joinpath("code/corpus-statutes")

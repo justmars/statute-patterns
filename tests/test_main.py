@@ -1,11 +1,6 @@
 import pytest
 
-from statute_patterns import (
-    NamedRules,
-    SerializedRules,
-    count_rules,
-    extract_rules,
-)
+from statute_patterns import NamedRules, SerializedRules, count_rules, extract_rules
 
 
 @pytest.mark.parametrize(
